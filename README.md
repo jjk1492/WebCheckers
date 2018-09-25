@@ -6,9 +6,10 @@ a web micro-framework.
 
 ## Team
 
+
+- Zeke Miller
+- Spencer Fleming
 - Shannon Quinn
-- MEMBER2
-- MEMBER3
 - MEMBER4
 
 
