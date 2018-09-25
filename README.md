@@ -7,7 +7,7 @@ a web micro-framework.
 ## Team
 
 - Zeke Miller
-- MEMBER2
+- Spencer Fleming
 - MEMBER3
 - MEMBER4
 
