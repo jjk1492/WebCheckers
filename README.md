@@ -10,7 +10,7 @@ a web micro-framework.
 - Zeke Miller
 - Spencer Fleming
 - Shannon Quinn
-- MEMBER4
+- John Knecht V
 
 
 ## Prerequisites
