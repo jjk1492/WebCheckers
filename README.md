@@ -11,6 +11,7 @@ a web micro-framework.
 - Spencer Fleming
 - Shannon Quinn
 - John Knecht V
+- Nick Sander
 
 
 ## Prerequisites
