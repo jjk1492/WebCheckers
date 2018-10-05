@@ -39,6 +39,10 @@ public class PlayerLobby {
         return false;
     }
 
+    /**
+     * test for this class
+     * @param pl an instance of PlayerLobby
+     */
     public void test(PlayerLobby pl){
 
         boolean one = pl.isValid("the kraken");
