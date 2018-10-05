@@ -4,6 +4,7 @@ import com.webcheckers.model.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -22,7 +23,7 @@ public class PlayerLobby {
 
     Map<String,Player> players;
 
-    private PlayerLobby(){
+    private PlayerLobby() {
         players = new HashMap<>();
     }
 
@@ -32,17 +33,41 @@ public class PlayerLobby {
      * @param name name the player wants to use
      * @return boolean
      */
-    public synchronized boolean addPlayer(String name){
-        if(isValid(name)) {
+    public synchronized boolean addPlayer( String name ) {
+        if ( ! isValid( name ) ) {
             return false;
         }
-        if(players.containsKey(name)){
+        if ( players.containsKey( name ) ) {
             return false;
         }
 
-        Player p = new Player(name);
-        players.put(name, p);
+        Player p = new Player( name );
+        players.put( name, p );
         return true;
+    }
+
+    /**
+     * get the number of players signed in
+     * @return number of players
+     */
+    public int getPlayerCount() {
+        return players.size();
+    }
+
+    /**
+     * get a set of all players
+     * @return set of players
+     */
+    public Set<String> getAllPlayers() {
+        return players.keySet();
+    }
+
+    /**
+     * removes a player
+     * @param name player we want to remove
+     */
+    public synchronized void removePlayer( String name ){
+        players.remove(name);
     }
 
     /**
@@ -51,8 +76,8 @@ public class PlayerLobby {
      * @param name string to check
      * @return boolean
      */
-    public boolean isValid(String name){
-        return name.matches("[a-zA-Z_0-9]+([a-zA-Z_0-9]|\\s)*$");
+    public boolean isValid( String name ) {
+        return name.matches("[a-zA-Z_0-9]+([a-zA-Z_0-9]|\\s)*$" );
 
     }
 
@@ -61,25 +86,25 @@ public class PlayerLobby {
      * @param name username of player to find
      * @return player object or null
      */
-    public Player getPlayer(String name){
-        return players.get(name);
+    public Player getPlayer( String name ) {
+        return players.get( name );
     }
 
     /**
      * test for this class
      * @param pl an instance of PlayerLobby
      */
-    public void test(PlayerLobby pl){
+    public void test( PlayerLobby pl ) {
 
-        boolean one = pl.isValid("the kraken");
-        boolean two = pl.isValid("123name");
+        boolean one = pl.isValid("the kraken" );
+        boolean two = pl.isValid("123name" );
         boolean three = pl.isValid(" ");
-        boolean four = pl.isValid(" 56name");
+        boolean four = pl.isValid(" 56name" );
 
-        System.out.println("the kraken : " + one);
-        System.out.println("123name : " + two);
-        System.out.println(" : " + three);
-        System.out.println(" 56name : " + four);
+        System.out.println( "the kraken : " + one );
+        System.out.println( "123name : " + two );
+        System.out.println( " : " + three );
+        System.out.println( " 56name : " + four );
 
     }
 
@@ -87,8 +112,8 @@ public class PlayerLobby {
      * tests
      * @param args
      */
-    public static void main(String[] args) {
+    public static void main( String[] args ) {
         PlayerLobby pl = new PlayerLobby();
-        pl.test(pl);
+        pl.test( pl );
     }
 }

@@ -15,7 +15,7 @@ public class Player {
      * creates a player
      * @param playerName name of player
      */
-    public Player(String playerName){
+    public Player( String playerName ) {
         this.playerName = playerName;
     }
 
