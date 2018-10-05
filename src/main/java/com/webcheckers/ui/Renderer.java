@@ -1,5 +1,7 @@
 package com.webcheckers.ui;
 
+import spark.Session;
+
 import java.util.Map;
 
 /**
@@ -7,8 +9,8 @@ import java.util.Map;
  */
 public interface Renderer {
 
-    Object render();
+    Object render( Session session );
 
-    Object render( Map< String, Object > model );
+    Object render( Session session, Map< String, Object > model );
 
 }
