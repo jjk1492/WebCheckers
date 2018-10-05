@@ -52,7 +52,7 @@ public class PlayerLobby {
      * @return boolean
      */
     public boolean isValid(String name){
-        return name.matches("[a-zA-Z_0-9]+([a-zA-Z_0-9]|\\s)*$"));
+        return name.matches("[a-zA-Z_0-9]+([a-zA-Z_0-9]|\\s)*$");
 
     }
 
