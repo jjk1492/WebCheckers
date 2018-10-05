@@ -3,7 +3,6 @@ package com.webcheckers.application;
 import com.webcheckers.model.Player;
 
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.Set;
 
 /**
