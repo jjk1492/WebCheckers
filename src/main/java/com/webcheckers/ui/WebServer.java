@@ -152,7 +152,7 @@ public class WebServer {
         post( SIGN_IN_URL, new PostSignInRoute( homePageRenderer,
                                                 signInRenderer ) );
 
-        //
+
         LOG.config( "WebServer is initialized." );
     }
 
