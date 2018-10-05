@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.application.PlayerLobby;
 import spark.ModelAndView;
 import spark.Session;
 import spark.TemplateEngine;
@@ -16,6 +17,10 @@ public class HomePageRenderer implements Renderer {
 
     private static final String VIEW_NAME = "home.ftl";
     private static final String NO_NAME_STRING = "";
+    private static final String SIGNED_IN_ATTR = "signedIn";
+    private static final String PLAYER_LIST_ATTR = "players";
+    private static final String TITLE_ATTR = "title";
+    private static final String DEFAULT_TITLE = "Welcome!";
 
     private TemplateEngine templateEngine;
 
@@ -28,11 +33,16 @@ public class HomePageRenderer implements Renderer {
     }
 
     public Object render( Session session, Map<String, Object> model ) {
+        PlayerLobby lobby = PlayerLobby.getInstance();
         String playerName = session.attribute( PLAYER_NAME_ATTR );
-        if ( playerName == null ) {
+        boolean signedIn = playerName != null;
+        if ( !signedIn ) {
             playerName = NO_NAME_STRING;
         }
-        model.put("title", "Welcome!");
+        model.put( SIGNED_IN_ATTR, signedIn );
+        model.put( PLAYER_NAME_ATTR, playerName );
+        model.put( PLAYER_LIST_ATTR, lobby.getAllPlayers() );
+        model.put(TITLE_ATTR, DEFAULT_TITLE);
         ModelAndView modelAndView = new ModelAndView( model, VIEW_NAME );
         return templateEngine.render( modelAndView );
     }

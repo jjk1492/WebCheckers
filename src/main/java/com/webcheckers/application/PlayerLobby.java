@@ -21,7 +21,7 @@ public class PlayerLobby {
         return INSTANCE;
     }
 
-    Map<String,Player> players;
+    private Map<String,Player> players;
 
     private PlayerLobby() {
         players = new HashMap<>();
