@@ -2,8 +2,8 @@ package com.webcheckers.application;
 
 import com.webcheckers.model.Player;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -20,23 +20,49 @@ public class PlayerLobby {
         return INSTANCE;
     }
 
-    Set<Player> players;
+    Map<String,Player> players;
 
     private PlayerLobby(){
-        players = new HashSet<>();
+        players = new HashMap<>();
     }
 
-    public boolean addPlayer(String name){
-
-        return false;
-    }
-
-    public boolean isValid(String name){
-
-        if(name.matches("[a-zA-Z_0-9]+([a-zA-Z_0-9]|\\s)*$")){
-            return true;
+    /**
+     * checks if name is valid and in use already if not
+     * adds the player to the map
+     * @param name name the player wants to use
+     * @return boolean
+     */
+    public synchronized boolean addPlayer(String name){
+        if(isValid(name)) {
+            return false;
         }
-        return false;
+        if(players.containsKey(name)){
+            return false;
+        }
+
+        Player p = new Player(name);
+        players.put(name, p);
+        return true;
+    }
+
+    /**
+     * checks if a string contains at least one alphanumeric character
+     * and doesn't start with a space
+     * @param name string to check
+     * @return boolean
+     */
+    public boolean isValid(String name){
+        return name.matches("[a-zA-Z_0-9]+([a-zA-Z_0-9]|\\s)*$"));
+
+    }
+
+    /**
+     * get a player object from the map
+     * @param name username of player to find
+     * @return player object or null
+     */
+    public Player getPlayer(String name){
+        return players.get(name);
     }
 
     /**
