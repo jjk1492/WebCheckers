@@ -9,7 +9,6 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.Route;
-import spark.TemplateEngine;
 
 /**
  * The UI Controller to GET the Home page.
@@ -19,20 +18,20 @@ import spark.TemplateEngine;
 public class GetHomeRoute implements Route {
   private static final Logger LOG = Logger.getLogger(GetHomeRoute.class.getName());
 
-  private final TemplateEngine templateEngine;
+  private final Renderer renderer;
 
   /**
    * Create the Spark Route (UI controller) for the
    * {@code GET /} HTTP request.
    *
-   * @param templateEngine
+   * @param renderer
    *   the HTML template rendering engine
    */
-  public GetHomeRoute(final TemplateEngine templateEngine) {
+  public GetHomeRoute(final Renderer renderer ) {
     // validation
-    Objects.requireNonNull(templateEngine, "templateEngine must not be null");
+    Objects.requireNonNull(renderer, "templateEngine must not be null");
     //
-    this.templateEngine = templateEngine;
+    this.renderer = renderer;
     //
     LOG.config("GetHomeRoute is initialized.");
   }
@@ -52,9 +51,7 @@ public class GetHomeRoute implements Route {
   public Object handle(Request request, Response response) {
     LOG.finer("GetHomeRoute is invoked.");
     //
-    Map<String, Object> vm = new HashMap<>();
-    vm.put("title", "Welcome!");
-    return templateEngine.render(new ModelAndView(vm , "home.ftl"));
+    return renderer.render();
   }
 
 }

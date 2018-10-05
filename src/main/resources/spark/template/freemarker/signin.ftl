@@ -14,9 +14,11 @@
             </div>
 
             <div class="body">
-                <input name="playerName">
-                </br>
-                <button type="submit">Sign In</button>
+                <form action="./signin" method="POST">
+                    <input name="playerName">
+                    <br>
+                    <button type="submit">Sign In</button>
+                </form>
             </div>
 
         </div>
