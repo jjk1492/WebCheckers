@@ -9,6 +9,7 @@ import java.util.Map;
 import static com.webcheckers.ui.SignInRenderer.MESSAGE_ATTR;
 import static com.webcheckers.ui.SignInRenderer.MESSAGE_TYPE_ERROR;
 import static com.webcheckers.ui.SignInRenderer.MESSAGE_TYPE_ATTR;
+import static com.webcheckers.ui.WebServer.HOME_URL;
 
 public class PostSignInRoute implements Route {
 
@@ -22,13 +23,10 @@ public class PostSignInRoute implements Route {
     private static final String NAME_TAKEN_MESSAGE =
             "Your username is already in use, please try a new one.";
 
-
-    private Renderer homeRenderer;
     private Renderer signInRenderer;
 
 
-    public PostSignInRoute( Renderer homeRenderer, Renderer signInRenderer ) {
-        this.homeRenderer = homeRenderer;
+    public PostSignInRoute( Renderer signInRenderer ) {
         this.signInRenderer = signInRenderer;
     }
 
@@ -37,7 +35,10 @@ public class PostSignInRoute implements Route {
 
         String playerName = request.queryParams( PLAYER_NAME_ATTR );
 
-        // TODO duplicate sign in from same session handling
+        if ( request.session().attribute( PLAYER_NAME_ATTR ) != null ) {
+            response.redirect( HOME_URL );
+            return null;
+        }
 
         Map<String, Object> model = new HashMap<>();
         PlayerLobby lobby = PlayerLobby.getInstance();
@@ -54,7 +55,8 @@ public class PostSignInRoute implements Route {
         else {
             final Session session = request.session();
             session.attribute( PLAYER_NAME_ATTR, playerName );
-            return homeRenderer.render( request.session() );
+            response.redirect( HOME_URL );
+            return null;
         }
     }
 }
