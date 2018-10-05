@@ -47,7 +47,7 @@ public class GetHomeRoute
     public Object handle( Request request, Response response ) {
 
         LOG.finer( "GetHomeRoute is invoked." );
-        //
+        // TODO timeout maybe?
         return renderer.render( request.session() );
     }
 

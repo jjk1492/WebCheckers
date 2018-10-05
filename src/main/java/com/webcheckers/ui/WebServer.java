@@ -149,8 +149,7 @@ public class WebServer {
 
         get( SIGN_IN_URL, new GetSignInRoute( signInRenderer ) );
 
-        post( SIGN_IN_URL, new PostSignInRoute( homePageRenderer,
-                                                signInRenderer ) );
+        post( SIGN_IN_URL, new PostSignInRoute( signInRenderer ) );
 
 
         LOG.config( "WebServer is initialized." );
