@@ -12,7 +12,7 @@ import static com.webcheckers.ui.SignInRenderer.MESSAGE_TYPE_ATTR;
 
 public class PostSignInRoute implements Route {
 
-    private static final String PLAYER_NAME_ATTR = "playerName";
+    static final String PLAYER_NAME_ATTR = "playerName";
 
     private static final String INVALID_NAME_MESSSAGE =
             "Your username couldn't be used as submitted.  Please submit a "
@@ -36,22 +36,25 @@ public class PostSignInRoute implements Route {
     public Object handle( Request request, Response response ) throws Exception {
 
         String playerName = request.queryParams( PLAYER_NAME_ATTR );
-        System.out.println( playerName );
+
+        // TODO duplicate sign in from same session handling
 
         Map<String, Object> model = new HashMap<>();
         PlayerLobby lobby = PlayerLobby.getInstance();
         if ( !lobby.isValid( playerName ) ) {
             model.put( MESSAGE_TYPE_ATTR, MESSAGE_TYPE_ERROR );
             model.put( MESSAGE_ATTR, INVALID_NAME_MESSSAGE );
-            return homeRenderer.render( model );
+            return signInRenderer.render( request.session(), model );
         }
         else if ( !lobby.addPlayer( playerName ) ) {
             model.put( MESSAGE_TYPE_ATTR, MESSAGE_TYPE_ERROR );
             model.put( MESSAGE_ATTR, NAME_TAKEN_MESSAGE );
-            return signInRenderer.render();
+            return signInRenderer.render( request.session(), model );
         }
         else {
-            return homeRenderer.render();
+            final Session session = request.session();
+            session.attribute( PLAYER_NAME_ATTR, playerName );
+            return homeRenderer.render( request.session() );
         }
     }
 }

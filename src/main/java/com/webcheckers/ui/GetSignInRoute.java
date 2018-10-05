@@ -14,6 +14,6 @@ public class GetSignInRoute implements Route {
 
     @Override
     public Object handle( Request request, Response response ) throws Exception {
-        return renderer.render();
+        return renderer.render( request.session() );
     }
 }
