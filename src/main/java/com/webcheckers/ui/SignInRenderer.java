@@ -1,6 +1,7 @@
 package com.webcheckers.ui;
 
 import spark.ModelAndView;
+import spark.Session;
 import spark.TemplateEngine;
 
 import java.util.HashMap;
@@ -25,11 +26,11 @@ public class SignInRenderer implements Renderer {
         this.templateEngine = templateEngine;
     }
 
-    public Object render() {
-        return render( new HashMap<>() );
+    public Object render( Session session ) {
+        return render( session, new HashMap<>() );
     }
 
-    public Object render( Map<String, Object> model ) {
+    public Object render( Session session, Map<String, Object> model ) {
 
         if ( !model.containsKey( MESSAGE_ATTR ) ) {
             model.put( MESSAGE_ATTR, "" );
