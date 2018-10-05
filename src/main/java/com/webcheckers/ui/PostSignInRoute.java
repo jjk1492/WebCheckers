@@ -38,19 +38,23 @@ public class PostSignInRoute implements Route {
         String playerName = request.queryParams( PLAYER_NAME_ATTR );
         System.out.println( playerName );
 
+        // TODO duplicate sign in from same session handling
+
         Map<String, Object> model = new HashMap<>();
         PlayerLobby lobby = PlayerLobby.getInstance();
         if ( !lobby.isValid( playerName ) ) {
             model.put( MESSAGE_TYPE_ATTR, MESSAGE_TYPE_ERROR );
             model.put( MESSAGE_ATTR, INVALID_NAME_MESSSAGE );
-            return homeRenderer.render( model );
+            return signInRenderer.render( model );
         }
         else if ( !lobby.addPlayer( playerName ) ) {
             model.put( MESSAGE_TYPE_ATTR, MESSAGE_TYPE_ERROR );
             model.put( MESSAGE_ATTR, NAME_TAKEN_MESSAGE );
-            return signInRenderer.render();
+            return signInRenderer.render( model );
         }
         else {
+            final Session session = request.session();
+            session.attribute( PLAYER_NAME_ATTR, playerName );
             return homeRenderer.render();
         }
     }
