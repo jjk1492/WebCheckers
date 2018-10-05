@@ -1,4 +1,4 @@
 package com.webcheckers.ui;
 
-public class PostSignIn {
+public class GetSignInRoute {
 }
