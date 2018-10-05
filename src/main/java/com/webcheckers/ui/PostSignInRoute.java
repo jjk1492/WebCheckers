@@ -33,12 +33,12 @@ public class PostSignInRoute implements Route {
     @Override
     public Object handle( Request request, Response response ) throws Exception {
 
-        String playerName = request.queryParams( PLAYER_NAME_ATTR );
-
         if ( request.session().attribute( PLAYER_NAME_ATTR ) != null ) {
             response.redirect( HOME_URL );
             return null;
         }
+
+        String playerName = request.queryParams( PLAYER_NAME_ATTR );
 
         Map<String, Object> model = new HashMap<>();
         PlayerLobby lobby = PlayerLobby.getInstance();
@@ -55,6 +55,7 @@ public class PostSignInRoute implements Route {
         else {
             final Session session = request.session();
             session.attribute( PLAYER_NAME_ATTR, playerName );
+            // TODO should we be storing the Player or the name?
             response.redirect( HOME_URL );
             return null;
         }
