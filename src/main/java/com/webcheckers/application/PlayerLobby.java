@@ -11,9 +11,18 @@ import java.util.Set;
  */
 public class PlayerLobby {
 
+    private static PlayerLobby INSTANCE = null;
+
+    public static PlayerLobby getInstance() {
+        if ( INSTANCE == null ) {
+            INSTANCE = new PlayerLobby();
+        }
+        return INSTANCE;
+    }
+
     Set<Player> players;
 
-    public PlayerLobby(){
+    private PlayerLobby(){
         players = new HashSet<>();
     }
 
