@@ -22,15 +22,17 @@
             <div class="body">
                 <p>Welcome to the world of online Checkers.</p>
 
-                <#if signedIn && players?size gt 1 >
-                    Currently signed in players:
-                    <ul>
-                        <#list players as player>
-                            <#if player != playerName>
-                                <li>${player}</li>
-                            </#if>
-                        </#list>
-                    </ul>
+                <#if players?size gt 1 >
+                    Currently signed in players: <#if !signedIn>${players?size}</#if>
+                        <#if signedIn>
+                            <ul>
+                                <#list players as player>
+                                  <#if player != playerName>
+                                     <li>${player}</li>
+                                </#if>
+                                </#list>
+                            </ul>
+                        </#if>
                 </#if>
             </div>
 
