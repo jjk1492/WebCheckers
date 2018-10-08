@@ -22,17 +22,19 @@
             <div class="body">
                 <p>Welcome to the world of online Checkers.</p>
 
-                <#if players?size gt 1 >
-                    Currently signed in players: <#if !signedIn>${players?size}</#if>
-                        <#if signedIn>
-                            <ul>
-                                <#list players as player>
-                                  <#if player != playerName>
-                                     <li>${player}</li>
-                                </#if>
-                                </#list>
-                            </ul>
-                        </#if>
+                <#if !signedIn>
+                    Currently signed in players: ${players?size}
+                <#elseif players?size gt 1>
+                    Other signed in players:
+                    <ul>
+                        <#list players as player>
+                            <#if player != playerName>
+                                <li>${player}</li>
+                            </#if>
+                        </#list>
+                    </ul>
+                <#else>
+                    No other players signed in! :(
                 </#if>
             </div>
 
