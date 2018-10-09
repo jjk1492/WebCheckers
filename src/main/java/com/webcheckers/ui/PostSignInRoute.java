@@ -11,9 +11,14 @@ import static com.webcheckers.ui.SignInRenderer.MESSAGE_TYPE_ERROR;
 import static com.webcheckers.ui.SignInRenderer.MESSAGE_TYPE_ATTR;
 import static com.webcheckers.ui.WebServer.HOME_URL;
 
+/**
+ * POST /signin handler (signing a player in)
+ *
+ * @author Zeke Miller
+ */
 public class PostSignInRoute implements Route {
 
-    static final String PLAYER_NAME_ATTR = "playerName";
+    // private constants
 
     private static final String INVALID_NAME_MESSSAGE =
             "Your username couldn't be used as submitted.  Please submit a "
@@ -23,13 +28,38 @@ public class PostSignInRoute implements Route {
     private static final String NAME_TAKEN_MESSAGE =
             "Your username is already in use, please try a new one.";
 
-    private Renderer signInRenderer;
+
+    // package private constants
+
+    static final String PLAYER_NAME_ATTR = "playerName";
 
 
-    public PostSignInRoute( Renderer signInRenderer ) {
-        this.signInRenderer = signInRenderer;
+    // fields
+
+    private Renderer renderer;
+
+
+    // constructors
+
+    /**
+     * constructor, requires a Renderer for dependency inversion
+     * @param renderer the rendering engine
+     */
+    public PostSignInRoute( Renderer renderer ) {
+        this.renderer = renderer;
     }
 
+
+    // methods
+
+    /**
+     * handles a POST /signin (a player signing in)
+     * @param request the HTTP request spark object
+     * @param response the response spark object
+     * @return rendered page
+     * @throws Exception shouldn't throw exceptions, but if the rendering
+     * engine fails we simply rethrow
+     */
     @Override
     public Object handle( Request request, Response response ) throws Exception {
 
@@ -42,15 +72,16 @@ public class PostSignInRoute implements Route {
 
         Map<String, Object> model = new HashMap<>();
         PlayerLobby lobby = PlayerLobby.getInstance();
+
         if ( !lobby.isValid( playerName ) ) {
             model.put( MESSAGE_TYPE_ATTR, MESSAGE_TYPE_ERROR );
             model.put( MESSAGE_ATTR, INVALID_NAME_MESSSAGE );
-            return signInRenderer.render( request.session(), model );
+            return renderer.render( request.session(), model );
         }
         else if ( !lobby.addPlayer( playerName ) ) {
             model.put( MESSAGE_TYPE_ATTR, MESSAGE_TYPE_ERROR );
             model.put( MESSAGE_ATTR, NAME_TAKEN_MESSAGE );
-            return signInRenderer.render( request.session(), model );
+            return renderer.render( request.session(), model );
         }
         else {
             final Session session = request.session();
