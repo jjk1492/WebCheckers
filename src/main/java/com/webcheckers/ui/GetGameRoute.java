@@ -1,6 +1,8 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 import spark.Request;
 import spark.Response;
@@ -28,29 +30,22 @@ public class GetGameRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
-        //need to implement GamePageRenderer before I can write this
 
-        //if you select player not in game: start game with you as starting (red)player
-        //if you select a player already in a game: return to homepage with an error
-        //if you are selected and you are not in a game: start a game with you as white player
-
-
-        PlayerLobby lobby = PlayerLobby.getInstance();
-        //also get instance of gamecenter in application tier
+        GameCenter gameCenter = GameCenter.getInstance();
         Map<String, Object> map = new HashMap<>();
-
         String playerName = request.queryParams( "playerName" );
-        String opponentName = request.queryParams("player"); //need to find clicked player
+        String opponentName = request.queryParams("player"); //need to find clicked player... trying to figure out how to do this without using POST
 
-        Player redPlayer = lobby.getPlayer(playerName);
-        Player whitePlayer = lobby.getPlayer(opponentName);
-        //check if players are in a game already
-        System.out.println("\n\n\n\n" + redPlayer.getPlayerName() + "\n\n\n\n"  );//whitePlayer.getPlayerName() + "\n\n\n\n");
-        //use gamecenter to make a game
+        boolean gameAdded = gameCenter.addGame(playerName, opponentName);
 
-        map.put("currentPlayer", redPlayer);
-        map.put("redPlayer", redPlayer);
-        map.put("whitePlayer", whitePlayer);
+        if (!gameAdded) {
+            //false if one of players is null or already in game
+            return null;
+        }
+
+        map.put("title", playerName + " vs. " + opponentName);
+
+        request.session().attribute("board", gameCenter.getGame(playerName));
 
         return gameRenderer.render(request.session(), map);
     }
