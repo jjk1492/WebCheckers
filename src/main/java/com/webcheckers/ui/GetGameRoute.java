@@ -30,12 +30,10 @@ public class GetGameRoute implements Route {
 
         GameCenter gameCenter = GameCenter.getInstance();
         Map<String, Object> map = new HashMap<>();
-        String playerName = request.queryParams( "playerName" );
-        String opponentName = request.queryParams("opponent"); //need to find clicked player... trying to figure out how to do this without using POST
+        String playerName = request.session().attribute( "playerName" );
+        String opponentName = request.queryParams("opponent");
 
         boolean gameAdded = gameCenter.addGame(playerName, opponentName);
-
-        System.out.println("\n\n\n\nopponentName: " + opponentName +"\n\n\n\n\n");
 
         if (!gameAdded) {
             //false if one of players is null or already in game
