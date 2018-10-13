@@ -29,7 +29,7 @@
                     <ul>
                         <#list players as player>
                             <#if player != playerName>
-                                <li><a href="/game">${player}</a></li>
+                                <li><a href="/game?opponent=${player}">${player}</a></li>
                             </#if>
                         </#list>
                     </ul>

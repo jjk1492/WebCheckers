@@ -1,9 +1,6 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.application.GameCenter;
-import com.webcheckers.application.PlayerLobby;
-import com.webcheckers.model.Game;
-import com.webcheckers.model.Player;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -34,9 +31,11 @@ public class GetGameRoute implements Route {
         GameCenter gameCenter = GameCenter.getInstance();
         Map<String, Object> map = new HashMap<>();
         String playerName = request.queryParams( "playerName" );
-        String opponentName = request.queryParams("player"); //need to find clicked player... trying to figure out how to do this without using POST
+        String opponentName = request.queryParams("opponent"); //need to find clicked player... trying to figure out how to do this without using POST
 
         boolean gameAdded = gameCenter.addGame(playerName, opponentName);
+
+        System.out.println("\n\n\n\nopponentName: " + opponentName +"\n\n\n\n\n");
 
         if (!gameAdded) {
             //false if one of players is null or already in game
@@ -45,7 +44,7 @@ public class GetGameRoute implements Route {
 
         map.put("title", playerName + " vs. " + opponentName);
 
-        request.session().attribute("board", gameCenter.getGame(playerName));
+        //request.session().attribute("board", gameCenter.getGame(playerName));
 
         return gameRenderer.render(request.session(), map);
     }
