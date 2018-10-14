@@ -43,6 +43,7 @@ import static spark.Spark.staticFileLocation;
  * </p>
  *
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
+ * @author Zeke Miller
  */
 public class WebServer {
 
@@ -142,19 +143,18 @@ public class WebServer {
         //// Create separate Route classes to handle each route; this keeps your
         //// code clean; using small classes.
 
-        // Shows the Checkers game Home page.
+        // renderers to be reused
         Renderer homePageRenderer = new HomePageRenderer( templateEngine );
         Renderer signInRenderer = new SignInRenderer( templateEngine );
         Renderer gameRenderer = new GameRenderer(templateEngine);
 
+        // home route
         get( HOME_URL, new GetHomeRoute( homePageRenderer ) );
 
+        // signin page has same URL for get and post
         get( SIGN_IN_URL, new GetSignInRoute( signInRenderer ) );
-
         post( SIGN_IN_URL, new PostSignInRoute( signInRenderer ) );
-
-        get( GAME_URL, new GetGameRoute( gameRenderer ) );
-
+        get( GAME_URL, new GetGameRoute( gameRenderer )) ;
 
         LOG.config( "WebServer is initialized." );
     }
