@@ -12,7 +12,14 @@ public class Row implements Iterable<Space> {
     public Row(int index){
         spaces = new ArrayList<>();
         this.index = index;
+        for (int i = 0; i < 7; i++){
+            spaces.add(new Space(i));
+        }
 
+    }
+
+    public int getIndex() {
+        return index;
     }
 
     @Override
