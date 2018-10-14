@@ -12,6 +12,9 @@ public class Board implements Iterable<Row> {
 
     public Board(){
         this.rows = new ArrayList<>();
+        for (int i = 0; i < 7; i++){
+            rows.add(new Row(i));
+        }
     }
 
     @Override
