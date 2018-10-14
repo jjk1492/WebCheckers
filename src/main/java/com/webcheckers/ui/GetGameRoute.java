@@ -30,19 +30,19 @@ public class GetGameRoute implements Route {
 
         GameCenter gameCenter = GameCenter.getInstance();
         Map<String, Object> map = new HashMap<>();
-        String playerName = request.session().attribute( "playerName" );
+        String name = request.session().attribute( "name" );
         String opponentName = request.queryParams("opponent");
 
-        boolean gameAdded = gameCenter.addGame(playerName, opponentName);
+        boolean gameAdded = gameCenter.addGame(name, opponentName);
 
         if (!gameAdded) {
             //false if one of players is null or already in game
             return null;
         }
 
-        map.put("title", playerName + " vs. " + opponentName);
+        map.put("title", name + " vs. " + opponentName);
 
-        //request.session().attribute("board", gameCenter.getGame(playerName));
+        //request.session().attribute("board", gameCenter.getGame(name));
 
         return gameRenderer.render(request.session(), map);
     }

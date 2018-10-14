@@ -57,10 +57,10 @@ public class GameCenter {
 
     /**
      * returns a game currently playing
-     * @param playerName one of the players in the game
+     * @param name one of the players in the game
      */
-    public synchronized Game getGame(String playerName){
-        return playersInGame.get(playerName);
+    public synchronized Game getGame(String name){
+        return playersInGame.get(name);
     }
 
     /**
