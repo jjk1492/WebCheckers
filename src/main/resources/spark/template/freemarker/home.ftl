@@ -13,7 +13,7 @@
             <div class="navigation">
                 <a href="/">my home</a>
                 <#if signedIn>
-                    You're currently signed in as ${playerName}
+                    You're currently signed in as ${name}
                 <#else >
                     <a href="/signin">sign in</a>
                 </#if>
@@ -28,7 +28,7 @@
                     Other signed in players:
                     <ul>
                         <#list players as player>
-                            <#if player != playerName>
+                            <#if player != name>
                                 <li><a href="/game?opponent=${player}">${player}</a></li>
                             </#if>
                         </#list>

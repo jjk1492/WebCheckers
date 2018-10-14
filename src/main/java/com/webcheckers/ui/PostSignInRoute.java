@@ -31,7 +31,7 @@ public class PostSignInRoute implements Route {
 
     // package private constants
 
-    static final String PLAYER_NAME_ATTR = "playerName";
+    static final String PLAYER_NAME_ATTR = "name";
 
 
     // fields
@@ -68,24 +68,24 @@ public class PostSignInRoute implements Route {
             return null;
         }
 
-        String playerName = request.queryParams( PLAYER_NAME_ATTR );
+        String name = request.queryParams( PLAYER_NAME_ATTR );
 
         Map<String, Object> model = new HashMap<>();
         PlayerLobby lobby = PlayerLobby.getInstance();
 
-        if ( !lobby.isValid( playerName ) ) {
+        if ( !lobby.isValid( name ) ) {
             model.put( MESSAGE_TYPE_ATTR, MESSAGE_TYPE_ERROR );
             model.put( MESSAGE_ATTR, INVALID_NAME_MESSSAGE );
             return renderer.render( request.session(), model );
         }
-        else if ( !lobby.addPlayer( playerName ) ) {
+        else if ( !lobby.addPlayer( name ) ) {
             model.put( MESSAGE_TYPE_ATTR, MESSAGE_TYPE_ERROR );
             model.put( MESSAGE_ATTR, NAME_TAKEN_MESSAGE );
             return renderer.render( request.session(), model );
         }
         else {
             final Session session = request.session();
-            session.attribute( PLAYER_NAME_ATTR, playerName );
+            session.attribute( PLAYER_NAME_ATTR, name );
             // TODO should we be storing the Player or the name?
             response.redirect( HOME_URL );
             return null;

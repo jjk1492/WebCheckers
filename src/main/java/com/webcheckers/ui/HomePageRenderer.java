@@ -71,14 +71,14 @@ public class HomePageRenderer implements Renderer {
 
         PlayerLobby lobby = PlayerLobby.getInstance();
 
-        String playerName = session.attribute( PLAYER_NAME_ATTR );
-        boolean signedIn = playerName != null;
+        String name = session.attribute( PLAYER_NAME_ATTR );
+        boolean signedIn = name != null;
         if ( !signedIn ) {
-            playerName = NO_NAME_STRING;
+            name = NO_NAME_STRING;
         }
 
         model.put( SIGNED_IN_ATTR, signedIn );
-        model.put( PLAYER_NAME_ATTR, playerName );
+        model.put( PLAYER_NAME_ATTR, name );
         model.put( PLAYER_LIST_ATTR, lobby.getAllPlayers() );
         model.put( TITLE_ATTR, DEFAULT_TITLE );
 

@@ -43,10 +43,10 @@ public class GameRenderer implements com.webcheckers.ui.Renderer {
     @Override
     public Object render(Session session, Map<String, Object> model) {
 
-        String playerName = session.attribute(PLAYER_NAME_ATTR);
+        String name = session.attribute(PLAYER_NAME_ATTR);
         GameCenter gameCenter = GameCenter.getInstance();
 
-        Game currentGame = gameCenter.getGame(playerName);
+        Game currentGame = gameCenter.getGame(name);
 
         //send to game
         Player redPlayer = currentGame.getRedPlayer();
