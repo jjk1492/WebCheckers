@@ -8,9 +8,15 @@ import spark.Session;
 import spark.TemplateEngine;
 import java.util.HashMap;
 import java.util.Map;
+import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
 
 public class GameRenderer implements com.webcheckers.ui.Renderer {
 
+    enum ActiveColor{
+        RED, WHITE
+    }
+
+    private ActiveColor activeColor = ActiveColor.RED;
 
 
     private static final String VIEW_NAME = "game.ftl";
@@ -21,6 +27,7 @@ public class GameRenderer implements com.webcheckers.ui.Renderer {
     private static final String WHITE_PLAYER_ATTR = "whitePlayer";
     private static final String BOARD_ATTR = "board";
     private static final String MESSAGE_ATTR = "message";
+    private static final String ACTIVE_COLOR_ATTR= "activeColor";
 
     private TemplateEngine templateEngine;
 
@@ -36,17 +43,27 @@ public class GameRenderer implements com.webcheckers.ui.Renderer {
     @Override
     public Object render(Session session, Map<String, Object> model) {
 
-        Player currentPlayer = session.attribute(CURRENT_PLAYER_ATTR);
+        String playerName = session.attribute(PLAYER_NAME_ATTR);
         GameCenter gameCenter = GameCenter.getInstance();
-        Game currentGame = gameCenter.getGame(currentPlayer.getPlayerName());
+
+        Game currentGame = gameCenter.getGame(playerName);
 
         //send to game
+        Player redPlayer = currentGame.getRedPlayer();
+        Player whitePlayer = currentGame.getWhitePlayer();
+        Player currentPlayer = currentGame.getCurrentPlayer();
+
+        if( currentPlayer.equals(whitePlayer) ){
+            activeColor = ActiveColor.WHITE;
+        }
+
         model.put(VIEW_MODE_ATTR, "PLAY");
-        model.put(RED_PLAYER_ATTR, currentGame.getRedPlayer());
-        model.put(WHITE_PLAYER_ATTR, currentGame.getWhitePlayer());
+        model.put(RED_PLAYER_ATTR, redPlayer);
+        model.put(WHITE_PLAYER_ATTR, whitePlayer);
         model.put(CURRENT_PLAYER_ATTR, currentPlayer);
         model.put(BOARD_ATTR, currentGame.getBoard());
         model.put(MESSAGE_ATTR, null);
+        model.put(ACTIVE_COLOR_ATTR, activeColor);
         ModelAndView modelAndView = new ModelAndView( model, VIEW_NAME );
         return templateEngine.render( modelAndView );
     }
