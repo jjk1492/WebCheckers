@@ -8,13 +8,15 @@ public class Game {
     private Player redPlayer;
     private Player whitePlayer;
     private Player currentPlayer;
-
+    private Board board;
 
     public Game(Player redPlayer, Player whitePlayer) {
         this.redPlayer = redPlayer;
         this.whitePlayer = whitePlayer;
         this.currentPlayer = redPlayer;
+        this.board = new Board();
     }
+
 
     public Player getRedPlayer() {
         return redPlayer;
@@ -28,6 +30,10 @@ public class Game {
         return currentPlayer;
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -35,11 +41,12 @@ public class Game {
         Game game = (Game) o;
         return Objects.equals(redPlayer, game.redPlayer) &&
                 Objects.equals(whitePlayer, game.whitePlayer) &&
-                Objects.equals(currentPlayer, game.currentPlayer);
+                Objects.equals(currentPlayer, game.currentPlayer) &&
+                Objects.equals(board, game.board);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(redPlayer, whitePlayer, currentPlayer);
+        return Objects.hash(redPlayer, whitePlayer, currentPlayer, board);
     }
 }
