@@ -98,17 +98,15 @@ public class HomePageRenderer implements Renderer {
 
             Player redPlayer = currentGame.getRedPlayer();
             Player whitePlayer = currentGame.getWhitePlayer();
-            Player currentPlayer = currentGame.getCurrentPlayer();
 
-
-            model.put(TITLE_ATTR, "Game");
+            model.put(TITLE_ATTR, redPlayer.getname() + " vs. " + whitePlayer.getname());
             model.put(VIEW_MODE_ATTR, "PLAY");
             model.put(RED_PLAYER_ATTR, redPlayer);
             model.put(WHITE_PLAYER_ATTR, whitePlayer);
-            model.put(CURRENT_PLAYER_ATTR, currentPlayer);
+            model.put(CURRENT_PLAYER_ATTR, whitePlayer);
             model.put(BOARD_ATTR, currentGame.getBoard());
             model.put(MESSAGE_ATTR, null);
-            model.put(ACTIVE_COLOR_ATTR, currentGame.getActiveColor());
+            model.put(ACTIVE_COLOR_ATTR, whitePlayer);
             ModelAndView modelAndView = new ModelAndView( model, VIEW_NAME_GAME );
             return templateEngine.render( modelAndView );
         }
