@@ -34,6 +34,14 @@ public class Game {
         return board;
     }
 
+    public Color getActiveColor() {
+        if(this.currentPlayer == redPlayer){
+            return Color.RED;
+        }else{
+            return Color.WHITE;
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
