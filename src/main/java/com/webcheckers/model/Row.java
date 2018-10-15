@@ -20,10 +20,41 @@ public class Row implements Iterable<Space> {
     public Row(int index){
         spaces = new ArrayList<>();
         this.index = index;
-        for (int i = 0; i < 7; i++){
-            spaces.add(new Space(i));
+        for (int i = 0; i < 8; i++){
+            Space newSpace = new Space(i);
+            spaces.add(newSpace);
         }
 
+    }
+
+    public void fillRedRow(){
+        for( Space space : spaces){
+            if( index%2 == 0){
+                if( space.getCellIdx()%2 == 1){
+                    space.setPiece( new Piece(Piece.Color.RED, Piece.Type.SINGLE));
+                }
+            }
+            else {
+                if( space.getCellIdx()%2 == 0){
+                    space.setPiece( new Piece(Piece.Color.RED, Piece.Type.SINGLE));
+                }
+            }
+        }
+    }
+
+    public void fillWhiteRow(){
+        for( Space space : spaces){
+            if( index%2 == 0){
+                if( space.getCellIdx()%2 == 1){
+                    space.setPiece( new Piece(Piece.Color.WHITE, Piece.Type.SINGLE));
+                }
+            }
+            else {
+                if( space.getCellIdx()%2 == 0){
+                    space.setPiece( new Piece(Piece.Color.WHITE, Piece.Type.SINGLE));
+                }
+            }
+        }
     }
 
     /*

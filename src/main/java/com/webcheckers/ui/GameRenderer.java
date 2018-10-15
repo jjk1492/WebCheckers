@@ -4,6 +4,7 @@ import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Color;
 import com.webcheckers.model.Game;
+import com.webcheckers.model.Message;
 import com.webcheckers.model.Player;
 import spark.ModelAndView;
 import spark.Session;
@@ -69,25 +70,26 @@ public class GameRenderer implements com.webcheckers.ui.Renderer {
                 name = NO_NAME_STRING;
             }
 
+            Message errorMessage = new Message( "The selected player is already in a game.", Message.Type.ERROR);
             model.put( SIGNED_IN_ATTR, signedIn );
             model.put( PLAYER_NAME_ATTR, name );
             model.put( PLAYER_LIST_ATTR, lobby.getAllPlayers() );
             model.put( TITLE_ATTR, DEFAULT_TITLE );
-            return templateEngine.render(new ModelAndView(model , VIEW_NAME_HOME));
+            model.put( MESSAGE_ATTR, errorMessage);
+            return templateEngine.render(new ModelAndView(model, VIEW_NAME_HOME));
         }
 
         //send to game
         Player redPlayer = currentGame.getRedPlayer();
         Player whitePlayer = currentGame.getWhitePlayer();
-        Player currentPlayer = currentGame.getCurrentPlayer();
 
         model.put(VIEW_MODE_ATTR, "PLAY");
         model.put(RED_PLAYER_ATTR, redPlayer);
         model.put(WHITE_PLAYER_ATTR, whitePlayer);
-        model.put(CURRENT_PLAYER_ATTR, currentPlayer);
-        model.put(BOARD_ATTR, currentGame.getBoard());
+        model.put(CURRENT_PLAYER_ATTR, redPlayer);
+        model.put(BOARD_ATTR, currentGame.getRedBoard());
         model.put(MESSAGE_ATTR, null);
-        model.put(ACTIVE_COLOR_ATTR, currentGame.getActiveColor());
+        model.put(ACTIVE_COLOR_ATTR, RED);
         ModelAndView modelAndView = new ModelAndView( model, VIEW_NAME );
         return templateEngine.render( modelAndView );
     }

@@ -18,6 +18,11 @@ public class Piece {
     public Color color;
     public Type type;
 
+    public Piece( Color color, Type type){
+        this.color = color;
+        this.type = type;
+    }
+
     public Color getColor() {
         return color;
     }
