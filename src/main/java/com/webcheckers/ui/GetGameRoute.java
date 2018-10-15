@@ -34,10 +34,7 @@ public class GetGameRoute implements Route {
         String opponentName = request.queryParams("opponent");
 
         gameCenter.addGame(name, opponentName);
-
         map.put("title", name + " vs. " + opponentName);
-
-        //request.session().attribute("board", gameCenter.getGame(name));
 
         return gameRenderer.render(request.session(), map);
     }
