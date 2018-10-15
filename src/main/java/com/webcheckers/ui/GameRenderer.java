@@ -2,6 +2,7 @@ package com.webcheckers.ui;
 
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Color;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 import spark.ModelAndView;
@@ -9,15 +10,13 @@ import spark.Session;
 import spark.TemplateEngine;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.webcheckers.model.Color.RED;
+import static com.webcheckers.model.Color.WHITE;
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
 
 public class GameRenderer implements com.webcheckers.ui.Renderer {
 
-    enum ActiveColor{
-        RED, WHITE
-    }
-
-    private ActiveColor activeColor = ActiveColor.RED;
 
     // Home view constants
     private static final String VIEW_NAME_HOME = "home.ftl";
@@ -82,17 +81,13 @@ public class GameRenderer implements com.webcheckers.ui.Renderer {
         Player whitePlayer = currentGame.getWhitePlayer();
         Player currentPlayer = currentGame.getCurrentPlayer();
 
-        if( currentPlayer.equals(whitePlayer) ){
-            activeColor = ActiveColor.WHITE;
-        }
-
         model.put(VIEW_MODE_ATTR, "PLAY");
         model.put(RED_PLAYER_ATTR, redPlayer);
         model.put(WHITE_PLAYER_ATTR, whitePlayer);
         model.put(CURRENT_PLAYER_ATTR, currentPlayer);
         model.put(BOARD_ATTR, currentGame.getBoard());
         model.put(MESSAGE_ATTR, null);
-        model.put(ACTIVE_COLOR_ATTR, activeColor);
+        model.put(ACTIVE_COLOR_ATTR, currentGame.getActiveColor());
         ModelAndView modelAndView = new ModelAndView( model, VIEW_NAME );
         return templateEngine.render( modelAndView );
     }
