@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
+import static com.webcheckers.model.Color.RED;
 
 /**
  * Renderer to keep behavior in one place since multiple places could render
@@ -107,7 +108,7 @@ public class HomePageRenderer implements Renderer {
             model.put(CURRENT_PLAYER_ATTR, whitePlayer);
             model.put(BOARD_ATTR, currentGame.getWhiteBoard());
             model.put(MESSAGE_ATTR, null);
-            model.put(ACTIVE_COLOR_ATTR, whitePlayer);
+            model.put(ACTIVE_COLOR_ATTR, RED);
             ModelAndView modelAndView = new ModelAndView( model, VIEW_NAME_GAME );
             return templateEngine.render( modelAndView );
         }

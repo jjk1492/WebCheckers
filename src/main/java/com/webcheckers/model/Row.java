@@ -57,6 +57,21 @@ public class Row implements Iterable<Space> {
         }
     }
 
+    public void validateRow(){
+        for( Space space : spaces){
+            if( index%2 == 0){
+                if( space.getCellIdx()%2 == 1){
+                    space.setValid(true);
+                }
+            }
+            else{
+                if( space.getCellIdx()%2 == 0){
+                    space.setValid(true);
+                }
+            }
+        }
+    }
+
     /*
     * returns row index
     * */
