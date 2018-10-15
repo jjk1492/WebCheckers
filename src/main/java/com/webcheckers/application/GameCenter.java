@@ -64,6 +64,14 @@ public class GameCenter {
     }
 
     /**
+     * returns whether or not the player is in a game
+     * @param name of the player
+     */
+    public synchronized boolean isPlayerInGame(String name){
+        return playersInGame.containsKey(name);
+    }
+
+    /**
      * removes players from playersInGame
      * @param player1 player we want to remove
      * @param player2 player we want to remove
