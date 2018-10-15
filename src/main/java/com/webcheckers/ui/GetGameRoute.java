@@ -33,12 +33,7 @@ public class GetGameRoute implements Route {
         String name = request.session().attribute( "name" );
         String opponentName = request.queryParams("opponent");
 
-        boolean gameAdded = gameCenter.addGame(name, opponentName);
-
-        if (!gameAdded) {
-            //false if one of players is null or already in game
-            return null;
-        }
+        gameCenter.addGame(name, opponentName);
 
         map.put("title", name + " vs. " + opponentName);
 
