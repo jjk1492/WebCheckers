@@ -1,6 +1,12 @@
 package com.webcheckers.model;
 
+/**
+ *
+ */
 public class Piece {
+    /**
+     *
+     */
     enum Color{
         RED, WHITE;
     }
