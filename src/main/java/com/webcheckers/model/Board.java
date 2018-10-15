@@ -36,6 +36,12 @@ public class Board implements Iterable<Row> {
                 case 2:
                     row.fillWhiteRow();
                     break;
+                case 3:
+                    row.validateRow();
+                    break;
+                case 4:
+                    row.validateRow();
+                    break;
                 case 5:
                     row.fillRedRow();
                     break;
@@ -60,6 +66,12 @@ public class Board implements Iterable<Row> {
                     break;
                 case 2:
                     row.fillRedRow();
+                    break;
+                case 3:
+                    row.validateRow();
+                    break;
+                case 4:
+                    row.validateRow();
                     break;
                 case 5:
                     row.fillWhiteRow();
