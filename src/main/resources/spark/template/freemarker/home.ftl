@@ -22,6 +22,10 @@
             <div class="body">
                 <p>Welcome to the world of online Checkers.</p>
 
+                <#if message??>
+                    <div id="message" class="${message.type}"><p>${message.text}</p></div>
+                </#if>
+
                 <#if !signedIn>
                     Currently signed in players: ${players?size}
                 <#elseif players?size gt 1>

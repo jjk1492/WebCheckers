@@ -23,4 +23,12 @@ public class Space {
     public boolean isValid() {
         return isValid;
     }
+
+    public void setValid(boolean valid){
+        this.isValid = valid;
+    }
+
+    public void setPiece( Piece newPiece){
+        this.piece = newPiece;
+    }
 }

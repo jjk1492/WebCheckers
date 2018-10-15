@@ -8,13 +8,17 @@ public class Game {
     private Player redPlayer;
     private Player whitePlayer;
     private Player currentPlayer;
-    private Board board;
+    private Board redBoard;
+    private Board whiteBoard;
 
     public Game(Player redPlayer, Player whitePlayer) {
         this.redPlayer = redPlayer;
         this.whitePlayer = whitePlayer;
         this.currentPlayer = redPlayer;
-        this.board = new Board();
+        this.redBoard = new Board();
+        this.whiteBoard = new Board();
+        redBoard.fillRedBoard();
+        whiteBoard.fillWhiteBoard();
     }
 
 
@@ -30,8 +34,12 @@ public class Game {
         return currentPlayer;
     }
 
-    public Board getBoard() {
-        return board;
+    public Board getRedBoard() {
+        return redBoard;
+    }
+
+    public Board getWhiteBoard(){
+        return whiteBoard;
     }
 
     public Color getActiveColor() {
@@ -50,11 +58,12 @@ public class Game {
         return Objects.equals(redPlayer, game.redPlayer) &&
                 Objects.equals(whitePlayer, game.whitePlayer) &&
                 Objects.equals(currentPlayer, game.currentPlayer) &&
-                Objects.equals(board, game.board);
+                Objects.equals(redBoard, game.redBoard) &&
+                Objects.equals(whiteBoard, game.whiteBoard);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(redPlayer, whitePlayer, currentPlayer, board);
+        return Objects.hash(redPlayer, whitePlayer, currentPlayer, redBoard, whiteBoard);
     }
 }
