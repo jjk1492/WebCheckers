@@ -1,11 +1,14 @@
 # PROJECT Home
 
-Welcome to the PROJECT Project!
+Welcome to the WebCheckers Project!
 
 ## Team
 
-* MEMBER1
-* MEMBER2
+Spencer Fleming
+John Knecht V
+Zeke Miller
+Shannon Quinn
+Nick Sander
 
 ## [Design Documentation](DesignDoc)
 

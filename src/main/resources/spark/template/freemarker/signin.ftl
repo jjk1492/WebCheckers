@@ -16,7 +16,7 @@
             <div class="body">
                 <div class="${messageType}">${message}</div>
                 <form action="./signin" method="POST">
-                    <input name="playerName">
+                    <input name="name">
                     <br>
                     <button type="submit">Sign In</button>
                 </form>

@@ -13,7 +13,7 @@
             <div class="navigation">
                 <a href="/">my home</a>
                 <#if signedIn>
-                    You're currently signed in as ${playerName}
+                    You're currently signed in as ${name}
                 <#else >
                     <a href="/signin">sign in</a>
                 </#if>
@@ -22,14 +22,18 @@
             <div class="body">
                 <p>Welcome to the world of online Checkers.</p>
 
+                <#if message??>
+                    <div id="message" class="${message.type}"><p>${message.text}</p></div>
+                </#if>
+
                 <#if !signedIn>
                     Currently signed in players: ${players?size}
                 <#elseif players?size gt 1>
                     Other signed in players:
                     <ul>
                         <#list players as player>
-                            <#if player != playerName>
-                                <li>${player}</li>
+                            <#if player != name>
+                                <li><a href="/game?opponent=${player}">${player}</a></li>
                             </#if>
                         </#list>
                     </ul>

@@ -9,21 +9,21 @@ public class Player {
     /**
      * user name of this player
      */
-    private String playerName;
+    private String name;
 
     /**
      * creates a player
-     * @param playerName name of player
+     * @param name name of player
      */
-    public Player( String playerName ) {
-        this.playerName = playerName;
+    public Player( String name ) {
+        this.name = name;
     }
 
     /**
-     * getter for playerName
-     * @return playerName
+     * getter for name
+     * @return name
      */
-    public String getPlayerName() {
-        return playerName;
+    public String getname() {
+        return name;
     }
 }
