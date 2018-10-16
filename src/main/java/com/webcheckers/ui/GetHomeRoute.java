@@ -11,6 +11,7 @@ import java.util.logging.Logger;
  * The UI Controller to GET the Home page.
  *
  * @author <a href='mailto:bdbvse@rit.edu'>Bryan Basham</a>
+ * @author Zeke Miller
  */
 public class GetHomeRoute
         implements Route {

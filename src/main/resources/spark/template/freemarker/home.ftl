@@ -22,8 +22,10 @@
             <div class="body">
                 <p>Welcome to the world of online Checkers.</p>
 
-                <#if signedIn && players?size gt 1 >
-                    Currently signed in players:
+                <#if !signedIn>
+                    Currently signed in players: ${players?size}
+                <#elseif players?size gt 1>
+                    Other signed in players:
                     <ul>
                         <#list players as player>
                             <#if player != playerName>
@@ -31,6 +33,8 @@
                             </#if>
                         </#list>
                     </ul>
+                <#else>
+                    No other players signed in! :(
                 </#if>
             </div>
 

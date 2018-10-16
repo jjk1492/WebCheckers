@@ -2,15 +2,18 @@ package com.webcheckers.application;
 
 import com.webcheckers.model.Player;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
- *
+ * Holds the Players that exist and checks if new players can be added
+ * Singleton object so all Players are managed in one instance
  * @author Shannon Quinn
  */
 public class PlayerLobby {
+
+    // singleton management
 
     private static PlayerLobby INSTANCE = null;
 
@@ -21,11 +24,23 @@ public class PlayerLobby {
         return INSTANCE;
     }
 
+
+    // fields
+
     private Map<String,Player> players;
 
+
+    // constructors
+
+    /**
+     * Typical constructor, handles setup for the Lobby
+     */
     private PlayerLobby() {
         players = new HashMap<>();
     }
+
+
+    // methods
 
     /**
      * checks if name is valid and in use already if not
@@ -58,7 +73,7 @@ public class PlayerLobby {
      * get a set of all players
      * @return set of players
      */
-    public Set<String> getAllPlayers() {
+    public Collection<String> getAllPlayers() {
         return players.keySet();
     }
 
