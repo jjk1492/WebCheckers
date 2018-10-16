@@ -3,6 +3,9 @@ package com.webcheckers.model;
 
 import java.util.Objects;
 
+/**
+ * class representing the game, containing players and a board for each player
+ */
 public class Game {
 
     private Player redPlayer;
@@ -11,6 +14,11 @@ public class Game {
     private Board redBoard;
     private Board whiteBoard;
 
+    /**
+     * constructor for the game, creates new boards for each player after they are assigned
+     * @param redPlayer - red player
+     * @param whitePlayer - white player
+     */
     public Game(Player redPlayer, Player whitePlayer) {
         this.redPlayer = redPlayer;
         this.whitePlayer = whitePlayer;

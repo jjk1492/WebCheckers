@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/*
+/**
 * Row class in model tier
 * */
 public class Row implements Iterable<Space> {
@@ -13,7 +13,7 @@ public class Row implements Iterable<Space> {
     private List<Space> spaces;
     private int index;
 
-    /*
+    /**
     * constructs a new Row
     * @param index of row
     * */
@@ -31,12 +31,12 @@ public class Row implements Iterable<Space> {
         for( Space space : spaces){
             if( index%2 == 0){
                 if( space.getCellIdx()%2 == 1){
-                    space.setPiece( new Piece(Piece.Color.RED, Piece.Type.SINGLE));
+                    space.setPiece( new Piece(Color.RED, Piece.Type.SINGLE));
                 }
             }
             else {
                 if( space.getCellIdx()%2 == 0){
-                    space.setPiece( new Piece(Piece.Color.RED, Piece.Type.SINGLE));
+                    space.setPiece( new Piece(Color.RED, Piece.Type.SINGLE));
                 }
             }
         }
@@ -46,12 +46,12 @@ public class Row implements Iterable<Space> {
         for( Space space : spaces){
             if( index%2 == 0){
                 if( space.getCellIdx()%2 == 1){
-                    space.setPiece( new Piece(Piece.Color.WHITE, Piece.Type.SINGLE));
+                    space.setPiece( new Piece(Color.WHITE, Piece.Type.SINGLE));
                 }
             }
             else {
                 if( space.getCellIdx()%2 == 0){
-                    space.setPiece( new Piece(Piece.Color.WHITE, Piece.Type.SINGLE));
+                    space.setPiece( new Piece(Color.WHITE, Piece.Type.SINGLE));
                 }
             }
         }
@@ -72,7 +72,7 @@ public class Row implements Iterable<Space> {
         }
     }
 
-    /*
+    /**
     * returns row index
     * */
     public int getIndex() {
