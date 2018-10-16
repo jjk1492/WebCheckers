@@ -1,8 +1,12 @@
 package com.webcheckers.ui;
 
+import com.webcheckers.application.GameCenter;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The UI Controller to GET the Game page.
@@ -11,19 +15,27 @@ import spark.Route;
  */
 public class GetGameRoute implements Route {
 
-    private Renderer renderer;
+    private Renderer gameRenderer;
 
     /*
      * constructs new GetGameRoute
      * @param renderer GamePageRenderer
      * */
     public GetGameRoute(Renderer renderer){
-        this.renderer = renderer;
+        this.gameRenderer = renderer;
     }
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
-        //need to implement GamePageRenderer before I can write this
-        return renderer.render(request.session());
+
+        GameCenter gameCenter = GameCenter.getInstance();
+        Map<String, Object> map = new HashMap<>();
+        String name = request.session().attribute( "name" );
+        String opponentName = request.queryParams("opponent");
+
+        gameCenter.addGame(name, opponentName);
+        map.put("title", name + " vs. " + opponentName);
+
+        return gameRenderer.render(request.session(), map);
     }
 }
