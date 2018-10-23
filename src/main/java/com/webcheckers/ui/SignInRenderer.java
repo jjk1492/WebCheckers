@@ -21,11 +21,7 @@ public class SignInRenderer implements Renderer {
 
     // package private constants
 
-    static final String MESSAGE_TYPE_ATTR = "messageType";
     static final String MESSAGE_ATTR = "message";
-    static final String MESSAGE_TYPE_ERROR = "error";
-    static final String MESSAGE_TYPE_INFO = "info";
-
 
     // fields
 
@@ -70,10 +66,11 @@ public class SignInRenderer implements Renderer {
         }
 
         // ensure renderer doesn't crash
-        if ( !model.containsKey( MESSAGE_ATTR ) ) {
-            model.put( MESSAGE_ATTR, "" );
-            model.put( MESSAGE_TYPE_ATTR, "" );
-        }
+//        if ( !model.containsKey( MESSAGE_ATTR )
+//             || !model.containsKey( MESSAGE_TYPE_ATTR ) ) {
+//            model.put( MESSAGE_ATTR, "" );
+//            model.put( MESSAGE_TYPE_ATTR, "" );
+//        }
 
         ModelAndView modelAndView = new ModelAndView( model, VIEW_NAME );
         return templateEngine.render( modelAndView );

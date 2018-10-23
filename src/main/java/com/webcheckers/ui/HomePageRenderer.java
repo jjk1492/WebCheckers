@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
+import static com.webcheckers.ui.SignInRenderer.MESSAGE_ATTR;
+import static com.webcheckers.ui.SignInRenderer.MESSAGE_TYPE_ATTR;
 
 /**
  * Renderer to keep behavior in one place since multiple places could render
@@ -26,7 +28,6 @@ public class HomePageRenderer implements Renderer {
     private static final String SIGNED_IN_ATTR = "signedIn";
     private static final String PLAYER_LIST_ATTR = "players";
     private static final String DEFAULT_TITLE = "Welcome!";
-    private static final String MESSAGE_ATTR = "message";
 
 
 
@@ -84,7 +85,12 @@ public class HomePageRenderer implements Renderer {
         model.put( PLAYER_NAME_ATTR, name );
         model.put( PLAYER_LIST_ATTR, lobby.getAllPlayers() );
         model.put( TITLE_ATTR, DEFAULT_TITLE );
-        model.put( MESSAGE_ATTR, null);
+
+//        if ( !model.containsKey( MESSAGE_ATTR )
+//             || !model.containsKey( MESSAGE_TYPE_ATTR ) ) {
+//            model.put( MESSAGE_ATTR, "" );
+//            model.put( MESSAGE_TYPE_ATTR, "" );
+//        }
 
         ModelAndView modelAndView = new ModelAndView( model, VIEW_NAME );
         return templateEngine.render( modelAndView );

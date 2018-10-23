@@ -1,14 +1,14 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.Message;
 import spark.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.webcheckers.model.Message.Type.ERROR;
 import static com.webcheckers.ui.SignInRenderer.MESSAGE_ATTR;
-import static com.webcheckers.ui.SignInRenderer.MESSAGE_TYPE_ERROR;
-import static com.webcheckers.ui.SignInRenderer.MESSAGE_TYPE_ATTR;
 import static com.webcheckers.ui.WebServer.HOME_URL;
 
 /**
@@ -74,13 +74,12 @@ public class PostSignInRoute implements Route {
         PlayerLobby lobby = PlayerLobby.getInstance();
 
         if ( !lobby.isValid( name ) ) {
-            model.put( MESSAGE_TYPE_ATTR, MESSAGE_TYPE_ERROR );
-            model.put( MESSAGE_ATTR, INVALID_NAME_MESSSAGE );
+            model.put( MESSAGE_ATTR,
+                       new Message( INVALID_NAME_MESSSAGE, ERROR ) );
             return renderer.render( request.session(), model );
         }
         else if ( !lobby.addPlayer( name ) ) {
-            model.put( MESSAGE_TYPE_ATTR, MESSAGE_TYPE_ERROR );
-            model.put( MESSAGE_ATTR, NAME_TAKEN_MESSAGE );
+            model.put( MESSAGE_ATTR, new Message( NAME_TAKEN_MESSAGE, ERROR ) );
             return renderer.render( request.session(), model );
         }
         else {

@@ -14,7 +14,11 @@
             </div>
 
             <div class="body">
-                <div class="${messageType}">${message}</div>
+                <#if message??>
+                    <div id="message" class="${message.type}">
+                        ${message.text}
+                    </div>
+                </#if>
                 <form action="./signin" method="POST">
                     <input name="name">
                     <br>

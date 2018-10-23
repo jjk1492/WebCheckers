@@ -20,10 +20,13 @@
             </div>
 
             <div class="body">
+
                 <p>Welcome to the world of online Checkers.</p>
 
                 <#if message??>
-                    <div id="message" class="${message.type}"><p>${message.text}</p></div>
+                    <div id="message" class="${message.type}">
+                        ${message.text}
+                    </div>
                 </#if>
 
                 <#if !signedIn>
@@ -33,13 +36,12 @@
                     <ul>
                         <#list players as player>
                             <#if player != name>
-                                <form id="opponent_select" action="./startgame"
-                                      method="POST">
+                                <form id="${player}" action="./" method="POST">
 
                                     <input type="hidden" name="opponent" value=${player}>
                                     <a href="javascript:{}"
                                        onclick="document.getElementById
-                                       ('opponent_select').submit();
+                                       ('${player}').submit();
                                        return false;">${player}</a>
 
                                 </form>
