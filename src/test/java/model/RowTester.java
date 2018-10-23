@@ -91,4 +91,32 @@ public class RowTester {
         assertEquals(piece6, RED_PIECE);
         assertNull(piece7);
     }
+
+
+    @Test
+    public void FillWhiteRowTest_EvenRow(){
+        final Row CuT = new Row(0);
+        Piece WHITE_PIECE = new Piece(Color.WHITE, Piece.Type.SINGLE);
+        CuT.fillWhiteRow();
+        List<Space> filledRow = CuT.getSpaces();
+
+        Piece piece0 = filledRow.get(0).getPiece();
+        Piece piece1 = filledRow.get(1).getPiece();
+        Piece piece2 = filledRow.get(2).getPiece();
+        Piece piece3 = filledRow.get(3).getPiece();
+        Piece piece4 = filledRow.get(4).getPiece();
+        Piece piece5 = filledRow.get(5).getPiece();
+        Piece piece6 = filledRow.get(6).getPiece();
+        Piece piece7 = filledRow.get(7).getPiece();
+
+
+        assertNull(piece0);
+        assertEquals(piece1, WHITE_PIECE);
+        assertNull(piece2);
+        assertEquals(piece3, WHITE_PIECE);
+        assertNull(piece4);
+        assertEquals(piece5, WHITE_PIECE);
+        assertNull(piece6);
+        assertEquals(piece7, WHITE_PIECE);
+    }
 }
