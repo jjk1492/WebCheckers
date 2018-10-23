@@ -25,4 +25,16 @@ public class RowTester {
         int rowIndex = CuT.getIndex();
         assertEquals(ROW_INDEX, rowIndex);
     }
+
+
+
+    @Test
+    public void ConstructorTest_Spaces(){
+        final Row CuT = new Row(0);
+        final int NUM_SPACES = 8;
+
+        int numberOfSpaces = CuT.getSpaces().size();
+        assertEquals(NUM_SPACES, numberOfSpaces);
+
+    }
 }
