@@ -1,6 +1,7 @@
 package com.webcheckers.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -82,5 +83,9 @@ public class Row implements Iterable<Space> {
     @Override
     public Iterator<Space> iterator() {
         return spaces.iterator();
+    }
+
+    public List<Space> getSpaces() {
+        return spaces;
     }
 }

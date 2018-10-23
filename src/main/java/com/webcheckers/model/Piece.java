@@ -5,7 +5,7 @@ package com.webcheckers.model;
  * @author: Nick Sander
  */
 public class Piece {
-    enum Type{
+    public enum Type{
         SINGLE, KING;
     }
 
