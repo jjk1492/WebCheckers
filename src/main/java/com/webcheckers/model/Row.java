@@ -27,6 +27,9 @@ public class Row implements Iterable<Space> {
 
     }
 
+    /**
+     * Called at the beginning of a game to add red pieces to a row
+     */
     public void fillRedRow(){
         for( Space space : spaces){
             if( index%2 == 0){
@@ -42,6 +45,9 @@ public class Row implements Iterable<Space> {
         }
     }
 
+    /**
+     * Called at the beginning of a game to add white pieces to a row
+     */
     public void fillWhiteRow(){
         for( Space space : spaces){
             if( index%2 == 0){
@@ -57,6 +63,10 @@ public class Row implements Iterable<Space> {
         }
     }
 
+    /**
+     * Called at the beginning of a game to validate any space in a row that should be
+     * able to have a piece dropped on it
+     */
     public void validateRow(){
         for( Space space : spaces){
             if( index%2 == 0){
@@ -73,10 +83,17 @@ public class Row implements Iterable<Space> {
     }
 
     /**
-    * returns row index
+    * @return row index
     * */
     public int getIndex() {
         return index;
+    }
+
+    /**
+     * @return all the spaces in this row
+     */
+    public List<Space> getSpaces(){
+        return spaces;
     }
 
     @Override
