@@ -12,8 +12,8 @@ class PlayerTest {
     @Test
     void getName() {
         String expected = "The Kraken";
-        Player p = new Player(expected);
+        Player p = new Player( expected );
         String actual = p.getName();
-        assertEquals(expected, actual, "Name should be " + expected);
+        assertEquals( expected, actual, "Name should be " + expected );
     }
 }

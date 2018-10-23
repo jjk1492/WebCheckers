@@ -107,15 +107,15 @@ class PlayerLobbyTest {
     @Test
     void getPlayers(){
         Collection<String> p = new HashSet<>();
-        p.add("The Kraken");
-        p.add("Buttercup22");
-        p.add("abc");
+        p.add( "The Kraken" );
+        p.add( "Buttercup22" );
+        p.add( "abc" );
 
         Collection <String> pl_players = pl.getAllPlayers();
 
-        boolean contain = pl_players.containsAll(p);
+        boolean contain = pl_players.containsAll( p );
 
-        assertTrue(contain, "Players should be in list");
+        assertTrue( contain, "Players should be in list" );
 
 
     }
@@ -139,11 +139,11 @@ class PlayerLobbyTest {
     @Test
     void removePlayer(){
         String name = "z";
-        pl.addPlayer(name);
-        pl.removePlayer(name);
+        pl.addPlayer( name );
+        pl.removePlayer( name );
         Collection <String> pl_players = pl.getAllPlayers();
-        boolean f = pl_players.contains(name);
-        assertFalse(f, name + " should have been removed!");
+        boolean f = pl_players.contains( name );
+        assertFalse( f, name + " should have been removed!" );
 
 
     }
