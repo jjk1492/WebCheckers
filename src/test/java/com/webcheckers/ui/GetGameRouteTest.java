@@ -1,6 +1,6 @@
 package com.webcheckers.ui;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -24,6 +24,8 @@ public class GetGameRouteTest {
     private Session session;
     private Response response;
     private Renderer renderer;
+    private GameCenter gameCenter;
+    private PlayerLobby playerLobby;
     private GetGameRoute getGameRoute;
 
     /**
@@ -36,7 +38,10 @@ public class GetGameRouteTest {
         session = mock(Session.class);
         when(request.session()).thenReturn(session);
         response = mock(Response.class);
+        gameCenter = GameCenter.getInstance();
+        playerLobby = PlayerLobby.getInstance();
         renderer = mock(GameRenderer.class);
+
         getGameRoute = new GetGameRoute(renderer);
     }
 
@@ -45,16 +50,24 @@ public class GetGameRouteTest {
      */
     @Test
     public void new_game() {
-        final TemplateEngineTester testHelper = new TemplateEngineTester();
-
-        when(renderer.render(any(Session.class))).thenAnswer(testHelper.makeAnswer());
+        final String redName = "red";
+        final String whiteName = "white";
+        playerLobby.addPlayer(redName);
+        playerLobby.addPlayer(whiteName);
+        when(request.session().attribute("name")).thenReturn(redName);
+        when(request.queryParams("opponent")).thenReturn(whiteName);
 
         try {
             getGameRoute.handle(request, response);
-        }catch(Exception e){}
+        }catch(Exception e){e.printStackTrace();}
 
-        testHelper.assertViewModelExists();
-        testHelper.assertViewModelIsaMap();
+        boolean redPlayer = gameCenter.isPlayerInGame(redName);
+        assertTrue( redPlayer, redName + " should be in a game." );
+
+        boolean whitePlayer = gameCenter.isPlayerInGame(whiteName);
+        assertTrue( whitePlayer, whiteName + " should be in a game." );
+
+
     }
 
 }
