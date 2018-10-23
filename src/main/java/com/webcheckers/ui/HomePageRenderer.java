@@ -3,7 +3,6 @@ package com.webcheckers.ui;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Game;
-import com.webcheckers.model.Message;
 import com.webcheckers.model.Player;
 import spark.ModelAndView;
 import spark.Session;
@@ -101,7 +100,7 @@ public class HomePageRenderer implements Renderer {
             Player redPlayer = currentGame.getRedPlayer();
             Player whitePlayer = currentGame.getWhitePlayer();
 
-            model.put(TITLE_ATTR, redPlayer.getname() + " vs. " + whitePlayer.getname());
+            model.put(TITLE_ATTR, redPlayer.getName() + " vs. " + whitePlayer.getName());
             model.put(VIEW_MODE_ATTR, "PLAY");
             model.put(RED_PLAYER_ATTR, redPlayer);
             model.put(WHITE_PLAYER_ATTR, whitePlayer);

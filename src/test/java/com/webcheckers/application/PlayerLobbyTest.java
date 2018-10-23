@@ -1,6 +1,12 @@
 package com.webcheckers.application;
 
+import com.webcheckers.model.Player;
 import org.junit.jupiter.api.Test;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -97,18 +103,49 @@ class PlayerLobbyTest {
         assertTrue( add2, name2 + message );
     }
 
+
+    @Test
+    void getPlayers(){
+        Collection<String> p = new HashSet<>();
+        p.add("The Kraken");
+        p.add("Buttercup22");
+        p.add("abc");
+
+        Collection <String> pl_players = pl.getAllPlayers();
+
+        boolean contain = pl_players.containsAll(p);
+
+        assertTrue(contain, "Players should be in list");
+
+
+    }
+
     /**
      * tests if getPlayerCount is correct
      */
     @Test
-    void PlayerCount(){
+    void playerCount(){
+//        pl.addPlayer( "a" );
+//        pl.addPlayer( "b" );
+//        pl.addPlayer( "c" );
         Integer actual = pl.getPlayerCount();
         Integer expected = 3;
         assertEquals( expected, actual, "Size should be 3" );
     }
 
+    /**
+     * test if a player gets removed properly
+     */
     @Test
-    void getPlayers(){
+    void removePlayer(){
+        String name = "z";
+        pl.addPlayer(name);
+        pl.removePlayer(name);
+        Collection <String> pl_players = pl.getAllPlayers();
+        boolean f = pl_players.contains(name);
+        assertFalse(f, name + " should have been removed!");
+
 
     }
+
 }
