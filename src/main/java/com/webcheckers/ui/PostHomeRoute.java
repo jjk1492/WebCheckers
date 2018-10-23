@@ -33,10 +33,12 @@ public class PostHomeRoute
 
 
     private final Renderer renderer;
+    private final GameCenter gameCenter;
 
 
-    public PostHomeRoute( Renderer renderer ) {
+    public PostHomeRoute( Renderer renderer, GameCenter gameCenter ) {
         this.renderer = renderer;
+        this.gameCenter = gameCenter;
     }
 
     @Override
@@ -44,7 +46,6 @@ public class PostHomeRoute
 
         String name = request.session().attribute( PLAYER_NAME_ATTR );
         String opponentName = request.queryParams( OPPONENT_PARAM );
-        GameCenter gameCenter = GameCenter.getInstance();
 
         Map<String, Object> map = new HashMap<>();
         if ( name == null ) {

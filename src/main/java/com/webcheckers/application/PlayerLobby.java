@@ -8,26 +8,15 @@ import java.util.Map;
 
 /**
  * Holds the Players that exist and checks if new players can be added
- * Singleton object so all Players are managed in one instance
  * @author Shannon Quinn
+ * @author Zeke Miller
  */
 public class PlayerLobby {
-
-    // singleton management
-
-    private static PlayerLobby INSTANCE = null;
-
-    public static PlayerLobby getInstance() {
-        if ( INSTANCE == null ) {
-            INSTANCE = new PlayerLobby();
-        }
-        return INSTANCE;
-    }
 
 
     // fields
 
-    private Map<String,Player> players;
+    private final Map<String,Player> players;
 
 
     // constructors
@@ -35,7 +24,7 @@ public class PlayerLobby {
     /**
      * Typical constructor, handles setup for the Lobby
      */
-    private PlayerLobby() {
+    public PlayerLobby() {
         players = new HashMap<>();
     }
 

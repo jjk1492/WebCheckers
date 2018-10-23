@@ -38,11 +38,11 @@ public class GetGameRouteTest {
         session = mock(Session.class);
         when(request.session()).thenReturn(session);
         response = mock(Response.class);
-        gameCenter = GameCenter.getInstance();
-        playerLobby = PlayerLobby.getInstance();
+        playerLobby = new PlayerLobby();
+        gameCenter = new GameCenter( playerLobby );
         renderer = mock(GameRenderer.class);
 
-        getGameRoute = new GetGameRoute(renderer);
+        getGameRoute = new GetGameRoute(renderer, gameCenter);
     }
 
     /**

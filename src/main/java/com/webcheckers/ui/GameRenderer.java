@@ -26,11 +26,13 @@ public class GameRenderer implements com.webcheckers.ui.Renderer {
     private static final String ACTIVE_COLOR_ATTR= "activeColor";
 
 
-    private TemplateEngine templateEngine;
+    private final TemplateEngine templateEngine;
+    private final GameCenter gameCenter;
 
 
-    public GameRenderer(TemplateEngine templateEngine) {
+    public GameRenderer(TemplateEngine templateEngine, GameCenter gameCenter ) {
         this.templateEngine = templateEngine;
+        this.gameCenter = gameCenter;
     }
 
 
@@ -47,7 +49,6 @@ public class GameRenderer implements com.webcheckers.ui.Renderer {
 
 
         String name = session.attribute(PLAYER_NAME_ATTR);
-        GameCenter gameCenter = GameCenter.getInstance();
 
         Game currentGame = gameCenter.getGame(name);
 
