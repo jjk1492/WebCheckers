@@ -10,7 +10,6 @@ import java.util.Map;
 
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
 import static com.webcheckers.ui.SignInRenderer.MESSAGE_ATTR;
-import static com.webcheckers.ui.SignInRenderer.MESSAGE_TYPE_ATTR;
 
 /**
  * Renderer to keep behavior in one place since multiple places could render

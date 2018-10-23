@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import java.util.Objects;
+
 /**
  * class that represents a piece on the board
  * @author: Nick Sander
@@ -37,5 +39,19 @@ public class Piece {
      */
     public Type getType() {
         return type;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        Piece piece = (Piece) other;
+        return color == piece.color &&
+                type == piece.type;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(color, type);
     }
 }

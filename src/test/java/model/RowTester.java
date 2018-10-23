@@ -121,4 +121,32 @@ public class RowTester {
             assertNull(piece6);
             assertEquals(piece7, WHITE_PIECE);
         }
+
+
+    @Test
+    public void FillWhiteRowTest_OddRow(){
+        final Row CuT = new Row(1);
+        Piece WHITE_PIECE = new Piece(Color.WHITE, Piece.Type.SINGLE);
+        CuT.fillWhiteRow();
+        List<Space> filledRow = CuT.getSpaces();
+
+        Piece piece0 = filledRow.get(0).getPiece();
+        Piece piece1 = filledRow.get(1).getPiece();
+        Piece piece2 = filledRow.get(2).getPiece();
+        Piece piece3 = filledRow.get(3).getPiece();
+        Piece piece4 = filledRow.get(4).getPiece();
+        Piece piece5 = filledRow.get(5).getPiece();
+        Piece piece6 = filledRow.get(6).getPiece();
+        Piece piece7 = filledRow.get(7).getPiece();
+
+
+        assertEquals(piece0, WHITE_PIECE);
+        assertNull(piece1);
+        assertEquals(piece2, WHITE_PIECE);
+        assertNull(piece3);
+        assertEquals(piece4, WHITE_PIECE);
+        assertNull(piece5);
+        assertEquals(piece6, WHITE_PIECE);
+        assertNull(piece7);
+    }
 }
