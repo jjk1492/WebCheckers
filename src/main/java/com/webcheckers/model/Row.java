@@ -1,8 +1,6 @@
 package com.webcheckers.model;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
 * Row class in model tier
@@ -82,5 +80,23 @@ public class Row implements Iterable<Space> {
     @Override
     public Iterator<Space> iterator() {
         return spaces.iterator();
+    }
+
+    public List<Space> getSpaces() {
+        return spaces;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        Row spaces1 = (Row) other;
+        return index == spaces1.index &&
+                Objects.equals(spaces, spaces1.spaces);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(spaces, index);
     }
 }
