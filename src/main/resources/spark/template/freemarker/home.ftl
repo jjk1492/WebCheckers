@@ -33,7 +33,16 @@
                     <ul>
                         <#list players as player>
                             <#if player != name>
-                                <li><a href="/game?opponent=${player}">${player}</a></li>
+                                <form id="opponent_select" action="./startgame"
+                                      method="POST">
+
+                                    <input type="hidden" name="opponent" value=${player}>
+                                    <a href="javascript:{}"
+                                       onclick="document.getElementById
+                                       ('opponent_select').submit();
+                                       return false;">${player}</a>
+
+                                </form>
                             </#if>
                         </#list>
                     </ul>
@@ -41,7 +50,6 @@
                     No other players signed in! :(
                 </#if>
             </div>
-
         </div>
     </body>
 </html>

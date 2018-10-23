@@ -2,9 +2,11 @@ package com.webcheckers.application;
 
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
+import com.webcheckers.ui.GetHomeRoute;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * application tier for game creator
@@ -12,8 +14,11 @@ import java.util.Map;
  * @author Spencer Fleming
  */
 public class GameCenter {
+
+    private static final Logger LOG = Logger
+            .getLogger( GameCenter.class.getName() );
+
     private static GameCenter INSTANCE = null;
-    private static PlayerLobby playerLobby;
 
     public static GameCenter getInstance() {
         if ( INSTANCE == null ) {
@@ -37,11 +42,11 @@ public class GameCenter {
      */
     public synchronized boolean addGame( String redPlayer, String whitePlayer ) {
 
-        playerLobby = PlayerLobby.getInstance();
+        PlayerLobby playerLobby = PlayerLobby.getInstance();
         Player red = playerLobby.getPlayer(redPlayer);
         Player white = playerLobby.getPlayer(whitePlayer);
 
-        if ( red == null || white == null ) {
+        if ( red == null || white == null || redPlayer.equals( whitePlayer ) ) {
             return false;
         }
         if ( playersInGame.containsKey( redPlayer) || playersInGame.containsKey( whitePlayer )) {
@@ -52,7 +57,32 @@ public class GameCenter {
         playersInGame.put(redPlayer, game);
         playersInGame.put(whitePlayer, game);
 
+        LOG.finer( String.format( "Made a game for %s and %s", redPlayer,
+                                  whitePlayer ) );
+
         return true;
+    }
+
+
+    /**
+     * gets a given player's current opponent
+     * @param name the player to find the opponent for
+     * @return the opponent's name
+     */
+    public synchronized String getOpponent(String name) {
+        Game game = getGame( name );
+        if ( game != null ) {
+            Player red = game.getRedPlayer();
+            if ( red != null && !red.getname().equals( name ) ) {
+                return red.getname();
+            }
+            Player white = game.getWhitePlayer();
+            if ( white != null && !white.getname().equals( name ) ) {
+                return white.getname();
+            }
+        }
+
+        return null;
     }
 
     /**

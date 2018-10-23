@@ -53,6 +53,7 @@ public class WebServer {
     public static final String HOME_URL = "/";
     public static final String SIGN_IN_URL = "/signin";
     public static final String GAME_URL = "/game";
+    public static final String START_GAME_URL = "/startgame";
 
     //
     // Constants
@@ -155,6 +156,7 @@ public class WebServer {
         get( SIGN_IN_URL, new GetSignInRoute( signInRenderer ) );
         post( SIGN_IN_URL, new PostSignInRoute( signInRenderer ) );
         get( GAME_URL, new GetGameRoute( gameRenderer )) ;
+        post( START_GAME_URL, new PostStartGameRoute() );
 
         LOG.config( "WebServer is initialized." );
     }
