@@ -1,13 +1,12 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.application.PlayerLobby;
-import com.webcheckers.model.Message;
+import com.webcheckers.model.ErrorMessage;
 import spark.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.webcheckers.model.Message.Type.ERROR;
 import static com.webcheckers.ui.SignInRenderer.MESSAGE_ATTR;
 import static com.webcheckers.ui.WebServer.HOME_URL;
 
@@ -75,11 +74,11 @@ public class PostSignInRoute implements Route {
 
         if ( !lobby.isValid( name ) ) {
             model.put( MESSAGE_ATTR,
-                       new Message( INVALID_NAME_MESSSAGE, ERROR ) );
+                       new ErrorMessage( INVALID_NAME_MESSSAGE ) );
             return renderer.render( request.session(), model );
         }
         else if ( !lobby.addPlayer( name ) ) {
-            model.put( MESSAGE_ATTR, new Message( NAME_TAKEN_MESSAGE, ERROR ) );
+            model.put( MESSAGE_ATTR, new ErrorMessage( NAME_TAKEN_MESSAGE ) );
             return renderer.render( request.session(), model );
         }
         else {

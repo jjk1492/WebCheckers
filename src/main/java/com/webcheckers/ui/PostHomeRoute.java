@@ -1,7 +1,7 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.application.GameCenter;
-import com.webcheckers.model.Message;
+import com.webcheckers.model.ErrorMessage;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -11,9 +11,6 @@ import java.util.Map;
 
 import static com.webcheckers.ui.SignInRenderer.MESSAGE_ATTR;
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
-import static com.webcheckers.model.Message.Type.ERROR;
-import static com.webcheckers.ui.SignInRenderer.MESSAGE_TYPE_ATTR;
-import static com.webcheckers.ui.SignInRenderer.MESSAGE_TYPE_ERROR;
 import static com.webcheckers.ui.WebServer.GAME_URL;
 
 /**
@@ -51,25 +48,23 @@ public class PostHomeRoute
 
         Map<String, Object> map = new HashMap<>();
         if ( name == null ) {
-            map.put( MESSAGE_ATTR, new Message( NOT_SIGNED_IN_ERROR, ERROR ) );
+            map.put( MESSAGE_ATTR, new ErrorMessage( NOT_SIGNED_IN_ERROR ) );
             return renderer.render( request.session(), map );
         }
         else if ( opponentName == null ) {
-            map.put( MESSAGE_ATTR, new Message( BAD_OPPONENT_ERROR, ERROR ) );
+            map.put( MESSAGE_ATTR, new ErrorMessage( BAD_OPPONENT_ERROR ) );
             return renderer.render( request.session(), map );
         }
         else if ( gameCenter.isPlayerInGame( name ) ) {
-//            map.put( MESSAGE_TYPE_ATTR, MESSAGE_TYPE_ERROR );
-            map.put( MESSAGE_ATTR, new Message( ALREADY_IN_GAME_ERROR, ERROR ) );
-//            map.put( MESSAGE_ATTR, ALREADY_IN_GAME_ERROR );
+            map.put( MESSAGE_ATTR, new ErrorMessage( ALREADY_IN_GAME_ERROR ) );
             return renderer.render( request.session(), map );
         }
         else if ( gameCenter.isPlayerInGame( opponentName ) ) {
-            map.put( MESSAGE_ATTR, new Message( OPPONENT_IN_GAME_ERROR, ERROR ) );
+            map.put( MESSAGE_ATTR, new ErrorMessage( OPPONENT_IN_GAME_ERROR ) );
             return renderer.render( request.session(), map );
         }
         else if ( !gameCenter.addGame(name, opponentName) ) {
-            map.put( MESSAGE_ATTR, new Message( GAME_CREATION_ERROR, ERROR ) );
+            map.put( MESSAGE_ATTR, new ErrorMessage( GAME_CREATION_ERROR ) );
             return renderer.render( request.session(), map );
         }
         else {
