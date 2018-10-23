@@ -73,12 +73,12 @@ public class GameCenter {
         Game game = getGame( name );
         if ( game != null ) {
             Player red = game.getRedPlayer();
-            if ( red != null && !red.getname().equals( name ) ) {
-                return red.getname();
+            if ( red != null && !red.getName().equals( name ) ) {
+                return red.getName();
             }
             Player white = game.getWhitePlayer();
-            if ( white != null && !white.getname().equals( name ) ) {
-                return white.getname();
+            if ( white != null && !white.getName().equals( name ) ) {
+                return white.getName();
             }
         }
 

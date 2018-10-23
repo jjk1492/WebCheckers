@@ -101,34 +101,8 @@ public class PlayerLobby {
      * @param name username of player to find
      * @return player object or null
      */
-    public Player getPlayer( String name ) {
-        return players.get( name );
-    }
+    public Player getPlayer( String name ) { return players.get( name );}
 
-    /**
-     * test for this class
-     * @param pl an instance of PlayerLobby
-     */
-    public void test( PlayerLobby pl ) {
-
-        boolean one = pl.isValid("the kraken" );
-        boolean two = pl.isValid("123name" );
-        boolean three = pl.isValid(" ");
-        boolean four = pl.isValid(" 56name" );
-
-        System.out.println( "the kraken : " + one );
-        System.out.println( "123name : " + two );
-        System.out.println( " : " + three );
-        System.out.println( " 56name : " + four );
-
-    }
-
-    /**
-     * tests
-     * @param args
-     */
-    public static void main( String[] args ) {
-        PlayerLobby pl = new PlayerLobby();
-        pl.test( pl );
-    }
 }
+
+
