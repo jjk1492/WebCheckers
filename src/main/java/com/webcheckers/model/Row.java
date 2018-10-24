@@ -77,13 +77,16 @@ public class Row implements Iterable<Space> {
         return index;
     }
 
+    /**
+     * @return All of the spaces in this row
+     */
+    public List<Space> getSpaces() {
+        return spaces;
+    }
+
     @Override
     public Iterator<Space> iterator() {
         return spaces.iterator();
-    }
-
-    public List<Space> getSpaces() {
-        return spaces;
     }
 
     @Override

@@ -1,4 +1,4 @@
-package model;
+package com.webcheckers.model;
 
 import com.webcheckers.model.Color;
 import com.webcheckers.model.Piece;
@@ -172,5 +172,30 @@ public class RowTester {
         assertTrue(space5.isValid(), "Every odd number space of an even row should droppable.");
         assertFalse(space6.isValid(), "Every even number space of an even row shouldn't be droppable.");
         assertTrue(space7.isValid(), "Every odd number space of an even row should droppable.");
+    }
+
+    @Test
+    public void ValidateRowTest_OddRow(){
+        final Row CuT = new Row(3);
+        CuT.validateRow();
+        List<Space> validatedRow = CuT.getSpaces();
+
+        Space space0 = validatedRow.get(0);
+        Space space1 = validatedRow.get(1);
+        Space space2 = validatedRow.get(2);
+        Space space3 = validatedRow.get(3);
+        Space space4 = validatedRow.get(4);
+        Space space5 = validatedRow.get(5);
+        Space space6 = validatedRow.get(6);
+        Space space7 = validatedRow.get(7);
+
+        assertTrue(space0.isValid(), "Every even number space of an odd row should droppable.");
+        assertFalse(space1.isValid(), "Every odd number space of an odd row shouldn't be droppable.");
+        assertTrue(space2.isValid(), "Every even number space of an odd row should droppable.");
+        assertFalse(space3.isValid(), "Every odd number space of an odd row shouldn't be droppable.");
+        assertTrue(space4.isValid(), "Every even number space of an odd row should droppable.");
+        assertFalse(space5.isValid(), "Every odd number space of an odd row shouldn't be droppable.");
+        assertTrue(space6.isValid(), "Every even number space of an odd row should droppable.");
+        assertFalse(space7.isValid(), "Every odd number space of an odd row shouldn't be droppable.");
     }
 }
