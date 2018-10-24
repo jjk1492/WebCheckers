@@ -9,8 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -148,5 +147,30 @@ public class RowTester {
         assertNull(piece5);
         assertEquals(piece6, WHITE_PIECE);
         assertNull(piece7);
+    }
+
+    @Test
+    public void ValidateRowTest_EvenRow(){
+            final Row CuT = new Row(4);
+            CuT.validateRow();
+            List<Space> validatedRow = CuT.getSpaces();
+
+            Space space0 = validatedRow.get(0);
+            Space space1 = validatedRow.get(1);
+            Space space2 = validatedRow.get(2);
+            Space space3 = validatedRow.get(3);
+            Space space4 = validatedRow.get(4);
+            Space space5 = validatedRow.get(5);
+            Space space6 = validatedRow.get(6);
+            Space space7 = validatedRow.get(7);
+
+        assertFalse(space0.isValid(), "Every even number space of an even row shouldn't be droppable.");
+        assertTrue(space1.isValid(), "Every odd number space of an even row should droppable.");
+        assertFalse(space2.isValid(), "Every even number space of an even row shouldn't be droppable.");
+        assertTrue(space3.isValid(), "Every odd number space of an even row should droppable.");
+        assertFalse(space4.isValid(), "Every even number space of an even row shouldn't be droppable.");
+        assertTrue(space5.isValid(), "Every odd number space of an even row should droppable.");
+        assertFalse(space6.isValid(), "Every even number space of an even row shouldn't be droppable.");
+        assertTrue(space7.isValid(), "Every odd number space of an even row should droppable.");
     }
 }
