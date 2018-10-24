@@ -21,11 +21,11 @@ public class HomePageRenderer implements Renderer {
     // constants
 
     static final String TITLE_ATTR = "title";
+    static final String SIGNED_IN_ATTR = "signedIn";
+    static final String PLAYER_LIST_ATTR = "players";
+    static final String HOME_VIEW_NAME = "home.ftl";
 
-    private static final String VIEW_NAME = "home.ftl";
     private static final String NO_NAME_STRING = "";
-    private static final String SIGNED_IN_ATTR = "signedIn";
-    private static final String PLAYER_LIST_ATTR = "players";
     private static final String DEFAULT_TITLE = "Welcome!";
 
     private static final String TEMPLATE_ENGINE_ERROR =
@@ -82,7 +82,9 @@ public class HomePageRenderer implements Renderer {
         }
 
         String name = session.attribute( PLAYER_NAME_ATTR );
-        boolean signedIn = name != null;
+        boolean signedIn = name != null &&
+                           playerLobby.getPlayer( name ) != null;
+
         if ( !signedIn ) {
             name = NO_NAME_STRING;
         }
@@ -90,9 +92,12 @@ public class HomePageRenderer implements Renderer {
         model.put( SIGNED_IN_ATTR, signedIn );
         model.put( PLAYER_NAME_ATTR, name );
         model.put( PLAYER_LIST_ATTR, playerLobby.getAllPlayers() );
-        model.put( TITLE_ATTR, DEFAULT_TITLE );
 
-        ModelAndView modelAndView = new ModelAndView( model, VIEW_NAME );
+        if ( !model.containsKey( TITLE_ATTR ) ) {
+            model.put( TITLE_ATTR, DEFAULT_TITLE );
+        }
+
+        ModelAndView modelAndView = new ModelAndView( model, HOME_VIEW_NAME );
         return templateEngine.render( modelAndView );
     }
 }
