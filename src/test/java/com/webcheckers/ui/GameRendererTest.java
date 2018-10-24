@@ -75,6 +75,8 @@ public class GameRendererTest {
 
     @Test
     public void PlayerInGameTest(){
+        String expectedView = "game.ftl";
+
         Player player1 = mock(Player.class);
         when( player1.getName()).thenReturn(Player1Name);
 
@@ -104,7 +106,7 @@ public class GameRendererTest {
 
         engineTester.assertViewModelExists();
         engineTester.assertViewModelIsaMap();
-        engineTester.assertViewName("game.ftl");
+        engineTester.assertViewName(expectedView);
         engineTester.assertViewModelAttribute(RED_PLAYER_ATTR, player1);
         engineTester.assertViewModelAttribute(WHITE_PLAYER_ATTR, player2);
         engineTester.assertViewModelAttribute(CURRENT_PLAYER_ATTR, player1);
