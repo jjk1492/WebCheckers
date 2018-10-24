@@ -31,6 +31,7 @@ public class HomePageRenderer implements Renderer {
             "templateEngine must not be null";
     private static final String PLAYER_LOBBY_ERROR =
             "playerLobby must not be null";
+    private static final String NULL_SESSION_ERROR = "Session must not be null";
 
 
     // fields
@@ -70,11 +71,13 @@ public class HomePageRenderer implements Renderer {
      * renders the home page using the player name attribute (if any) from
      * the session
      * @param session the spark session from the request
-     * @param model a non-null Map with optional values
+     * @param model a Map with optional values
      * @return the rendered page
      */
     @Override
     public Object render( Session session, Map<String, Object> model ) {
+
+        Objects.requireNonNull( session, NULL_SESSION_ERROR );
 
         if ( model == null ) {
             model = new HashMap<>();

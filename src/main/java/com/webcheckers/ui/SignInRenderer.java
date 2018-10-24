@@ -55,7 +55,7 @@ public class SignInRenderer implements Renderer {
     /**
      * renders the sign in page
      * @param session the spark session from the request
-     * @param model a non-null Map with optional values
+     * @param model a Map with optional values
      * @return the rendered page
      */
     @Override
@@ -64,13 +64,6 @@ public class SignInRenderer implements Renderer {
         if ( model == null ) {
             model = new HashMap<>();
         }
-
-        // ensure renderer doesn't crash
-//        if ( !model.containsKey( MESSAGE_ATTR )
-//             || !model.containsKey( MESSAGE_TYPE_ATTR ) ) {
-//            model.put( MESSAGE_ATTR, "" );
-//            model.put( MESSAGE_TYPE_ATTR, "" );
-//        }
 
         ModelAndView modelAndView = new ModelAndView( model, VIEW_NAME );
         return templateEngine.render( modelAndView );

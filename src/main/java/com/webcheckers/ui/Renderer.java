@@ -26,7 +26,7 @@ public interface Renderer {
      * Useful for filling in custom information that can't be retrieved from
      * the Session or other methods
      * @param session the spark session from the request
-     * @param model a non-null Map with optional values
+     * @param model a Map with optional values
      * @return rendered page
      */
     Object render( Session session, Map< String, Object > model );

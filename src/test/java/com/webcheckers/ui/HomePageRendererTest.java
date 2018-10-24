@@ -207,5 +207,17 @@ public class HomePageRendererTest {
         tester.assertViewModelAttribute( TITLE_ATTR, title );
     }
 
+    @Test
+    public void testRenderNullSession() {
+        PlayerLobby lobbyMock = mock( PlayerLobby.class );
+        TemplateEngine engineMock = mock( TemplateEngine.class );
+        Executable test =
+                () -> new HomePageRenderer( engineMock, lobbyMock )
+                        .render( null );
+
+        assertThrows( NullPointerException.class, test,
+                      "expected an exception from null Session" );
+    }
+
 
 }
