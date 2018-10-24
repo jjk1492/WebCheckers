@@ -147,4 +147,36 @@ public class HomePageRendererTest {
     }
 
 
+    @Test
+    public void testRenderNormalNullMap() {
+        final String expectedViewName = HOME_VIEW_NAME;
+        final String testName = "name";
+
+        Player playerMock = mock( Player.class );
+        when( playerMock.getName() ).thenReturn( testName );
+
+        Collection<String> players = Arrays.asList( "player1", "player2" );
+        PlayerLobby lobbyMock = mock( PlayerLobby.class );
+        when( lobbyMock.getPlayer( testName ) ).thenReturn( playerMock );
+        when( lobbyMock.getAllPlayers() ).thenReturn( players );
+
+        TemplateEngineTester tester = new TemplateEngineTester();
+        TemplateEngine engineMock = mock( TemplateEngine.class );
+        when( engineMock.render( Mockito.any() ) ).then( tester.makeAnswer() );
+
+        Session sessionMock = mock( Session.class );
+        when( sessionMock.attribute( PLAYER_NAME_ATTR ) ).thenReturn( testName );
+
+        Renderer renderer = new HomePageRenderer( engineMock, lobbyMock );
+        renderer.render( sessionMock, null );
+
+        tester.assertViewModelExists();
+        tester.assertViewModelIsaMap();
+        tester.assertViewName( expectedViewName );
+        tester.assertViewModelAttribute( PLAYER_NAME_ATTR, testName );
+        tester.assertViewModelAttribute( SIGNED_IN_ATTR, true );
+        tester.assertViewModelAttribute( PLAYER_LIST_ATTR, players );
+    }
+
+
 }
