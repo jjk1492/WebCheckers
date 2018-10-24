@@ -93,10 +93,10 @@ public class HomePageRenderer implements Renderer {
         if ( signedIn ) {
             model.put( PLAYER_NAME_ATTR, name );
         }
+
         if ( !model.containsKey( TITLE_ATTR ) ) {
             model.put( TITLE_ATTR, DEFAULT_TITLE );
         }
-
 
         ModelAndView modelAndView = new ModelAndView( model, HOME_VIEW_NAME );
         return templateEngine.render( modelAndView );
