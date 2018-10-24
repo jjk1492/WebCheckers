@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -197,5 +198,27 @@ public class RowTester {
         assertFalse(space5.isValid(), "Every odd number space of an odd row shouldn't be droppable.");
         assertTrue(space6.isValid(), "Every even number space of an odd row should droppable.");
         assertFalse(space7.isValid(), "Every odd number space of an odd row shouldn't be droppable.");
+    }
+
+    @Test
+    public void EqualsTest(){
+        final Row CuT = new Row(0);
+        final Row CuT1 = new Row(1);
+        final Space space = new Space(0);
+
+
+        assertEquals(CuT, CuT);
+        assertNotEquals(CuT, CuT1);
+        assertNotEquals(CuT, null);
+        assertNotEquals(CuT, space);
+    }
+
+    @Test
+    public void HashCodeTest(){
+            final Row CuT = new Row(0);
+            int expectedHash = Objects.hash(CuT.getSpaces(), CuT.getIndex());
+            int actualHash = CuT.hashCode();
+
+            assertEquals( expectedHash, actualHash);
     }
 }
