@@ -8,12 +8,17 @@ import spark.Session;
 import spark.TemplateEngine;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.webcheckers.model.Color.RED;
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
 
 public class GameRenderer implements Renderer {
 
+    private static final String TEMPLATE_ENGINE_ERROR =
+            "templateEngine must not be null";
+    private static final String GAME_CENTER_ERROR =
+            "gameCenter must not be null";
 
     // Game View Constant
     private static final String VIEW_NAME = "game.ftl";
@@ -31,12 +36,8 @@ public class GameRenderer implements Renderer {
 
 
     public GameRenderer(TemplateEngine templateEngine, GameCenter gameCenter ) {
-        if( templateEngine == null){
-            throw new NullPointerException("templateEngine must not be null. ");
-        }
-        else if( gameCenter == null ){
-            throw new NullPointerException("gameCenter must not me null.");
-        }
+        Objects.requireNonNull( templateEngine, TEMPLATE_ENGINE_ERROR );
+        Objects.requireNonNull( gameCenter, GAME_CENTER_ERROR );
         this.templateEngine = templateEngine;
         this.gameCenter = gameCenter;
     }
