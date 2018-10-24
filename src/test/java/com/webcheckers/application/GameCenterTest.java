@@ -1,5 +1,6 @@
 package com.webcheckers.application;
 
+import com.webcheckers.model.Player;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @Tag("Application-tier")
 public class GameCenterTest {
 
-    private GameCenter gameCenter = GameCenter.getInstance();
+    private PlayerLobby playerLobby = new PlayerLobby();
+    private GameCenter gameCenter = new GameCenter( playerLobby );
     private String redName = "redName";
     private String whiteName = "whiteName";
     private String tempName = "tempName";
@@ -32,8 +34,8 @@ public class GameCenterTest {
      */
     @Test
     void addAndFinishGame() {
-        PlayerLobby.getInstance().addPlayer(redName);
-        PlayerLobby.getInstance().addPlayer(whiteName);
+        playerLobby.addPlayer(redName);
+        playerLobby.addPlayer(whiteName);
         gameCenter.addGame(redName, whiteName);
 
         boolean redPlayer = gameCenter.isPlayerInGame(redName);
@@ -56,9 +58,9 @@ public class GameCenterTest {
      */
     @Test
     void addInvalidGame() {
-        PlayerLobby.getInstance().addPlayer(redName);
-        PlayerLobby.getInstance().addPlayer(whiteName);
-        PlayerLobby.getInstance().addPlayer(tempName);
+        playerLobby.addPlayer(redName);
+        playerLobby.addPlayer(whiteName);
+        playerLobby.addPlayer(tempName);
         gameCenter.addGame(whiteName, tempName);
         gameCenter.addGame(redName, whiteName);
 

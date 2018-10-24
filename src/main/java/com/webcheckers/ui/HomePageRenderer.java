@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
-import static com.webcheckers.ui.SignInRenderer.MESSAGE_ATTR;
 
 /**
  * Renderer to keep behavior in one place since multiple places could render
@@ -29,10 +28,10 @@ public class HomePageRenderer implements Renderer {
     private static final String DEFAULT_TITLE = "Welcome!";
 
 
-
     // fields
 
-    private TemplateEngine templateEngine;
+    private final TemplateEngine templateEngine;
+    private final PlayerLobby playerLobby;
 
 
     // constructors
@@ -41,8 +40,9 @@ public class HomePageRenderer implements Renderer {
      * Default constructor, requires a template engine for dependency inversion
      * @param templateEngine the rendering engine
      */
-    public HomePageRenderer( TemplateEngine templateEngine ) {
+    public HomePageRenderer( TemplateEngine templateEngine, PlayerLobby playerLobby ) {
         this.templateEngine = templateEngine;
+        this.playerLobby = playerLobby;
     }
 
 
@@ -72,8 +72,6 @@ public class HomePageRenderer implements Renderer {
             model = new HashMap<>();
         }
 
-        PlayerLobby lobby = PlayerLobby.getInstance();
-
         String name = session.attribute( PLAYER_NAME_ATTR );
         boolean signedIn = name != null;
         if ( !signedIn ) {
@@ -82,14 +80,8 @@ public class HomePageRenderer implements Renderer {
 
         model.put( SIGNED_IN_ATTR, signedIn );
         model.put( PLAYER_NAME_ATTR, name );
-        model.put( PLAYER_LIST_ATTR, lobby.getAllPlayers() );
+        model.put( PLAYER_LIST_ATTR, playerLobby.getAllPlayers() );
         model.put( TITLE_ATTR, DEFAULT_TITLE );
-
-//        if ( !model.containsKey( MESSAGE_ATTR )
-//             || !model.containsKey( MESSAGE_TYPE_ATTR ) ) {
-//            model.put( MESSAGE_ATTR, "" );
-//            model.put( MESSAGE_TYPE_ATTR, "" );
-//        }
 
         ModelAndView modelAndView = new ModelAndView( model, VIEW_NAME );
         return templateEngine.render( modelAndView );

@@ -35,7 +35,8 @@ public class PostSignInRoute implements Route {
 
     // fields
 
-    private Renderer renderer;
+    private final Renderer renderer;
+    private final PlayerLobby playerLobby;
 
 
     // constructors
@@ -44,8 +45,9 @@ public class PostSignInRoute implements Route {
      * constructor, requires a Renderer for dependency inversion
      * @param renderer the rendering engine
      */
-    public PostSignInRoute( Renderer renderer ) {
+    public PostSignInRoute( Renderer renderer, PlayerLobby playerLobby ) {
         this.renderer = renderer;
+        this.playerLobby = playerLobby;
     }
 
 
@@ -70,14 +72,13 @@ public class PostSignInRoute implements Route {
         String name = request.queryParams( PLAYER_NAME_ATTR );
 
         Map<String, Object> model = new HashMap<>();
-        PlayerLobby lobby = PlayerLobby.getInstance();
 
-        if ( !lobby.isValid( name ) ) {
+        if ( !playerLobby.isValid( name ) ) {
             model.put( MESSAGE_ATTR,
                        new ErrorMessage( INVALID_NAME_MESSSAGE ) );
             return renderer.render( request.session(), model );
         }
-        else if ( !lobby.addPlayer( name ) ) {
+        else if ( !playerLobby.addPlayer( name ) ) {
             model.put( MESSAGE_ATTR, new ErrorMessage( NAME_TAKEN_MESSAGE ) );
             return renderer.render( request.session(), model );
         }

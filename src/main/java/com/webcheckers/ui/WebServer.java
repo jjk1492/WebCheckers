@@ -1,6 +1,8 @@
 package com.webcheckers.ui;
 
 import com.google.gson.Gson;
+import com.webcheckers.application.GameCenter;
+import com.webcheckers.application.PlayerLobby;
 import spark.TemplateEngine;
 
 import java.util.Objects;
@@ -143,19 +145,25 @@ public class WebServer {
         //// Create separate Route classes to handle each route; this keeps your
         //// code clean; using small classes.
 
-        // renderers to be reused
-        Renderer homePageRenderer = new HomePageRenderer( templateEngine );
-        Renderer signInRenderer = new SignInRenderer( templateEngine );
-        Renderer gameRenderer = new GameRenderer(templateEngine);
+        // application tiers
+        final PlayerLobby playerLobby = new PlayerLobby();
+        final GameCenter gameCenter = new GameCenter( playerLobby );
 
-        // home route
-        get( HOME_URL, new GetHomeRoute( homePageRenderer ) );
-        post( HOME_URL, new PostHomeRoute( homePageRenderer ) );
+        // renderers to be reused
+        Renderer homePageRenderer = new HomePageRenderer( templateEngine, playerLobby );
+        Renderer signInRenderer = new SignInRenderer( templateEngine );
+        Renderer gameRenderer = new GameRenderer( templateEngine, gameCenter );
+
+        // home route (post selects an opponent)
+        get( HOME_URL, new GetHomeRoute( homePageRenderer, gameCenter ) );
+        post( HOME_URL, new PostHomeRoute( homePageRenderer, gameCenter ) );
 
         // signin page has same URL for get and post
         get( SIGN_IN_URL, new GetSignInRoute( signInRenderer ) );
-        post( SIGN_IN_URL, new PostSignInRoute( signInRenderer ) );
-        get( GAME_URL, new GetGameRoute( gameRenderer )) ;
+        post( SIGN_IN_URL, new PostSignInRoute( signInRenderer, playerLobby ) );
+
+        // shows active game
+        get( GAME_URL, new GetGameRoute( gameRenderer, gameCenter ) );
 
         LOG.config( "WebServer is initialized." );
     }

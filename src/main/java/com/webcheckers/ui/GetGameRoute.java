@@ -19,16 +19,19 @@ import static com.webcheckers.ui.WebServer.HOME_URL;
  */
 public class GetGameRoute implements Route {
 
-    private Renderer gameRenderer;
-
     private static final String VS_FORMAT = "%s vs. %s";
+
+    private final Renderer gameRenderer;
+    private final GameCenter gameCenter;
 
     /**
      * constructs new GetGameRoute
      * @param renderer GamePageRenderer
      */
-    public GetGameRoute(Renderer renderer){
+    public GetGameRoute(Renderer renderer, GameCenter gameCenter ){
         this.gameRenderer = renderer;
+        this.gameCenter = gameCenter;
+
     }
 
     @Override
@@ -39,8 +42,6 @@ public class GetGameRoute implements Route {
             response.redirect( HOME_URL );
             return null;
         }
-
-        GameCenter gameCenter = GameCenter.getInstance();
 
         if ( !gameCenter.isPlayerInGame( name ) ) {
             response.redirect( HOME_URL );

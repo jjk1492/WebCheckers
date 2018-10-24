@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerLobbyTest {
 
-    private PlayerLobby pl = PlayerLobby.getInstance();
+    private PlayerLobby pl = new PlayerLobby();
 
     /**
      * test to make sure pl is not null

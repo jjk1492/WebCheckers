@@ -18,19 +18,12 @@ public class GameCenter {
     private static final Logger LOG = Logger
             .getLogger( GameCenter.class.getName() );
 
-    private static GameCenter INSTANCE = null;
-
-    public static GameCenter getInstance() {
-        if ( INSTANCE == null ) {
-            INSTANCE = new GameCenter();
-        }
-        return INSTANCE;
-    }
-
     private Map<String,Game> playersInGame;
+    private PlayerLobby playerLobby;
 
-    private GameCenter() {
+    public GameCenter( PlayerLobby playerLobby ) {
         playersInGame = new HashMap<>();
+        this.playerLobby = playerLobby;
     }
 
     /**
@@ -42,7 +35,6 @@ public class GameCenter {
      */
     public synchronized boolean addGame( String redPlayer, String whitePlayer ) {
 
-        PlayerLobby playerLobby = PlayerLobby.getInstance();
         Player red = playerLobby.getPlayer(redPlayer);
         Player white = playerLobby.getPlayer(whitePlayer);
 

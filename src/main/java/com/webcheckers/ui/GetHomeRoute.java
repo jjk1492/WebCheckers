@@ -1,6 +1,7 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.application.GameCenter;
+import com.webcheckers.model.Game;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -24,6 +25,7 @@ public class GetHomeRoute
             .getLogger( GetHomeRoute.class.getName() );
 
     private final Renderer renderer;
+    private final GameCenter gameCenter;
 
     /**
      * Create the Spark Route (UI controller) for the
@@ -31,12 +33,13 @@ public class GetHomeRoute
      *
      * @param renderer the HTML template rendering engine
      */
-    public GetHomeRoute( final Renderer renderer ) {
+    public GetHomeRoute( final Renderer renderer, GameCenter gameCenter ) {
         // validation
         Objects.requireNonNull( renderer, "templateEngine must not be null" );
-        //
+
         this.renderer = renderer;
-        //
+        this.gameCenter = gameCenter;
+
         LOG.config( "GetHomeRoute is initialized." );
     }
 
@@ -55,7 +58,7 @@ public class GetHomeRoute
         // TODO timeout maybe?
 
         String playerName = request.session().attribute( PLAYER_NAME_ATTR );
-        if ( GameCenter.getInstance().isPlayerInGame( playerName ) ) {
+        if ( gameCenter.isPlayerInGame( playerName ) ) {
             response.redirect( GAME_URL );
             return null;
         }
