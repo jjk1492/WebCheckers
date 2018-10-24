@@ -21,14 +21,14 @@ public class GameRenderer implements Renderer {
             "gameCenter must not be null";
 
     // Game View Constant
-    private static final String VIEW_NAME = "game.ftl";
-    private static final String CURRENT_PLAYER_ATTR = "currentPlayer";
-    private static final String VIEW_MODE_ATTR = "viewMode";
-    private static final String VIEW_MODE_PLAY = "PLAY";
-    private static final String RED_PLAYER_ATTR = "redPlayer";
-    private static final String WHITE_PLAYER_ATTR = "whitePlayer";
-    private static final String BOARD_ATTR = "board";
-    private static final String ACTIVE_COLOR_ATTR= "activeColor";
+    static final String VIEW_NAME = "game.ftl";
+    static final String CURRENT_PLAYER_ATTR = "currentPlayer";
+    static final String VIEW_MODE_ATTR = "viewMode";
+    static final String VIEW_MODE_PLAY = "PLAY";
+    static final String RED_PLAYER_ATTR = "redPlayer";
+    static final String WHITE_PLAYER_ATTR = "whitePlayer";
+    static final String BOARD_ATTR = "board";
+    static final String ACTIVE_COLOR_ATTR= "activeColor";
 
 
     private final TemplateEngine templateEngine;
@@ -36,8 +36,12 @@ public class GameRenderer implements Renderer {
 
 
     public GameRenderer(TemplateEngine templateEngine, GameCenter gameCenter ) {
-        Objects.requireNonNull( templateEngine, TEMPLATE_ENGINE_ERROR );
-        Objects.requireNonNull( gameCenter, GAME_CENTER_ERROR );
+        if( templateEngine == null ){
+            throw new NullPointerException("Template Engine must not be null");
+        }
+        else if( gameCenter == null ){
+            throw new NullPointerException("Game Center mus not be null");
+        }
         this.templateEngine = templateEngine;
         this.gameCenter = gameCenter;
     }
@@ -53,6 +57,10 @@ public class GameRenderer implements Renderer {
     @Override
     public Object render(Session session, Map<String, Object> model) {
 
+        if( model == null ){
+            model = new HashMap<>();
+        }
+
         String name = session.attribute(PLAYER_NAME_ATTR);
 
         Game currentGame = gameCenter.getGame(name);
@@ -61,7 +69,6 @@ public class GameRenderer implements Renderer {
         Player redPlayer = currentGame.getRedPlayer();
         Player whitePlayer = currentGame.getWhitePlayer();
 
-        model.put(VIEW_MODE_ATTR, VIEW_MODE_PLAY );
         model.put(RED_PLAYER_ATTR, redPlayer);
         model.put(WHITE_PLAYER_ATTR, whitePlayer);
         model.put(CURRENT_PLAYER_ATTR, redPlayer);
