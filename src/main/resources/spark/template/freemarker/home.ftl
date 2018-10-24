@@ -12,7 +12,7 @@
 
             <div class="navigation">
                 <a href="/">my home</a>
-                <#if signedIn>
+                <#if signedIn && name??>
                     You're currently signed in as ${name}
                 <#else >
                     <a href="/signin">sign in</a>

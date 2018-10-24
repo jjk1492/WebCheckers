@@ -82,5 +82,33 @@ public class HomePageRendererTest {
         tester.assertViewModelAttribute( PLAYER_LIST_ATTR, players );
     }
 
+    @Test
+    public void testRenderNotSignedIn() {
+
+        final String expectedViewName = HOME_VIEW_NAME;
+
+        Collection<String> players = Arrays.asList( "player1", "player2" );
+        PlayerLobby lobbyMock = mock( PlayerLobby.class );
+        when( lobbyMock.getPlayer( Mockito.any() ) ).thenReturn( null );
+        when( lobbyMock.getAllPlayers() ).thenReturn( players );
+
+        TemplateEngineTester tester = new TemplateEngineTester();
+        TemplateEngine engineMock = mock( TemplateEngine.class );
+        when( engineMock.render( Mockito.any() ) ).then( tester.makeAnswer() );
+
+        Session sessionMock = mock( Session.class );
+        when( sessionMock.attribute( PLAYER_NAME_ATTR ) ).thenReturn( null );
+
+        Renderer renderer = new HomePageRenderer( engineMock, lobbyMock );
+        renderer.render( sessionMock );
+
+        tester.assertViewModelExists();
+        tester.assertViewModelIsaMap();
+        tester.assertViewName( expectedViewName );
+        tester.assertViewModelAttributeIsAbsent( PLAYER_NAME_ATTR );
+        tester.assertViewModelAttribute( SIGNED_IN_ATTR, Boolean.FALSE );
+        tester.assertViewModelAttribute( PLAYER_LIST_ATTR, players );
+    }
+
 
 }
