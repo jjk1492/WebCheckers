@@ -86,9 +86,9 @@ public class HomePageRenderer implements Renderer {
 
         model.put( SIGNED_IN_ATTR, signedIn );
 
-//        if ( playerLobby.getAllPlayers() != null ) {
-//            model.put( PLAYER_LIST_ATTR, playerLobby.getAllPlayers() );
-//        }
+        if ( playerLobby.getAllPlayers() != null ) {
+            model.put( PLAYER_LIST_ATTR, playerLobby.getAllPlayers() );
+        }
 
         if ( signedIn ) {
             model.put( PLAYER_NAME_ATTR, name );
