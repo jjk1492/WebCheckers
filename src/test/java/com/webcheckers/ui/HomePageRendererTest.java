@@ -8,6 +8,7 @@ import org.mockito.Mockito;
 import org.mockito.stubbing.Answer;
 import spark.Session;
 import spark.TemplateEngine;
+import spark.template.freemarker.FreeMarkerEngine;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,7 +62,7 @@ public class HomePageRendererTest {
 
         Collection<String> players = Arrays.asList( "player1", "player2" );
         PlayerLobby lobbyMock = mock( PlayerLobby.class );
-        when( lobbyMock.getPlayer( Mockito.any() ) ).thenReturn( playerMock );
+        when( lobbyMock.getPlayer( testName ) ).thenReturn( playerMock );
         when( lobbyMock.getAllPlayers() ).thenReturn( players );
 
         TemplateEngineTester tester = new TemplateEngineTester();
@@ -86,10 +87,14 @@ public class HomePageRendererTest {
     public void testRenderNotSignedIn() {
 
         final String expectedViewName = HOME_VIEW_NAME;
+        final String testName = null;
+
+        Player playerMock = mock( Player.class );
+        when( playerMock.getName() ).thenReturn( testName );
 
         Collection<String> players = Arrays.asList( "player1", "player2" );
         PlayerLobby lobbyMock = mock( PlayerLobby.class );
-        when( lobbyMock.getPlayer( Mockito.any() ) ).thenReturn( null );
+        when( lobbyMock.getPlayer( testName ) ).thenReturn( playerMock );
         when( lobbyMock.getAllPlayers() ).thenReturn( players );
 
         TemplateEngineTester tester = new TemplateEngineTester();
@@ -97,7 +102,7 @@ public class HomePageRendererTest {
         when( engineMock.render( Mockito.any() ) ).then( tester.makeAnswer() );
 
         Session sessionMock = mock( Session.class );
-        when( sessionMock.attribute( PLAYER_NAME_ATTR ) ).thenReturn( null );
+        when( sessionMock.attribute( PLAYER_NAME_ATTR ) ).thenReturn( testName );
 
         Renderer renderer = new HomePageRenderer( engineMock, lobbyMock );
         renderer.render( sessionMock );
@@ -105,9 +110,40 @@ public class HomePageRendererTest {
         tester.assertViewModelExists();
         tester.assertViewModelIsaMap();
         tester.assertViewName( expectedViewName );
-        tester.assertViewModelAttributeIsAbsent( PLAYER_NAME_ATTR );
+        tester.assertViewModelAttribute( PLAYER_NAME_ATTR, null );
         tester.assertViewModelAttribute( SIGNED_IN_ATTR, Boolean.FALSE );
         tester.assertViewModelAttribute( PLAYER_LIST_ATTR, players );
+    }
+
+    @Test
+    public void testNullPlayersFromLobby() {
+
+        final String expectedViewName = HOME_VIEW_NAME;
+        final String testName = "name";
+
+        Player playerMock = mock( Player.class );
+        when( playerMock.getName() ).thenReturn( testName );
+
+        PlayerLobby lobbyMock = mock( PlayerLobby.class );
+        when( lobbyMock.getPlayer( testName ) ).thenReturn( playerMock );
+        when( lobbyMock.getAllPlayers() ).thenReturn( null );
+
+        TemplateEngineTester tester = new TemplateEngineTester();
+        TemplateEngine engineMock = mock( TemplateEngine.class );
+        when( engineMock.render( Mockito.any() ) ).then( tester.makeAnswer() );
+
+        Session sessionMock = mock( Session.class );
+        when( sessionMock.attribute( PLAYER_NAME_ATTR ) ).thenReturn( testName );
+
+        Renderer renderer = new HomePageRenderer( engineMock, lobbyMock );
+        renderer.render( sessionMock );
+
+        tester.assertViewModelExists();
+        tester.assertViewModelIsaMap();
+        tester.assertViewName( expectedViewName );
+        tester.assertViewModelAttribute( PLAYER_NAME_ATTR, testName );
+        tester.assertViewModelAttribute( SIGNED_IN_ATTR, true );
+        tester.assertViewModelAttribute( PLAYER_LIST_ATTR, null );
     }
 
 
