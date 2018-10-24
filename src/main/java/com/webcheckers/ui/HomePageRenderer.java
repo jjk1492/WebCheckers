@@ -7,6 +7,7 @@ import spark.TemplateEngine;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
 
@@ -27,6 +28,11 @@ public class HomePageRenderer implements Renderer {
     private static final String PLAYER_LIST_ATTR = "players";
     private static final String DEFAULT_TITLE = "Welcome!";
 
+    private static final String TEMPLATE_ENGINE_ERROR =
+            "templateEngine must not be null";
+    private static final String PLAYER_LOBBY_ERROR =
+            "playerLobby must not be null";
+
 
     // fields
 
@@ -41,6 +47,9 @@ public class HomePageRenderer implements Renderer {
      * @param templateEngine the rendering engine
      */
     public HomePageRenderer( TemplateEngine templateEngine, PlayerLobby playerLobby ) {
+
+        Objects.requireNonNull( templateEngine, TEMPLATE_ENGINE_ERROR );
+        Objects.requireNonNull( playerLobby, PLAYER_LOBBY_ERROR );
         this.templateEngine = templateEngine;
         this.playerLobby = playerLobby;
     }
