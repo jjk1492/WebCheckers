@@ -12,7 +12,7 @@ import java.util.Map;
 import static com.webcheckers.model.Color.RED;
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
 
-public class GameRenderer implements com.webcheckers.ui.Renderer {
+public class GameRenderer implements Renderer {
 
 
     // Game View Constant
@@ -31,6 +31,12 @@ public class GameRenderer implements com.webcheckers.ui.Renderer {
 
 
     public GameRenderer(TemplateEngine templateEngine, GameCenter gameCenter ) {
+        if( templateEngine == null){
+            throw new NullPointerException("templateEngine must not be null. ");
+        }
+        else if( gameCenter == null ){
+            throw new NullPointerException("gameCenter must not me null.");
+        }
         this.templateEngine = templateEngine;
         this.gameCenter = gameCenter;
     }
@@ -45,8 +51,6 @@ public class GameRenderer implements com.webcheckers.ui.Renderer {
 
     @Override
     public Object render(Session session, Map<String, Object> model) {
-
-
 
         String name = session.attribute(PLAYER_NAME_ATTR);
 

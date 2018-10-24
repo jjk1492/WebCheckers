@@ -9,7 +9,7 @@ geometry: margin=1in
 > and appear in the generated PDF in italics._
 
 ## Team Information
-* Team name: TEAMNAME
+* Team name: 11D
 * Team members
   * Nick Sander
   * John Knecht
@@ -22,8 +22,7 @@ geometry: margin=1in
 This is a summary of the project.
 
 ### Purpose
-> _Provide a very brief statement about the project and the most
-> important user group and user goals._
+> _Connect players from across the globe and allow them to play a game of checkers._
 
 ### Glossary and Acronyms
 > _Provide a table of terms and acronyms._
