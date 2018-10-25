@@ -19,7 +19,7 @@ geometry: margin=1in
 
 ## Executive Summary
 
-This is a summary of the project.
+This WebCheckers application implements the Java Spark framework to provide the user with a game of checkers againsted other signed in users.
 
 ### Purpose
 > Connect players from across the globe and allow them to play a game of checkers.  WebCheckers is meant to provide an easy to use interface by which players can easily play checkers against anyone else that is signed in at the time.
