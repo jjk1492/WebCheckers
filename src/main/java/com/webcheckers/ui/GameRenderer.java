@@ -25,6 +25,7 @@ public class GameRenderer implements Renderer {
     static final String CURRENT_PLAYER_ATTR = "currentPlayer";
     static final String VIEW_MODE_ATTR = "viewMode";
     static final String VIEW_MODE_PLAY = "PLAY";
+    static final String VIEW_MODE_SPECTATE = "SPECTATE";
     static final String RED_PLAYER_ATTR = "redPlayer";
     static final String WHITE_PLAYER_ATTR = "whitePlayer";
     static final String BOARD_ATTR = "board";
@@ -67,9 +68,19 @@ public class GameRenderer implements Renderer {
 
         model.put(RED_PLAYER_ATTR, redPlayer);
         model.put(WHITE_PLAYER_ATTR, whitePlayer);
-        model.put(CURRENT_PLAYER_ATTR, redPlayer);
-        model.put(BOARD_ATTR, currentGame.getRedBoard());
-        model.put(ACTIVE_COLOR_ATTR, RED);
+
+
+        if ( name.equals( redPlayer.getName() ) ) {
+            model.put(BOARD_ATTR, currentGame.getRedBoard());
+            model.put(CURRENT_PLAYER_ATTR, redPlayer );
+        }
+        else {
+            model.put(BOARD_ATTR, currentGame.getWhiteBoard() );
+            model.put(CURRENT_PLAYER_ATTR, whitePlayer );
+        }
+
+        model.put(ACTIVE_COLOR_ATTR, currentGame.getActiveColor() );
+        model.put( VIEW_MODE_ATTR, VIEW_MODE_PLAY );
         ModelAndView modelAndView = new ModelAndView( model, GAME_VIEW_NAME );
         return templateEngine.render( modelAndView );
     }
