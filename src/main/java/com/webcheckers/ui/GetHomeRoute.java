@@ -35,7 +35,8 @@ public class GetHomeRoute
      */
     public GetHomeRoute( final Renderer renderer, GameCenter gameCenter ) {
         // validation
-        Objects.requireNonNull( renderer, "templateEngine must not be null" );
+        Objects.requireNonNull( renderer, "renderer must not be null" );
+        Objects.requireNonNull( gameCenter, "gameCenter must not be null" );
 
         this.renderer = renderer;
         this.gameCenter = gameCenter;
@@ -58,7 +59,7 @@ public class GetHomeRoute
         // TODO timeout maybe?
 
         String playerName = request.session().attribute( PLAYER_NAME_ATTR );
-        if ( gameCenter.isPlayerInGame( playerName ) ) {
+        if ( playerName != null && gameCenter.isPlayerInGame( playerName ) ) {
             response.redirect( GAME_URL );
             return null;
         }
