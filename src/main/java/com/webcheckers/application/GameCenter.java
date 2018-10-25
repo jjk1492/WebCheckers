@@ -26,6 +26,10 @@ public class GameCenter {
         this.playerLobby = playerLobby;
     }
 
+    public PlayerLobby getPlayerLobby(){
+        return this.playerLobby;
+    }
+
     /**
      * makes a game
      * adds the game to the map at the redPlayer name and whitePlayer name
@@ -96,10 +100,21 @@ public class GameCenter {
     /**
      * removes players from playersInGame
      * @param player1 player we want to remove
-     * @param player2 player we want to remove
      */
-    public synchronized void finishedGame( String player1, String player2 ) {
+    public synchronized void finishedGame( String player1) {
         playersInGame.remove(player1);
-        playersInGame.remove(player2);
+        String opponent = getOpponent(player1);
+        playersInGame.remove(opponent);
+    }
+
+    /**
+     * also removes players from playersInGame, but allows removing one player at a time
+     * @param name player to be removed
+     */
+    public synchronized void removePlayer(String name){
+        if (isPlayerInGame(name)){
+            finishedGame(name);
+            playerLobby.removePlayer(name);
+        }
     }
 }

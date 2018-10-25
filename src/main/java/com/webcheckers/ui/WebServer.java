@@ -50,10 +50,11 @@ import static spark.Spark.staticFileLocation;
 public class WebServer {
 
     /**
-     * The URL pattern to request the Home page.
+     * The URL pattern to request the different pages.
      */
     public static final String HOME_URL = "/";
     public static final String SIGN_IN_URL = "/signin";
+    public static final String SIGN_OUT_URL = "/signout";
     public static final String GAME_URL = "/game";
 
     //
@@ -161,6 +162,10 @@ public class WebServer {
         // signin page has same URL for get and post
         get( SIGN_IN_URL, new GetSignInRoute( signInRenderer ) );
         post( SIGN_IN_URL, new PostSignInRoute( signInRenderer, playerLobby ) );
+
+        // signout page
+        get( SIGN_OUT_URL, new GetSignOutRoute(homePageRenderer, gameCenter));
+        post(SIGN_OUT_URL, new PostSignInRoute(signInRenderer, gameCenter.getPlayerLobby()));
 
         // shows active game
         get( GAME_URL, new GetGameRoute( gameRenderer, gameCenter ) );

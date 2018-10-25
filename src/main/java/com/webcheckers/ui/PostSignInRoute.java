@@ -19,7 +19,7 @@ public class PostSignInRoute implements Route {
 
     // private constants
 
-    private static final String INVALID_NAME_MESSSAGE =
+    private static final String INVALID_NAME_MESSAGE =
             "Your username couldn't be used as submitted.  Please submit a "
             + "username that starts with an alphanumeric character and "
             + "contains only alphanumerics and spaces.";
@@ -75,7 +75,7 @@ public class PostSignInRoute implements Route {
 
         if ( !playerLobby.isValid( name ) ) {
             model.put( MESSAGE_ATTR,
-                       new ErrorMessage( INVALID_NAME_MESSSAGE ) );
+                       new ErrorMessage( INVALID_NAME_MESSAGE ) );
             return renderer.render( request.session(), model );
         }
         else if ( !playerLobby.addPlayer( name ) ) {

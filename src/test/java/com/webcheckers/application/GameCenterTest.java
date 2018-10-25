@@ -44,7 +44,7 @@ public class GameCenterTest {
         boolean whitePlayer = gameCenter.isPlayerInGame(whiteName);
         assertTrue( whitePlayer, whiteName + " should be in a game." );
 
-        gameCenter.finishedGame(redName, whiteName);
+        gameCenter.finishedGame(redName);
 
         redPlayer = gameCenter.isPlayerInGame(redName);
         assertFalse( redPlayer, redName + " should not be in a game." );
@@ -67,7 +67,7 @@ public class GameCenterTest {
         boolean redPlayer = gameCenter.isPlayerInGame(redName);
         assertFalse( redPlayer, redName + " should not be in a game." );
 
-        gameCenter.finishedGame(whiteName, "test");
+        gameCenter.finishedGame(whiteName);
     }
 
 }

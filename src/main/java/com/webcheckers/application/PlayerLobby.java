@@ -66,6 +66,10 @@ public class PlayerLobby {
         return players.keySet();
     }
 
+    public Map<String, Player> getPlayers() {
+        return players;
+    }
+
     /**
      * removes a player
      * @param name player we want to remove
