@@ -21,7 +21,7 @@ public class GameRenderer implements Renderer {
             "gameCenter must not be null";
 
     // Game View Constant
-    static final String VIEW_NAME = "game.ftl";
+    static final String GAME_VIEW_NAME = "game.ftl";
     static final String CURRENT_PLAYER_ATTR = "currentPlayer";
     static final String VIEW_MODE_ATTR = "viewMode";
     static final String VIEW_MODE_PLAY = "PLAY";
@@ -36,12 +36,8 @@ public class GameRenderer implements Renderer {
 
 
     public GameRenderer(TemplateEngine templateEngine, GameCenter gameCenter ) {
-        if( templateEngine == null ){
-            throw new NullPointerException("Template Engine must not be null");
-        }
-        else if( gameCenter == null ){
-            throw new NullPointerException("Game Center mus not be null");
-        }
+        Objects.requireNonNull( templateEngine, TEMPLATE_ENGINE_ERROR );
+        Objects.requireNonNull( gameCenter, GAME_CENTER_ERROR );
         this.templateEngine = templateEngine;
         this.gameCenter = gameCenter;
     }
@@ -74,7 +70,7 @@ public class GameRenderer implements Renderer {
         model.put(CURRENT_PLAYER_ATTR, redPlayer);
         model.put(BOARD_ATTR, currentGame.getRedBoard());
         model.put(ACTIVE_COLOR_ATTR, RED);
-        ModelAndView modelAndView = new ModelAndView( model, VIEW_NAME );
+        ModelAndView modelAndView = new ModelAndView( model, GAME_VIEW_NAME );
         return templateEngine.render( modelAndView );
     }
 }
