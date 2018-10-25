@@ -1,5 +1,6 @@
 package com.webcheckers.model;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static com.webcheckers.model.Color.*;
@@ -11,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * @author Nick Sander
  */
+@Tag("Model-tier")
 class PieceTest {
     /**
      * Tests to make sure a the color can be set and returned properly, with both constructors.
