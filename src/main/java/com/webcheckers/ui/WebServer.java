@@ -165,7 +165,7 @@ public class WebServer {
 
         // signout page
         get( SIGN_OUT_URL, new GetSignOutRoute(homePageRenderer, gameCenter));
-        post(SIGN_OUT_URL, new PostSignInRoute(signInRenderer, gameCenter.getPlayerLobby()));
+        post(SIGN_OUT_URL, new PostSignInRoute(signInRenderer, playerLobby));
 
         // shows active game
         get( GAME_URL, new GetGameRoute( gameRenderer, gameCenter ) );

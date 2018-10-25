@@ -25,10 +25,7 @@ public class GameCenter {
         playersInGame = new HashMap<>();
         this.playerLobby = playerLobby;
     }
-
-    public PlayerLobby getPlayerLobby(){
-        return this.playerLobby;
-    }
+    
 
     /**
      * makes a game
