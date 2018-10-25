@@ -7,6 +7,7 @@ import com.webcheckers.model.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 import spark.Session;
 import spark.TemplateEngine;
@@ -36,42 +37,25 @@ public class GameRendererTest {
 
     @Test
     public void ConstructorTest_DoubleNull(){
-        boolean failed = false;
-        try {
-            new GameRenderer(null, null);
-            fail("Expected a NullPointerException to be thrown");
-        } catch (NullPointerException exception) {
-            failed = true;
-        }
-
-        assertTrue(failed, "NullPointerException wasn't thrown");
+        Executable test = () -> new GameRenderer(null, null);
+        assertThrows( NullPointerException.class, test,
+                   "NullPointerException wasn't thrown");
     }
 
     @Test
     public void ConstructorTest_NullEngine(){
-        boolean failed = false;
-        try{
-            new GameRenderer( null, gameCenter);
-            fail("Expected a NullPointerException to be thrown");
-        } catch (NullPointerException exception) {
-            failed = true;
-        }
-
-        assertTrue(failed, "NullPointerException wasn't thrown");
+        Executable test = () -> new GameRenderer( null, gameCenter);
+        assertThrows(NullPointerException.class, test,
+                     "NullPointerException wasn't thrown");
     }
 
     @Test
     public void ConstructorTest_NullGameCenter(){
-        boolean failed = false;
-        try{
-            new GameRenderer( engine, null);
-            fail("Expected a NullPointerException to be thrown");
-        } catch (NullPointerException exception) {
-            failed = true;
-        }
-
-        assertTrue(failed, "NullPointerException wasn't thrown");
+        Executable test = () -> new GameRenderer( engine, null);
+        assertThrows(NullPointerException.class, test,
+                     "NullPointerException wasn't thrown");
     }
+
 
     @Test
     public void PlayerInGameTest(){

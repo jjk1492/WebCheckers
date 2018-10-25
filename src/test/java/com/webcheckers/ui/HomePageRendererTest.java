@@ -2,6 +2,7 @@ package com.webcheckers.ui;
 
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Player;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
@@ -19,6 +20,7 @@ import static org.mockito.Mockito.when;
 /**
  * @author Zeke Miller
  */
+@Tag("UI-Tier")
 public class HomePageRendererTest {
 
     @Test
