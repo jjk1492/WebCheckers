@@ -87,8 +87,7 @@ with the WebCheckers application.
 
 ![The WebCheckers Web Interface Statechart](web-interface-statechart.png)
 
-> _Provide a summary of the application's user interface.  Describe, from
-> the user's perspective, the flow of the pages in the web application._
+> The interface consists of a few main pages, with a few extra states to represent the user's game status and sign in status, for example.  The user starts off disconnected, then is prompted to sign in.  Once the user signs in, they can either begin a game or wait to be challenged.  The red player is prompted to make a move, while the black player waits for his/her opponent to take their turn.  Once the current player makes their move, the two players swap states, with the other player making their turn while the previous player once again waits.
 
 
 ### UI Tier
