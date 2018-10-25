@@ -26,7 +26,6 @@ public class GetGameRouteTest {
     private Response response;
     private Renderer renderer;
     private GameCenter gameCenter;
-    private PlayerLobby playerLobby;
     private GetGameRoute getGameRoute;
     private final String redName = "red";
     private final String whiteName = "white";
@@ -41,12 +40,8 @@ public class GetGameRouteTest {
         session = mock(Session.class);
         when(request.session()).thenReturn(session);
         response = mock(Response.class);
-        playerLobby = new PlayerLobby();
-        gameCenter = new GameCenter(playerLobby);
-        playerLobby.addPlayer(redName);
-        playerLobby.addPlayer(whiteName);
+        gameCenter = mock(GameCenter.class);
         renderer = mock(GameRenderer.class);
-
         getGameRoute = new GetGameRoute(renderer,gameCenter);
     }
 
@@ -55,9 +50,9 @@ public class GetGameRouteTest {
      */
     @Test
     public void validGame() {
-        gameCenter.addGame(redName,whiteName);
-
         when(request.session().attribute(PostSignInRoute.PLAYER_NAME_ATTR)).thenReturn(redName);
+        when(gameCenter.isPlayerInGame(redName)).thenReturn(true);
+        when(gameCenter.getOpponent(redName)).thenReturn(whiteName);
 
         try {
             getGameRoute.handle(request, response);
@@ -72,8 +67,8 @@ public class GetGameRouteTest {
      */
     @Test
     void invalidGame() {
-        gameCenter.finishedGame(redName,whiteName);
         when(request.session().attribute(PostSignInRoute.PLAYER_NAME_ATTR)).thenReturn(redName);
+        when(gameCenter.isPlayerInGame(redName)).thenReturn(false);
 
         try {
             getGameRoute.handle(request, response);
