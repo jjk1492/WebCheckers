@@ -9,7 +9,7 @@ geometry: margin=1in
 > and appear in the generated PDF in italics._
 
 ## Team Information
-* Team name: TEAMNAME
+* Team name: 11D
 * Team members
   * Nick Sander
   * John Knecht
@@ -19,11 +19,10 @@ geometry: margin=1in
 
 ## Executive Summary
 
-This is a summary of the project.
+This WebCheckers application implements the Java Spark framework to provide the user with a game of checkers againsted other signed in users. To play, a user must sign in with a unique username and select or get selected by another user who is not currently in a game. The application also provides an A.I. player for the user to play against.
 
 ### Purpose
-> _Provide a very brief statement about the project and the most
-> important user group and user goals._
+> Connect players from across the globe and allow them to play a game of checkers.  WebCheckers is meant to provide an easy to use interface by which players can easily play checkers against anyone else that is signed in at the time.
 
 ### Glossary and Acronyms
 > _Provide a table of terms and acronyms._
@@ -55,11 +54,9 @@ This section describes the features of the application.
 
 This section describes the application domain.
 
-![The WebCheckers Domain Model](domain-model-placeholder.png)
+![The WebCheckers Domain Model](domain-model.png)
 
-> _Provide a high-level overview of the domain for this application. You
-> can discuss the more important domain entities and their relationship
-> to each other._
+> The domain itself for a game of checkers is fairly simple.  Each game being played is played on a single board by two players.  Each player controls 12 pieces of a given color (at the start), which are placed in a pattern on the 64 Squares on the Board.
 
 
 ## Architecture and Design
@@ -88,10 +85,9 @@ Details of the components within these tiers are supplied below.
 This section describes the web interface flow; this is how the user views and interacts
 with the WebCheckers application.
 
-![The WebCheckers Web Interface Statechart](web-interface-placeholder.png)
+![The WebCheckers Web Interface Statechart](web-interface-statechart.png)
 
-> _Provide a summary of the application's user interface.  Describe, from
-> the user's perspective, the flow of the pages in the web application._
+> The interface consists of a few main pages, with a few extra states to represent the user's game status and sign in status, for example.  The user starts off disconnected, then is prompted to sign in.  Once the user signs in, they can either begin a game or wait to be challenged.  The red player is prompted to make a move, while the black player waits for his/her opponent to take their turn.  Once the current player makes their move, the two players swap states, with the other player making their turn while the previous player once again waits.
 
 
 ### UI Tier

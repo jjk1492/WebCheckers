@@ -2,6 +2,7 @@ package com.webcheckers.ui;
 
 import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Player;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
@@ -19,6 +20,7 @@ import static org.mockito.Mockito.when;
 /**
  * @author Zeke Miller
  */
+@Tag("UI-Tier")
 public class HomePageRendererTest {
 
     @Test
@@ -205,6 +207,18 @@ public class HomePageRendererTest {
         tester.assertViewModelAttribute( SIGNED_IN_ATTR, true );
         tester.assertViewModelAttribute( PLAYER_LIST_ATTR, players );
         tester.assertViewModelAttribute( TITLE_ATTR, title );
+    }
+
+    @Test
+    public void testRenderNullSession() {
+        PlayerLobby lobbyMock = mock( PlayerLobby.class );
+        TemplateEngine engineMock = mock( TemplateEngine.class );
+        Executable test =
+                () -> new HomePageRenderer( engineMock, lobbyMock )
+                        .render( null );
+
+        assertThrows( NullPointerException.class, test,
+                      "expected an exception from null Session" );
     }
 
 

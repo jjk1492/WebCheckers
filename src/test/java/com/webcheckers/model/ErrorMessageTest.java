@@ -1,5 +1,6 @@
 package com.webcheckers.model;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -9,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 /**
  * @author Zeke Miller
  */
+@Tag("Model-Tier")
 public class ErrorMessageTest {
 
     @Test
