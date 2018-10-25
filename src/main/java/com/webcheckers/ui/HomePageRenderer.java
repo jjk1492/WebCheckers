@@ -84,17 +84,9 @@ public class HomePageRenderer implements Renderer {
         }
 
         String name = session.attribute( PLAYER_NAME_ATTR );
-        boolean signedIn = false;
-        if ( name != null ) {
-            if ( playerLobby.getPlayer( name ) != null ) {
-                if ( name.equals( playerLobby.getPlayer( name ).getName() ) ) {
-                    signedIn = true;
-                }
-            }
-        }
-//        boolean signedIn = name != null &&
-//                           playerLobby.getPlayer( name ) != null &&
-//                           name.equals( playerLobby.getPlayer( name ).getName() );
+        boolean signedIn = name != null &&
+                           playerLobby.getPlayer( name ) != null &&
+                           name.equals( playerLobby.getPlayer( name ).getName() );
 
         model.put( SIGNED_IN_ATTR, signedIn );
 

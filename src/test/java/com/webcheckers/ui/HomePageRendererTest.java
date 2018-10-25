@@ -65,53 +65,32 @@ public class HomePageRendererTest {
                       "expected an exception from null Session" );
     }
 
-
-    private TemplateEngineTester test( String name, Collection<String> players,
-                                       boolean signInExpected ) {
-
-        return test( name, name, name, players, signInExpected );
-    }
-
-
-    private TemplateEngineTester test( String name, Collection<String> players,
-                                       boolean signInExpected, Map<String,
-                                       Object> map, boolean provideMap ) {
-        return test( name, name, name, players, signInExpected, map, provideMap );
-    }
-
-
-    private TemplateEngineTester test( String sessionName, String playerName,
-                       String expectedName, Collection<String> players,
-                       boolean signInExpected ) {
-
-        return test( sessionName, playerName, expectedName,
-              players, signInExpected, null, false );
-
-    }
-
-
-    private TemplateEngineTester test( String sessionName, String playerName,
-                                       String expectedName, Collection<String> players,
-                                       boolean signInExpected, Map<String, Object> map,
-                                       boolean provideMap ) {
-
-        Player playerMock = mock( Player.class );
-        when( playerMock.getName() ).thenReturn( playerName );
+    private TemplateEngineTester test( TestSettings settings ) {
 
         PlayerLobby lobbyMock = mock( PlayerLobby.class );
-        when( lobbyMock.getPlayer( playerName ) ).thenReturn( playerMock );
-        when( lobbyMock.getAllPlayers() ).thenReturn( players );
+        if ( settings.nullPlayer ) {
+            when( lobbyMock.getPlayer( settings.playerName ) ).thenReturn( null );
+            when( lobbyMock.getPlayer( settings.sessionName ) ).thenReturn( null );
+        }
+        else {
+            Player playerMock = mock( Player.class );
+            when( playerMock.getName() ).thenReturn( settings.playerName );
+            when( lobbyMock.getPlayer( settings.playerName ) ).thenReturn( playerMock );
+            when( lobbyMock.getPlayer( settings.sessionName ) ).thenReturn( playerMock );
+        }
+
+        when( lobbyMock.getAllPlayers() ).thenReturn( settings.players );
 
         TemplateEngineTester tester = new TemplateEngineTester();
         TemplateEngine engineMock = mock( TemplateEngine.class );
         when( engineMock.render( Mockito.any() ) ).then( tester.makeAnswer() );
 
         Session sessionMock = mock( Session.class );
-        when( sessionMock.attribute( PLAYER_NAME_ATTR ) ).thenReturn( sessionName );
+        when( sessionMock.attribute( PLAYER_NAME_ATTR ) ).thenReturn( settings.sessionName );
 
         Renderer renderer = new HomePageRenderer( engineMock, lobbyMock );
-        if ( provideMap ) {
-            renderer.render( sessionMock, map );
+        if ( settings.provideMap ) {
+            renderer.render( sessionMock, settings.map );
         }
         else {
             renderer.render( sessionMock );
@@ -120,34 +99,97 @@ public class HomePageRendererTest {
         tester.assertViewModelExists();
         tester.assertViewModelIsaMap();
         tester.assertViewName( HOME_VIEW_NAME );
-        tester.assertViewModelAttribute( PLAYER_NAME_ATTR, expectedName );
-        tester.assertViewModelAttribute( SIGNED_IN_ATTR, signInExpected );
-        tester.assertViewModelAttribute( PLAYER_LIST_ATTR, players );
+        tester.assertViewModelAttribute( PLAYER_NAME_ATTR, settings.expectedName );
+        tester.assertViewModelAttribute( SIGNED_IN_ATTR, settings.signInExpected );
+        tester.assertViewModelAttribute( PLAYER_LIST_ATTR, settings.players );
         return tester;
+    }
+
+    private class TestSettings {
+        private String sessionName = null;
+        private String playerName = null;
+        boolean nullPlayer = false;
+        private String expectedName = null;
+        private Collection<String> players = null;
+        boolean signInExpected = false;
+        Map<String, Object> map = null;
+        boolean provideMap = false;
+
+        private void setNames( String name ) {
+            sessionName = playerName = expectedName = name;
+        }
     }
 
     // normalish ones
 
     @Test
     public void testRenderSignedInNormal() {
-        test( NAME1, PLAYERS, true );
+        TestSettings settings = new TestSettings();
+        settings.setNames( NAME1 );
+        settings.players = PLAYERS;
+        settings.signInExpected = true;
+        test( settings );
     }
 
     @Test
     public void testRenderNotSignedIn() {
-        test( null, PLAYERS, false );
+        TestSettings settings = new TestSettings();
+        settings.setNames( null );
+        settings.players = PLAYERS;
+        settings.signInExpected = false;
+        test( settings );
+    }
+
+    @Test
+    public void testNullPlayerNullName() {
+        TestSettings settings = new TestSettings();
+        settings.setNames( null );
+        settings.players = PLAYERS;
+        settings.signInExpected = false;
+        settings.nullPlayer = true;
+        test( settings );
+    }
+
+    @Test
+    public void testNullPlayerMatchName() {
+        TestSettings settings = new TestSettings();
+        settings.setNames( NAME1 );
+        settings.expectedName = null;
+        settings.players = PLAYERS;
+        settings.signInExpected = false;
+        settings.nullPlayer = true;
+        test( settings );
+    }
+
+    @Test
+    public void testNullPlayerMisMatchName() {
+        TestSettings settings = new TestSettings();
+        settings.sessionName = NAME1;
+        settings.playerName = NAME2;
+        settings.expectedName = null;
+        settings.players = PLAYERS;
+        settings.signInExpected = false;
+        settings.nullPlayer = true;
+        test( settings );
     }
 
 
     @Test
     public void testNullPlayersFromLobby() {
-        test( NAME1, null, true );
+        TestSettings settings = new TestSettings();
+        settings.setNames( NAME1 );
+        settings.signInExpected = true;
+        test( settings );
     }
 
 
     @Test
     public void testEmptyPlayerList() {
-        test( NAME1, new ArrayList<>(), true );
+        TestSettings settings = new TestSettings();
+        settings.setNames( NAME1 );
+        settings.players = new ArrayList<>();
+        settings.signInExpected = true;
+        test( settings );
     }
 
 
@@ -155,7 +197,13 @@ public class HomePageRendererTest {
 
     @Test
     public void testRenderNormalNullMap() {
-        test( NAME1, PLAYERS, true, null, true );
+        TestSettings settings = new TestSettings();
+        settings.setNames( NAME1 );
+        settings.players = PLAYERS;
+        settings.signInExpected = true;
+        settings.map = null;
+        settings.provideMap = true;
+        test( settings );
     }
 
 
@@ -166,7 +214,14 @@ public class HomePageRendererTest {
         map.put( TITLE_ATTR, title );
 
         TemplateEngineTester tester;
-        tester = test( NAME1, PLAYERS, true, map, true );
+
+        TestSettings settings = new TestSettings();
+        settings.setNames( NAME1 );
+        settings.players = PLAYERS;
+        settings.signInExpected = true;
+        settings.map = map;
+        settings.provideMap = true;
+        tester = test( settings );
 
         tester.assertViewModelAttribute( TITLE_ATTR, title );
     }
@@ -176,20 +231,36 @@ public class HomePageRendererTest {
 
     @Test
     public void testSessionNullName() {
-        test( null, NAME1, null, PLAYERS, false );
+
+        TestSettings settings = new TestSettings();
+        settings.setNames( null );
+        settings.playerName = NAME1;
+        settings.players = PLAYERS;
+        settings.signInExpected = false;
+        test( settings );
     }
 
 
     @Test
     public void testLobbyNullName() {
-        test( NAME1, null, null, PLAYERS, false );
+        TestSettings settings = new TestSettings();
+        settings.setNames( null );
+        settings.sessionName = NAME1;
+        settings.players = PLAYERS;
+        settings.signInExpected = false;
+        test( settings );
     }
 
 
     @Test
     public void testMismatchNameError() {
-        test( NAME1, NAME2, null, PLAYERS, false );
+        TestSettings settings = new TestSettings();
+        settings.sessionName = NAME1;
+        settings.playerName = NAME2;
+        settings.expectedName = null;
+        settings.players = PLAYERS;
+        settings.signInExpected = false;
+        test( settings );
     }
-
 
 }
