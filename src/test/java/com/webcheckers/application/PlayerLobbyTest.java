@@ -12,13 +12,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlayerLobbyTest {
 
-    private PlayerLobby pl = new PlayerLobby();
-
     /**
      * test to make sure pl is not null
      */
     @Test
     void instanceNotNull() {
+        PlayerLobby pl = new PlayerLobby();
         assertNotNull( pl,"Instance is null" );
     }
 
@@ -28,6 +27,7 @@ class PlayerLobbyTest {
      */
     @Test
     void invalidName(){
+        PlayerLobby pl = new PlayerLobby();
         String empty = "";
         String invalidChars = "!*inVaLId*";
         String spaceStart = " inValid";
@@ -49,6 +49,7 @@ class PlayerLobbyTest {
      */
     @Test
     void validName(){
+        PlayerLobby pl = new PlayerLobby();
         String message = "should be a valid name";
         String one_alpha = "a";
         String one_num = "1";
@@ -78,6 +79,7 @@ class PlayerLobbyTest {
      */
     @Test
     void addDuplicateUsers(){
+        PlayerLobby pl = new PlayerLobby();
         String name = "abc";
 
         boolean firstAdd = pl.addPlayer( name );
@@ -92,6 +94,7 @@ class PlayerLobbyTest {
      */
     @Test
     void addUsers(){
+        PlayerLobby pl = new PlayerLobby();
         String message = "should have been added";
         String name1  = "The Kraken";
         String name2 = "Buttercup22";
@@ -106,6 +109,11 @@ class PlayerLobbyTest {
 
     @Test
     void getPlayers(){
+        PlayerLobby pl = new PlayerLobby();
+        pl.addPlayer( "The Kraken" );
+        pl.addPlayer( "Buttercup22" );
+        pl.addPlayer( "abc" );
+
         Collection<String> p = new HashSet<>();
         p.add( "The Kraken" );
         p.add( "Buttercup22" );
@@ -125,9 +133,10 @@ class PlayerLobbyTest {
      */
     @Test
     void playerCount(){
-//        pl.addPlayer( "a" );
-//        pl.addPlayer( "b" );
-//        pl.addPlayer( "c" );
+        PlayerLobby pl = new PlayerLobby();
+        pl.addPlayer( "a" );
+        pl.addPlayer( "b" );
+        pl.addPlayer( "c" );
         Integer actual = pl.getPlayerCount();
         Integer expected = 3;
         assertEquals( expected, actual, "Size should be 3" );
@@ -138,6 +147,7 @@ class PlayerLobbyTest {
      */
     @Test
     void removePlayer(){
+        PlayerLobby pl = new PlayerLobby();
         String name = "z";
         pl.addPlayer( name );
         pl.removePlayer( name );
