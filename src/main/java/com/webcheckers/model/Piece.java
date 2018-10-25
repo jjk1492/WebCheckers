@@ -4,18 +4,27 @@ import java.util.Objects;
 
 /**
  * class that represents a piece on the board
- * @author: Nick Sander
+ * @author Nick Sander
  */
 public class Piece {
-    public enum Type{
-        SINGLE, KING;
+    enum Type{          //had to switch from public enum -> enum for testing
+        SINGLE, KING
     }
 
     public Color color;
     public Type type;
 
     /**
-     * constructor for the piece
+     * constructor for a default piece, created with Type SINGLE since default pieces are not kings
+     * @param color - an enumeration for the color of the piece, red or white
+     */
+    public Piece(Color color){
+        this.color = color;
+        this.type = Type.SINGLE;
+    }
+
+    /**
+     * an additional constructor for the piece to be used for kings
      * @param color - an enumeration for the color of the piece, red or white
      * @param type - type is 'single' unless piece has made it to opposing edge of board
      */
