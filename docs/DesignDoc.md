@@ -22,7 +22,7 @@ geometry: margin=1in
 This is a summary of the project.
 
 ### Purpose
-> _Connect players from across the globe and allow them to play a game of checkers._
+> Connect players from across the globe and allow them to play a game of checkers.  WebCheckers is meant to provide an easy to use interface by which players can easily play checkers against anyone else that is signed in at the time.
 
 ### Glossary and Acronyms
 > _Provide a table of terms and acronyms._
