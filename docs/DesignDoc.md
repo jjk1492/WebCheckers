@@ -56,9 +56,7 @@ This section describes the application domain.
 
 ![The WebCheckers Domain Model](domain-model.png)
 
-> _Provide a high-level overview of the domain for this application. You
-> can discuss the more important domain entities and their relationship
-> to each other._
+> The domain itself for a game of checkers is fairly simple.  Each game being played is played on a single board by two players.  Each player controls 12 pieces of a given color (at the start), which are placed in a pattern on the 64 Squares on the Board.
 
 
 ## Architecture and Design
