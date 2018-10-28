@@ -23,7 +23,7 @@ public class Player {
      * getter for name
      * @return name
      */
-    public String getname() {
+    public String getName() {
         return name;
     }
 }

@@ -1,48 +1,48 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.application.GameCenter;
-import com.webcheckers.application.PlayerLobby;
-import com.webcheckers.model.Color;
 import com.webcheckers.model.Game;
-import com.webcheckers.model.Message;
 import com.webcheckers.model.Player;
 import spark.ModelAndView;
 import spark.Session;
 import spark.TemplateEngine;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.webcheckers.model.Color.RED;
-import static com.webcheckers.model.Color.WHITE;
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
 
-public class GameRenderer implements com.webcheckers.ui.Renderer {
+public class GameRenderer implements Renderer {
 
-
-    // Home view constants
-    private static final String VIEW_NAME_HOME = "home.ftl";
-    private static final String NO_NAME_STRING = "";
-    private static final String SIGNED_IN_ATTR = "signedIn";
-    private static final String PLAYER_LIST_ATTR = "players";
-    private static final String TITLE_ATTR = "title";
-    private static final String DEFAULT_TITLE = "Welcome!";
-
+    private static final String TEMPLATE_ENGINE_ERROR =
+            "templateEngine must not be null";
+    private static final String GAME_CENTER_ERROR =
+            "gameCenter must not be null";
 
     // Game View Constant
-    private static final String VIEW_NAME = "game.ftl";
-    private static final String CURRENT_PLAYER_ATTR = "currentPlayer";
-    private static final String VIEW_MODE_ATTR = "viewMode";
-    private static final String RED_PLAYER_ATTR = "redPlayer";
-    private static final String WHITE_PLAYER_ATTR = "whitePlayer";
-    private static final String BOARD_ATTR = "board";
-    private static final String MESSAGE_ATTR = "message";
-    private static final String ACTIVE_COLOR_ATTR= "activeColor";
+    static final String GAME_VIEW_NAME = "game.ftl";
+    static final String CURRENT_PLAYER_ATTR = "currentPlayer";
+    static final String VIEW_MODE_ATTR = "viewMode";
+    static final String VIEW_MODE_PLAY = "PLAY";
+    static final String VIEW_MODE_SPECTATE = "SPECTATE";
+    static final String RED_PLAYER_ATTR = "redPlayer";
+    static final String WHITE_PLAYER_ATTR = "whitePlayer";
+    static final String BOARD_ATTR = "board";
+    static final String ACTIVE_COLOR_ATTR= "activeColor";
 
-    private TemplateEngine templateEngine;
 
-    public GameRenderer(TemplateEngine templateEngine) {
+    private final TemplateEngine templateEngine;
+    private final GameCenter gameCenter;
+
+
+    public GameRenderer(TemplateEngine templateEngine, GameCenter gameCenter ) {
+        Objects.requireNonNull( templateEngine, TEMPLATE_ENGINE_ERROR );
+        Objects.requireNonNull( gameCenter, GAME_CENTER_ERROR );
         this.templateEngine = templateEngine;
+        this.gameCenter = gameCenter;
     }
+
 
     @Override
     public Object render(Session session) {
@@ -54,43 +54,34 @@ public class GameRenderer implements com.webcheckers.ui.Renderer {
     @Override
     public Object render(Session session, Map<String, Object> model) {
 
-
+        if( model == null ){
+            model = new HashMap<>();
+        }
 
         String name = session.attribute(PLAYER_NAME_ATTR);
-        GameCenter gameCenter = GameCenter.getInstance();
 
         Game currentGame = gameCenter.getGame(name);
-
-        if(currentGame == null)
-        {
-            PlayerLobby lobby = PlayerLobby.getInstance();
-
-            boolean signedIn = name != null;
-            if ( !signedIn ) {
-                name = NO_NAME_STRING;
-            }
-
-            Message errorMessage = new Message( "The selected player is already in a game.", Message.Type.ERROR);
-            model.put( SIGNED_IN_ATTR, signedIn );
-            model.put( PLAYER_NAME_ATTR, name );
-            model.put( PLAYER_LIST_ATTR, lobby.getAllPlayers() );
-            model.put( TITLE_ATTR, DEFAULT_TITLE );
-            model.put( MESSAGE_ATTR, errorMessage);
-            return templateEngine.render(new ModelAndView(model, VIEW_NAME_HOME));
-        }
 
         //send to game
         Player redPlayer = currentGame.getRedPlayer();
         Player whitePlayer = currentGame.getWhitePlayer();
 
-        model.put(VIEW_MODE_ATTR, "PLAY");
         model.put(RED_PLAYER_ATTR, redPlayer);
         model.put(WHITE_PLAYER_ATTR, whitePlayer);
-        model.put(CURRENT_PLAYER_ATTR, redPlayer);
-        model.put(BOARD_ATTR, currentGame.getRedBoard());
-        model.put(MESSAGE_ATTR, null);
-        model.put(ACTIVE_COLOR_ATTR, RED);
-        ModelAndView modelAndView = new ModelAndView( model, VIEW_NAME );
+
+
+        if ( name.equals( redPlayer.getName() ) ) {
+            model.put(BOARD_ATTR, currentGame.getRedBoard());
+            model.put(CURRENT_PLAYER_ATTR, redPlayer );
+        }
+        else {
+            model.put(BOARD_ATTR, currentGame.getWhiteBoard() );
+            model.put(CURRENT_PLAYER_ATTR, whitePlayer );
+        }
+
+        model.put(ACTIVE_COLOR_ATTR, currentGame.getActiveColor() );
+        model.put( VIEW_MODE_ATTR, VIEW_MODE_PLAY );
+        ModelAndView modelAndView = new ModelAndView( model, GAME_VIEW_NAME );
         return templateEngine.render( modelAndView );
     }
 }

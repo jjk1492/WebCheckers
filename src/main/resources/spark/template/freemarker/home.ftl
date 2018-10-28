@@ -12,7 +12,7 @@
 
             <div class="navigation">
                 <a href="/">my home</a>
-                <#if signedIn>
+                <#if signedIn && name??>
                     You're currently signed in as ${name}
                 <#else >
                     <a href="/signin">sign in</a>
@@ -20,28 +20,43 @@
             </div>
 
             <div class="body">
+
                 <p>Welcome to the world of online Checkers.</p>
 
                 <#if message??>
-                    <div id="message" class="${message.type}"><p>${message.text}</p></div>
+                    <div id="message" class="${message.type}">
+                        ${message.text}
+                    </div>
                 </#if>
 
-                <#if !signedIn>
-                    Currently signed in players: ${players?size}
-                <#elseif players?size gt 1>
-                    Other signed in players:
-                    <ul>
-                        <#list players as player>
-                            <#if player != name>
-                                <li><a href="/game?opponent=${player}">${player}</a></li>
-                            </#if>
-                        </#list>
-                    </ul>
+                <#if players??>
+                    <#if !signedIn>
+                        Currently signed in players: ${players?size}
+                    <#elseif players?size gt 1>
+                        Other signed in players:
+                        <ul>
+                            <#list players as player>
+                                <#if player != name>
+                                    <form id="${player}" action="./" method="POST">
+
+                                        <input type="hidden" name="opponent" value=${player}>
+                                        <a href="javascript:{}"
+                                           onclick="document.getElementById
+                                           ('${player}').submit();
+                                           return false;">${player}</a>
+
+                                    </form>
+                                </#if>
+                            </#list>
+                        </ul>
+                    <#else>
+                        No other players signed in! :(
+                    </#if>
                 <#else>
-                    No other players signed in! :(
+                    There was an error retrieving the other players. Please
+                    try again.
                 </#if>
             </div>
-
         </div>
     </body>
 </html>

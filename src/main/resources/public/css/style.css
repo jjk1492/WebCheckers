@@ -103,7 +103,7 @@ div.page ul.players li {
     -webkit-border-radius: 5px;
 }
 
-div.error {
+div.error, div.ERROR {
     margin: 10px 0;
     background: #FAE4E4;
     border: 1px solid #DD6F6F;
@@ -113,7 +113,7 @@ div.error {
     font-size: 13px;
 }
 
-div.info {
+div.info, div.INFO {
     margin: 10px 0;
     background: #FAFFE4;
     border: 1px solid green;

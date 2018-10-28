@@ -1,14 +1,13 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.application.PlayerLobby;
+import com.webcheckers.model.ErrorMessage;
 import spark.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.webcheckers.ui.SignInRenderer.MESSAGE_ATTR;
-import static com.webcheckers.ui.SignInRenderer.MESSAGE_TYPE_ERROR;
-import static com.webcheckers.ui.SignInRenderer.MESSAGE_TYPE_ATTR;
 import static com.webcheckers.ui.WebServer.HOME_URL;
 
 /**
@@ -20,7 +19,7 @@ public class PostSignInRoute implements Route {
 
     // private constants
 
-    private static final String INVALID_NAME_MESSSAGE =
+    private static final String INVALID_NAME_MESSAGE =
             "Your username couldn't be used as submitted.  Please submit a "
             + "username that starts with an alphanumeric character and "
             + "contains only alphanumerics and spaces.";
@@ -36,7 +35,8 @@ public class PostSignInRoute implements Route {
 
     // fields
 
-    private Renderer renderer;
+    private final Renderer renderer;
+    private final PlayerLobby playerLobby;
 
 
     // constructors
@@ -45,8 +45,9 @@ public class PostSignInRoute implements Route {
      * constructor, requires a Renderer for dependency inversion
      * @param renderer the rendering engine
      */
-    public PostSignInRoute( Renderer renderer ) {
+    public PostSignInRoute( Renderer renderer, PlayerLobby playerLobby ) {
         this.renderer = renderer;
+        this.playerLobby = playerLobby;
     }
 
 
@@ -71,16 +72,14 @@ public class PostSignInRoute implements Route {
         String name = request.queryParams( PLAYER_NAME_ATTR );
 
         Map<String, Object> model = new HashMap<>();
-        PlayerLobby lobby = PlayerLobby.getInstance();
 
-        if ( !lobby.isValid( name ) ) {
-            model.put( MESSAGE_TYPE_ATTR, MESSAGE_TYPE_ERROR );
-            model.put( MESSAGE_ATTR, INVALID_NAME_MESSSAGE );
+        if ( !playerLobby.isValid( name ) ) {
+            model.put( MESSAGE_ATTR,
+                       new ErrorMessage( INVALID_NAME_MESSAGE ) );
             return renderer.render( request.session(), model );
         }
-        else if ( !lobby.addPlayer( name ) ) {
-            model.put( MESSAGE_TYPE_ATTR, MESSAGE_TYPE_ERROR );
-            model.put( MESSAGE_ATTR, NAME_TAKEN_MESSAGE );
+        else if ( !playerLobby.addPlayer( name ) ) {
+            model.put( MESSAGE_ATTR, new ErrorMessage( NAME_TAKEN_MESSAGE ) );
             return renderer.render( request.session(), model );
         }
         else {

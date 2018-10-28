@@ -21,11 +21,7 @@ public class SignInRenderer implements Renderer {
 
     // package private constants
 
-    static final String MESSAGE_TYPE_ATTR = "messageType";
     static final String MESSAGE_ATTR = "message";
-    static final String MESSAGE_TYPE_ERROR = "error";
-    static final String MESSAGE_TYPE_INFO = "info";
-
 
     // fields
 
@@ -59,7 +55,7 @@ public class SignInRenderer implements Renderer {
     /**
      * renders the sign in page
      * @param session the spark session from the request
-     * @param model a non-null Map with optional values
+     * @param model a Map with optional values
      * @return the rendered page
      */
     @Override
@@ -67,12 +63,6 @@ public class SignInRenderer implements Renderer {
 
         if ( model == null ) {
             model = new HashMap<>();
-        }
-
-        // ensure renderer doesn't crash
-        if ( !model.containsKey( MESSAGE_ATTR ) ) {
-            model.put( MESSAGE_ATTR, "" );
-            model.put( MESSAGE_TYPE_ATTR, "" );
         }
 
         ModelAndView modelAndView = new ModelAndView( model, VIEW_NAME );
