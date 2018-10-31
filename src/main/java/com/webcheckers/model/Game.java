@@ -10,7 +10,7 @@ public class Game {
 
     private Player redPlayer;
     private Player whitePlayer;
-    private Player currentPlayer;
+    private Color activeColor;
     private Board redBoard;
     private Board whiteBoard;
 
@@ -22,7 +22,7 @@ public class Game {
     public Game(Player redPlayer, Player whitePlayer) {
         this.redPlayer = redPlayer;
         this.whitePlayer = whitePlayer;
-        this.currentPlayer = redPlayer;
+        this.activeColor = Color.RED;
         this.redBoard = new Board();
         this.whiteBoard = new Board();
         redBoard.fillRedBoard();
@@ -38,10 +38,6 @@ public class Game {
         return whitePlayer;
     }
 
-    public Player getCurrentPlayer() {
-        return currentPlayer;
-    }
-
     public Board getRedBoard() {
         return redBoard;
     }
@@ -51,19 +47,22 @@ public class Game {
     }
 
     public Color getActiveColor() {
-        if(this.currentPlayer == redPlayer){
-            return Color.RED;
-        }else{
-            return Color.WHITE;
+        return activeColor;
+    }
+
+    public Player getActivePlayer() {
+        if ( activeColor.equals( Color.RED ) ) {
+            return redPlayer;
         }
+        return whitePlayer;
     }
 
     public void swapTurn() {
-        if ( this.currentPlayer == redPlayer ) {
-            this.currentPlayer = whitePlayer;
+        if ( activeColor.equals( Color.RED ) ) {
+            activeColor = Color.WHITE;
         }
         else {
-            this.currentPlayer = redPlayer;
+            activeColor = Color.RED;
         }
     }
 
@@ -74,13 +73,13 @@ public class Game {
         Game game = (Game) o;
         return Objects.equals(redPlayer, game.redPlayer) &&
                 Objects.equals(whitePlayer, game.whitePlayer) &&
-                Objects.equals(currentPlayer, game.currentPlayer) &&
+                Objects.equals(activeColor, game.activeColor) &&
                 Objects.equals(redBoard, game.redBoard) &&
                 Objects.equals(whiteBoard, game.whiteBoard);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(redPlayer, whitePlayer, currentPlayer, redBoard, whiteBoard);
+        return Objects.hash(redPlayer, whitePlayer, activeColor, redBoard, whiteBoard);
     }
 }

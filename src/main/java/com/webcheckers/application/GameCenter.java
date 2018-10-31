@@ -90,7 +90,7 @@ public class GameCenter {
     public boolean isPlayerActive( String name ) {
         Game game = getGame( name );
         if ( name != null && game != null ) {
-            return name.equals( game.getCurrentPlayer().getName() );
+            return name.equals( game.getActivePlayer().getName() );
         }
         return false;
     }
