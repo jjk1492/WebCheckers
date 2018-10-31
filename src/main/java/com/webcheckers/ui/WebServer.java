@@ -56,6 +56,7 @@ public class WebServer {
     public static final String SIGN_IN_URL = "/signin";
     public static final String SIGN_OUT_URL = "/signout";
     public static final String GAME_URL = "/game";
+    public static final String RESIGN_GAME_URL = "/resignGame";
 
     //
     // Constants
@@ -169,6 +170,9 @@ public class WebServer {
 
         // shows active game
         get( GAME_URL, new GetGameRoute( gameRenderer, gameCenter ) );
+
+        //resign game
+        post(RESIGN_GAME_URL, new PostResignGameRoute(gameCenter));
 
         LOG.config( "WebServer is initialized." );
     }
