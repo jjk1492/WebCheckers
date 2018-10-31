@@ -20,26 +20,18 @@ public class PostCheckTurnRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
-    	System.out.println( "PostCheckTurn invoked" );
-        String result;
         String name = request.session().attribute( PLAYER_NAME_ATTR );
-
-        if ( gameCenter.isPlayerActive( name ) ) {
-            result = "true";
-        }
-        else {
-            result = "false";
-        }
-        System.out.println( name + " checked and got: " + result );
-        String json = new Gson().toJson( new InfoMessage( result ) );
-        System.out.println( json );
-  
-        String other = "{\"type\":\"info\",\"message\":\"" + result + "\"}";
-        System.out.println( other );
+        String result = Boolean.toString( gameCenter.isPlayerActive( name ) );
 
 //        gameCenter.forceSwapTurn( name );
-        return other;
+
+        String json;
+        json = new Gson().toJson( new InfoMessage( result ) );
+  
+//        String other = "{\"type\":\"info\",\"message\":\"" + result + "\"}";
+//        System.out.println( other );
+//        return other;
         // TODO not sure exactly how the black box JS expects it?
-//        return json;
+        return json;
     }
 }
