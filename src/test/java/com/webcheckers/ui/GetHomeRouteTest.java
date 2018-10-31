@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -47,19 +48,15 @@ public class GetHomeRouteTest {
      */
     @Test
     public void validHome() {
-        String playerName = request.session().attribute(PostSignInRoute.PLAYER_NAME_ATTR);
-        System.out.println(" Returning player name : " + playerName);
-        when(playerName != null).thenReturn(false);
+        String playerName = "player";
+        when( request.session().attribute(PostSignInRoute.PLAYER_NAME_ATTR) )
+                .thenReturn( playerName );
         when(gameCenter.isPlayerInGame(playerName)).thenReturn(false);
 
         try {
             getHomeRoute.handle(request, response);
         } catch (Exception e) {
-            e.printStackTrace();
+            fail();
         }
-
-        verify(renderer).render(any(Session.class), any(Map.class));
     }
-
-
 }
