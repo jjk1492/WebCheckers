@@ -56,6 +56,7 @@ public class WebServer {
     public static final String SIGN_IN_URL = "/signin";
     public static final String SIGN_OUT_URL = "/signout";
     public static final String GAME_URL = "/game";
+    public static final String CHECK_TURN_URL = "/checkTurn";
 
     //
     // Constants
@@ -166,6 +167,8 @@ public class WebServer {
         // signout page
         get( SIGN_OUT_URL, new GetSignOutRoute(homePageRenderer, gameCenter));
         post(SIGN_OUT_URL, new PostSignInRoute(signInRenderer, playerLobby));
+
+        post( CHECK_TURN_URL, new PostCheckTurnRoute( gameCenter ) );
 
         // shows active game
         get( GAME_URL, new GetGameRoute( gameRenderer, gameCenter ) );

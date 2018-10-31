@@ -58,6 +58,15 @@ public class Game {
         }
     }
 
+    public void swapTurn() {
+        if ( this.currentPlayer == redPlayer ) {
+            this.currentPlayer = whitePlayer;
+        }
+        else {
+            this.currentPlayer = redPlayer;
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
