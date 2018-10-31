@@ -18,7 +18,7 @@ public class InfoMessageTest {
         Message message = new InfoMessage( null );
         assertNotNull( message, "expected non-null object" );
         assertNull( message.getText(), "expected null message" );
-        assertEquals( "INFO", message.getType(), "expected type to be INFO" );
+        assertEquals( Message.Type.INFO, message.getType(), "expected type to be INFO" );
     }
 
     @Test
@@ -27,6 +27,6 @@ public class InfoMessageTest {
         Message message = new InfoMessage( test );
         assertNotNull( message, "expected non-null object" );
         assertEquals( test, message.getText(), "expected message: " + test );
-        assertEquals( "INFO", message.getType(), "expected type to be INFO" );
+        assertEquals( Message.Type.INFO, message.getType(), "expected type to be INFO" );
     }
 }
