@@ -117,9 +117,13 @@ public class GameCenter {
      * @param player1 player we want to remove
      */
     public synchronized void finishedGame( String player1) {
-        playersInGame.remove(player1);
         String opponent = getOpponent(player1);
-        playersInGame.remove(opponent);
+        if(isPlayerInGame(player1)){
+            playersInGame.remove(player1);
+            if(isPlayerInGame(opponent)) {
+                playersInGame.remove(opponent);
+            }
+        }
     }
 
     /**
