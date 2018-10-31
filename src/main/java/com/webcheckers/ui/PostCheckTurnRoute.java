@@ -1,8 +1,10 @@
 package com.webcheckers.ui;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.model.InfoMessage;
+import com.webcheckers.model.Message;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -39,14 +41,15 @@ public class PostCheckTurnRoute implements Route {
         String name = request.session().attribute( PLAYER_NAME_ATTR );
         String result = Boolean.toString( gameCenter.isPlayerActive( name ) );
 
-//        gameCenter.forceSwapTurn( name );
+        gameCenter.forceSwapTurn( name );
+
+        Message message = new InfoMessage( result );
 
         String json;
-        json = new Gson().toJson( new InfoMessage( result ) );
-  
-//        String other = "{\"type\":\"info\",\"message\":\"" + result + "\"}";
-//        System.out.println( other );
-//        return other;
+        Gson gson = new GsonBuilder().create();
+        json = gson.toJson( message );
+        System.out.println( json );
+
         // TODO not sure exactly how the black box JS expects it?
         return json;
     }
