@@ -48,7 +48,6 @@ public class PostCheckTurnRoute implements Route {
         String json;
         Gson gson = new GsonBuilder().create();
         json = gson.toJson( message );
-        System.out.println( json );
 
         // TODO not sure exactly how the black box JS expects it?
         return json;
