@@ -3,15 +3,14 @@ package com.webcheckers.ui;
 import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.model.*;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import spark.Request;
 import spark.Response;
 import spark.Session;
 
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -37,8 +36,8 @@ public class PostCheckTurnRouteTest {
 
     private PostCheckTurnRoute route;
 
-    @BeforeEach
-    public void setup() {
+
+    private void happySetup( Color active, String current ) {
 
         // getName same for all
         when( redPlayer.getName() ).thenReturn( redPlayerName );
@@ -64,16 +63,17 @@ public class PostCheckTurnRouteTest {
         when( centerMock.getOpponent( redPlayerName ) ).thenReturn( whitePlayerName );
         when( centerMock.getOpponent( whitePlayerName ) ).thenReturn( redPlayerName );
 
+        // always returning the session mock
         when( requestMock.session() ).thenReturn( sessionMock );
 
-        route = new PostCheckTurnRoute( centerMock );
-    }
-
-    private void setupPlayers( Color active, String current ) {
+        // return appropriate activity status
         when( centerMock.isPlayerActive( redPlayerName ) ).thenReturn( active.equals( Color.RED ) );
         when( centerMock.isPlayerActive( whitePlayerName ) ).thenReturn( active.equals( Color.WHITE ) );
 
+        // return appropriate 'viewer' name
         when( sessionMock.attribute( PLAYER_NAME_ATTR ) ).thenReturn( current );
+
+        route = new PostCheckTurnRoute( centerMock );
     }
 
     private String getJson() {
@@ -91,7 +91,7 @@ public class PostCheckTurnRouteTest {
     @Test
     public void testWhitePlayerWhiteTurn() {
 
-        setupPlayers( Color.WHITE, whitePlayerName );
+        happySetup( Color.WHITE, whitePlayerName );
 
         String expected = trueJson;
         String actual = getJson();
@@ -102,7 +102,7 @@ public class PostCheckTurnRouteTest {
     @Test
     public void testWhitePlayerRedTurn() {
 
-        setupPlayers( Color.RED, whitePlayerName );
+        happySetup( Color.RED, whitePlayerName );
 
         String expected = falseJson;
         String actual = getJson();
@@ -113,7 +113,7 @@ public class PostCheckTurnRouteTest {
     @Test
     public void testRedPlayerWhiteTurn() {
 
-        setupPlayers( Color.WHITE, redPlayerName );
+        happySetup( Color.WHITE, redPlayerName );
 
         String expected = falseJson;
         String actual = getJson();
@@ -124,11 +124,25 @@ public class PostCheckTurnRouteTest {
     @Test
     public void testRedPlayerRedTurn() {
 
-        setupPlayers( Color.RED, redPlayerName );
+        happySetup( Color.RED, redPlayerName );
 
         String expected = trueJson;
         String actual = getJson();
 
         assertEquals( expected, actual, "Expected a true info message" );
+    }
+
+    @Test
+    public void testNullInConstructor() {
+
+        Executable test = () -> new PostCheckTurnRoute( null );
+        assertThrows( NullPointerException.class, test );
+
+    }
+
+    @Test
+    public void testHappyConstructor() {
+        route = new PostCheckTurnRoute( centerMock );
+        assertNotNull( route );
     }
 }

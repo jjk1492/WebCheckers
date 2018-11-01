@@ -9,6 +9,8 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.util.Objects;
+
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
 
 /**
@@ -25,6 +27,8 @@ public class PostCheckTurnRoute implements Route {
      * @param gameCenter the gameCenter to use for logic
      */
     public PostCheckTurnRoute( GameCenter gameCenter ) {
+
+        Objects.requireNonNull( gameCenter );
         this.gameCenter = gameCenter;
     }
 
