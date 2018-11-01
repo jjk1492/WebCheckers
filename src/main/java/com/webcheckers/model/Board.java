@@ -85,6 +85,12 @@ public class Board implements Iterable<Row> {
             }
         }
     }
+
+    public boolean spaceIsValid(int rowIndex, int spaceIndex){
+        Row checkRow = rows.get(rowIndex);
+        return checkRow.isSpaceValid(spaceIndex);
+    }
+
     @Override
     public Iterator<Row> iterator() {
         return rows.iterator();

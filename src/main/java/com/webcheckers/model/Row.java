@@ -94,6 +94,15 @@ public class Row implements Iterable<Space> {
         return spaces;
     }
 
+
+    public boolean isSpaceValid(int spaceIndex){
+        if( spaceIndex < 0 || spaceIndex > 7 ){
+            return false;
+        }
+        Space checkSpace = spaces.get(spaceIndex);
+        return checkSpace.isValid();
+    }
+
     @Override
     public Iterator<Space> iterator() {
         return spaces.iterator();
