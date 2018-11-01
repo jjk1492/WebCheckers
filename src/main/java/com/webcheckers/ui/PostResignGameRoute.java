@@ -1,8 +1,11 @@
 package com.webcheckers.ui;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.model.ErrorMessage;
 import com.webcheckers.model.InfoMessage;
+import com.webcheckers.model.Message;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -19,7 +22,9 @@ public class PostResignGameRoute implements Route {
             "Couldn't resign from the game, please try again!";
     private static final String GAME_RESIGN_INFO =
             "Resigned from game!";
+
     private GameCenter gameCenter;
+    private Message message;
 
     /**
      * constructor
@@ -34,9 +39,16 @@ public class PostResignGameRoute implements Route {
         String name = request.queryParams( PLAYER_NAME_ATTR );
         gameCenter.finishedGame(name);
         if(gameCenter.isPlayerInGame(name)){
-            return new ErrorMessage(GAME_RESIGN_ERROR);
+            message = new ErrorMessage(GAME_RESIGN_ERROR);
+        }else {
+            message = new InfoMessage(GAME_RESIGN_INFO);
+            response.redirect(HOME_URL);
         }
-        response.redirect(HOME_URL);
-        return new InfoMessage(GAME_RESIGN_INFO);
+
+        String json;
+        Gson gson = new GsonBuilder().create();
+        json = gson.toJson( message );
+
+        return json;
     }
 }
