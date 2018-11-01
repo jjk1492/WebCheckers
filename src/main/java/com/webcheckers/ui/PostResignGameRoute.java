@@ -22,9 +22,9 @@ import static com.webcheckers.ui.WebServer.HOME_URL;
  */
 public class PostResignGameRoute implements Route {
 
-    private static final String GAME_RESIGN_ERROR =
-            "Couldn't resign from the game, please try again!";
-    private static final String GAME_RESIGN_INFO =
+    static final String GAME_RESIGN_ERROR =
+            "Could not resign from the game, please try again!";
+    static final String GAME_RESIGN_INFO =
             "Resigned from game, please redirect to the home page!";
 
     private GameCenter gameCenter;
