@@ -40,9 +40,9 @@ public class PostResignGameRoute implements Route {
         gameCenter.finishedGame(name);
         if(gameCenter.isPlayerInGame(name)){
             message = new ErrorMessage(GAME_RESIGN_ERROR);
-            response.redirect(HOME_URL);
         }else {
             message = new InfoMessage(GAME_RESIGN_INFO);
+            response.redirect(HOME_URL);
         }
 
         String json;
