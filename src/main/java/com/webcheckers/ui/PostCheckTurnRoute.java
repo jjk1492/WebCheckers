@@ -41,8 +41,6 @@ public class PostCheckTurnRoute implements Route {
         String name = request.session().attribute( PLAYER_NAME_ATTR );
         String result = Boolean.toString( gameCenter.isPlayerActive( name ) );
 
-        gameCenter.forceSwapTurn( name );
-
         Message message = new InfoMessage( result );
 
         String json;
