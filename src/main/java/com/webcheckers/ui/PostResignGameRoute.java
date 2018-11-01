@@ -1,5 +1,7 @@
 package com.webcheckers.ui;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.model.ErrorMessage;
 import com.webcheckers.model.InfoMessage;
@@ -42,6 +44,11 @@ public class PostResignGameRoute implements Route {
         }else {
             message = new InfoMessage(GAME_RESIGN_INFO);
         }
-        return message;
+
+        String json;
+        Gson gson = new GsonBuilder().create();
+        json = gson.toJson( message );
+
+        return json;
     }
 }
