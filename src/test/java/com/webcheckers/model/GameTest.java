@@ -36,4 +36,33 @@ public class GameTest {
         assertEquals(Color.RED, currentColor);
         assertEquals(redPlayer, currentPlayer);
     }
+
+
+    @Test
+    public void SwapTurnTest(){
+        final Player redPlayer = new Player("red");
+        final Player whitePlayer = new Player("white");
+        final Game CuT = new Game(redPlayer, whitePlayer);
+
+        Player playerBeforeSwap = CuT.getActivePlayer();
+        Color colorBeforeSwap = CuT.getActiveColor();
+
+        CuT.swapTurn();
+
+        Player playerAfterSwap = CuT.getActivePlayer();
+        Color colorAfterSwap = CuT.getActiveColor();
+
+        //Check swapping from Red to White
+        assertEquals( redPlayer, playerBeforeSwap );
+        assertEquals( Color.RED, colorBeforeSwap );
+        assertEquals( whitePlayer, playerAfterSwap );
+        assertEquals( Color.WHITE, colorAfterSwap );
+
+        CuT.swapTurn();
+
+        //Check swapping for white to red
+        assertEquals( redPlayer, CuT.getActivePlayer());
+        assertEquals( Color.RED, CuT.getActiveColor());
+
+    }
 }
