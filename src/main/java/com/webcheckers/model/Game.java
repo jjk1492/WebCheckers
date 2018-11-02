@@ -79,6 +79,7 @@ public class Game {
                 //Check that the ending space isn't occupied
                 if( activeColor == Color.RED) {
                     if (redBoard.spaceIsValid(ending.getRow(), ending.getCell())) {
+
                         return new InfoMessage("Your move was valid.");
                     } else {
                         return new ErrorMessage("The space you choose is occupied.");
@@ -86,6 +87,7 @@ public class Game {
                 }
                 else{
                     if (whiteBoard.spaceIsValid(ending.getRow(), ending.getCell())) {
+
                         return new InfoMessage("Your move was valid.");
                     } else {
                         return new ErrorMessage("The space you choose is occupied.");
