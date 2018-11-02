@@ -1,6 +1,8 @@
 package com.webcheckers.model;
 
 
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Stack;
 
@@ -14,7 +16,7 @@ public class Game {
     private Color activeColor;
     private Board redBoard;
     private Board whiteBoard;
-    private Stack<Move> lastValidMoves;
+    private Deque<Move> pendingMoves;
 
     /**
      * constructor for the game, creates new boards for each player after they are assigned
@@ -29,10 +31,8 @@ public class Game {
         this.whiteBoard = new Board();
         redBoard.fillRedBoard();
         whiteBoard.fillWhiteBoard();
-        lastValidMoves = new Stack<>();
-
+        pendingMoves = new LinkedList<>();
     }
-
 
     public Player getRedPlayer() {
         return redPlayer;
@@ -81,6 +81,10 @@ public class Game {
 
     public Message submitTurn(){
         return new ErrorMessage("need to implement submitTurn in Game class");
+    }
+
+    public Move backupMove(){
+        return pendingMoves.pop();
     }
 
     @Override
