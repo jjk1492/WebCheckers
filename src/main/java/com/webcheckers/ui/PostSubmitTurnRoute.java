@@ -41,8 +41,6 @@ public class PostSubmitTurnRoute implements Route {
             else {
                 // TODO actually submit all of the moves to the game
                 message = new InfoMessage(SUBMIT_TURN_INFO);
-                request.session().attribute(ACTIVE_COLOR_ATTR, gameCenter.getGame(name).getActiveColor());
-                request.session().attribute(CURRENT_PLAYER_ATTR, gameCenter.getGame(name).getActivePlayer());
             }
         }
         else {
