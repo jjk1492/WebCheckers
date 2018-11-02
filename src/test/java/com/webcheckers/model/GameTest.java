@@ -65,4 +65,23 @@ public class GameTest {
         assertEquals( Color.RED, CuT.getActiveColor());
 
     }
+
+    @Test
+    public void EqualsTest(){
+        final Player redPlayer1 = new Player( "red1");
+        final Player whitePlayer1 = new Player( "white1");
+        final Player redPlayer2 = new Player("red2");
+        final Player whitePlayer2 = new Player("white2");
+
+        final Game CuT1 = new Game( redPlayer1, whitePlayer1);
+        final Game CuT2 = new Game(redPlayer2, whitePlayer2);
+
+        boolean sameGame = CuT1.equals(CuT1);
+        boolean nullGame = CuT1.equals(null);
+        boolean differentGame = CuT1.equals(CuT2);
+
+        assertEquals(sameGame, true);
+        assertEquals(nullGame, false);
+        assertEquals(differentGame, false);
+    }
 }
