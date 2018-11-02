@@ -94,12 +94,25 @@ public class Row implements Iterable<Space> {
         return spaces;
     }
 
+    public Space getSpace( int cell ) {
+        if ( validIndex( cell ) ) {
+            return spaces.get( cell );
+        }
+        return null;
+    }
+
+    public boolean validIndex( int index ) {
+        return index >= 0 && index < 8;
+    }
+
 
     public boolean isSpaceValid(int spaceIndex){
-        if( spaceIndex < 0 || spaceIndex > 7 ){
+        if( !validIndex( spaceIndex ) ){
             return false;
         }
         Space checkSpace = spaces.get(spaceIndex);
+        System.out.println( checkSpace.toString() );
+        System.out.println( checkSpace.isValid() );
         return checkSpace.isValid();
     }
 
