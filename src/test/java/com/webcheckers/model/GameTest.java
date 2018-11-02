@@ -24,4 +24,16 @@ public class GameTest {
         assertEquals(whitePlayer, CutWhitePlayer);
     }
 
+    @Test
+    public void ConstructorTest_RedGoesFirst(){
+        final Player redPlayer = new Player("red");
+        final Player whitePlayer = new Player("white");
+        final Game CuT = new Game(redPlayer, whitePlayer);
+
+        Color currentColor = CuT.getActiveColor();
+        Player currentPlayer = CuT.getActivePlayer();
+
+        assertEquals(Color.RED, currentColor);
+        assertEquals(redPlayer, currentPlayer);
+    }
 }
