@@ -33,25 +33,19 @@ public class PostSubmitTurnRoute implements Route {
         String name = request.session().attribute( PLAYER_NAME_ATTR );
         Gson gson = new Gson();
         Message message;
-        Game game;
 
         if(gameCenter.isPlayerInGame(name)){
-<<<<<<< HEAD
+
             gameCenter.finishTurn( name );
-=======
-            game = gameCenter.getGame(name);
-            gameCenter.forceSwapTurn(name);
->>>>>>> 9ae758f8c8335536454733c4d4973dbb8fdb7e8d
+
             if (gameCenter.isPlayerActive(name)) {
                 message = new ErrorMessage(SWAP_TURN_ERROR);
             }
             else {
-                // TODO actually submit all of the moves to the game
-                message = game.submitTurn();
+                message = new InfoMessage(SUBMIT_TURN_INFO);
             }
         }
         else {
-            // TODO send a message telling whether the player won or lost
             message = new InfoMessage(GAME_OVER_INFO);
         }
         String json;

@@ -19,7 +19,6 @@ public class PostSubmitTurnRouteTest {
     private Response response;
     private GameCenter gameCenter;
     private Message message;
-    private Game game;
     private PostSubmitTurnRoute postSubmitTurnRoute;
     private final String redName = "red";
     private final String whiteName = "white";
@@ -33,7 +32,6 @@ public class PostSubmitTurnRouteTest {
         message = mock(Message.class);
         request = mock(Request.class);
         session = mock(Session.class);
-        game = mock(Game.class);
         when(request.session()).thenReturn(session);
         response = mock(Response.class);
         gameCenter = mock(GameCenter.class);
@@ -47,11 +45,16 @@ public class PostSubmitTurnRouteTest {
     public void submitTurn() {
         when(request.session().attribute(PostSignInRoute.PLAYER_NAME_ATTR)).thenReturn(redName);
         when(gameCenter.isPlayerInGame(redName)).thenReturn(true);
-        when(gameCenter.getGame(redName)).thenReturn(game);
         when(gameCenter.isPlayerActive(redName)).thenReturn(false);
 
-        // TODO finish this test
-       // verify(game,atLeastOnce()).submitTurn();
+        verify(gameCenter,atLeastOnce()).finishTurn(redName);
+
+        try {
+            Object ret = postSubmitTurnRoute.handle(request, response);
+            assertEquals("{\"type\":\"info\",\"text\":\"Turn submitted!\"}", ret);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -61,7 +64,6 @@ public class PostSubmitTurnRouteTest {
     void errorMessage() {
         when(request.session().attribute(PostSignInRoute.PLAYER_NAME_ATTR)).thenReturn(redName);
         when(gameCenter.isPlayerInGame(redName)).thenReturn(true);
-        when(gameCenter.getGame(redName)).thenReturn(game);
         when(gameCenter.isPlayerActive(redName)).thenReturn(true);
 
         try {
