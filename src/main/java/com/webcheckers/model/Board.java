@@ -89,6 +89,54 @@ public class Board implements Iterable<Row> {
         }
     }
 
+    public Message validateMove( Move move ) {
+        Position start = move.getStart();
+        Position end = move.getEnd();
+        System.out.println( start );
+        System.out.println( end );
+        Space startSpace = rows.get( start.getRow() ).getSpace( start.getCell() );
+        Space endSpace = rows.get( end.getRow() ).getSpace( end.getCell() );
+        // System.out.println( startSpace.toString() );
+        // System.out.println( endSpace.toString() );
+        if ( startSpace == null || endSpace == null ) {
+            return new ErrorMessage( "Your move was not on valid spaces!" );
+        }
+        Piece startPiece = startSpace.getPiece();
+        Piece endPiece = endSpace.getPiece();
+        if ( startPiece == null ) {
+            return new ErrorMessage( "Your move must begin with an occupied space!" );
+        }
+        if ( endPiece != null ) {
+            return new ErrorMessage( "Your move must begin with an occupied space!" );
+        }
+        if ( move.isStep() ) {
+            boolean validStep = startPiece.isValidStep( move );
+            if ( validStep ) {
+                return new InfoMessage( "Your move was valid!" );
+            }
+            else {
+                return new ErrorMessage( "That piece can't do that!" );
+            }
+        }
+        if ( move.isJump() ) {
+            boolean validJump = startPiece.isValidJump( move );
+            if ( validJump ) {
+                int halfwayRow = ( start.getRow() + end.getRow() ) / 2;
+                int halfwayCol = ( start.getCell() + end.getCell() ) / 2;
+                Space halfway = rows.get( halfwayRow ).getSpace( halfwayCol );
+                if ( halfway == null || halfway.getPiece() == null ) {
+                    return new ErrorMessage( "Can't jump over nothing!" );
+                }
+                // TODO handle jumping over own pieces
+                else {
+                    return new InfoMessage( "Valid jump!" );
+                }
+            }
+            return new ErrorMessage( "That piece can't do that!" );
+        }
+        return new ErrorMessage( "That move is invalid!" );
+    }
+
     public boolean spaceIsValid(int rowIndex, int spaceIndex){
         Row checkRow = rows.get(rowIndex);
         return checkRow.isSpaceValid(spaceIndex);

@@ -71,40 +71,11 @@ public class Game {
     }
 
     public Message validateMove( Move move ){
-        Position starting = move.getStart();
-        Position ending = move.getEnd();
-
-        //Check if the move is possible( the end position must be one row up )
-        if( starting.getRow() - 1 == ending.getRow() ){
-
-            //Check if the space is a valid piece to drop on( must be one
-            if( starting.getCell() + 1 == ending.getCell() || starting.getCell() - 1 == ending.getCell() ){
-
-                //Check that the ending space isn't occupied
-                if( activeColor == Color.RED) {
-                    if (redBoard.spaceIsValid(ending.getRow(), ending.getCell())) {
-
-                        return new InfoMessage("Your move was valid.");
-                    } else {
-                        return new ErrorMessage("The space you choose is occupied.");
-                    }
-                }
-                else{
-                    if (whiteBoard.spaceIsValid(ending.getRow(), ending.getCell())) {
-
-                        return new InfoMessage("Your move was valid.");
-                    } else {
-                        return new ErrorMessage("The space you choose is occupied.");
-                    }
-
-                }
-            }
-            else{
-                return new ErrorMessage("Pieces must move one space diagonally.");
-            }
+        if ( activeColor == Color.RED ) {
+            return redBoard.validateMove( move );
         }
         else {
-            return new ErrorMessage("Pieces must move no more than one row up");
+            return whiteBoard.validateMove( move );
         }
     }
 
