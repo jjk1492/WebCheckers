@@ -10,7 +10,11 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
+import static com.webcheckers.ui.SignInRenderer.MESSAGE_ATTR;
 import static com.webcheckers.ui.WebServer.HOME_URL;
 
 /**
@@ -18,10 +22,10 @@ import static com.webcheckers.ui.WebServer.HOME_URL;
  */
 public class PostResignGameRoute implements Route {
 
-    private static final String GAME_RESIGN_ERROR =
-            "Couldn't resign from the game, please try again!";
-    private static final String GAME_RESIGN_INFO =
-            "Resigned from game!";
+    static final String GAME_RESIGN_ERROR =
+            "Could not resign from the game, please try again!";
+    static final String GAME_RESIGN_INFO =
+            "Resigned from game, please redirect to the home page!";
 
     private GameCenter gameCenter;
     private Message message;
@@ -36,13 +40,12 @@ public class PostResignGameRoute implements Route {
 
     @Override
     public Object handle(Request request, Response response) throws Exception {
-        String name = request.queryParams( PLAYER_NAME_ATTR );
+        String name = request.session().attribute( PLAYER_NAME_ATTR );
         gameCenter.finishedGame(name);
         if(gameCenter.isPlayerInGame(name)){
             message = new ErrorMessage(GAME_RESIGN_ERROR);
         }else {
             message = new InfoMessage(GAME_RESIGN_INFO);
-            response.redirect(HOME_URL);
         }
 
         String json;

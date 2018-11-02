@@ -9,6 +9,8 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.util.Objects;
+
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
 
 /**
@@ -25,6 +27,8 @@ public class PostCheckTurnRoute implements Route {
      * @param gameCenter the gameCenter to use for logic
      */
     public PostCheckTurnRoute( GameCenter gameCenter ) {
+
+        Objects.requireNonNull( gameCenter );
         this.gameCenter = gameCenter;
     }
 
@@ -40,8 +44,6 @@ public class PostCheckTurnRoute implements Route {
     public Object handle(Request request, Response response) throws Exception {
         String name = request.session().attribute( PLAYER_NAME_ATTR );
         String result = Boolean.toString( gameCenter.isPlayerActive( name ) );
-
-        gameCenter.forceSwapTurn( name );
 
         Message message = new InfoMessage( result );
 
