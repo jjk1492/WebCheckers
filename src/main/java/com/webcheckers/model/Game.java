@@ -1,10 +1,7 @@
 package com.webcheckers.model;
 
 
-import java.util.List;
 import java.util.Objects;
-import java.util.Stack;
-import java.util.Vector;
 
 /**
  * class representing the game, containing players and a board for each player
@@ -16,7 +13,6 @@ public class Game {
     private Color activeColor;
     private Board redBoard;
     private Board whiteBoard;
-    private Stack<Move> lastValidMoves;
 
     /**
      * constructor for the game, creates new boards for each player after they are assigned
@@ -31,7 +27,6 @@ public class Game {
         this.whiteBoard = new Board();
         redBoard.fillRedBoard();
         whiteBoard.fillWhiteBoard();
-        lastValidMoves = new Stack<>();
     }
 
 
@@ -57,26 +52,17 @@ public class Game {
 
     public Player getActivePlayer() {
         if ( activeColor.equals( Color.RED ) ) {
-                lastValidMoves.clear();
             return redPlayer;
         }
         return whitePlayer;
     }
 
-    /**
-     * get last valid move made
-     * @return last valid move made
-     */
-    public Stack<Move> getLastValidMoves(){ return lastValidMoves; }
-
     public void swapTurn() {
         if ( activeColor.equals( Color.RED ) ) {
             activeColor = Color.WHITE;
-            lastValidMoves.clear();
         }
         else {
             activeColor = Color.RED;
-            lastValidMoves.clear();
         }
     }
 
@@ -93,15 +79,15 @@ public class Game {
                 //Check that the ending space isn't occupied
                 if( activeColor == Color.RED) {
                     if (redBoard.spaceIsValid(ending.getRow(), ending.getCell())) {
-                        lastValidMoves.push(move);
+
                         return new InfoMessage("Your move was valid.");
                     } else {
                         return new ErrorMessage("The space you choose is occupied.");
                     }
                 }
-                 else{
+                else{
                     if (whiteBoard.spaceIsValid(ending.getRow(), ending.getCell())) {
-                        lastValidMoves.push(move);
+
                         return new InfoMessage("Your move was valid.");
                     } else {
                         return new ErrorMessage("The space you choose is occupied.");

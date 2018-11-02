@@ -60,6 +60,7 @@ public class WebServer {
     public static final String RESIGN_GAME_URL = "/resignGame";
     public static final String VALIDATE_MOVE_URL = "/validateMove";
     public static final String BACKUP_MOVE_URL = "/backupMove";
+    public static final String SUBMIT_TURN_URL = "/submitTurn";
 
     //
     // Constants
@@ -184,6 +185,9 @@ public class WebServer {
 
         //validate game
         post(BACKUP_MOVE_URL, new PostBackupMove(gameCenter));
+
+        //submit turn
+        post(SUBMIT_TURN_URL, new PostSubmitTurnRoute(gameCenter));
 
         LOG.config( "WebServer is initialized." );
     }

@@ -50,6 +50,19 @@ public class Piece {
         return type;
     }
 
+    public boolean isValidStep( Move move ) {
+        int startRow = move.getStart().getRow();
+        int endRow = move.getEnd().getRow();
+        return move.isStep() &&  ( startRow - endRow == 1 );
+    }
+
+    public boolean isValidJump( Move move ) {
+        int startCol = move.getStart().getCell();
+        int endCol = move.getEnd().getCell();
+        return move.isJump() && ( Math.abs( startCol - endCol ) == 2 );
+    }
+
+
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;

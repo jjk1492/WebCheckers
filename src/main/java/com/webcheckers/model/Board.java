@@ -13,21 +13,19 @@ public class Board implements Iterable<Row> {
 
     //7 rows
     private List<Row> rows;
-
+    private Stack<Board> validBoards;
 
     /*
     * constructs new Board
     * */
     public Board(){
+        validBoards = new Stack<>();
         this.rows = new ArrayList<>();
         for (int i = 0; i < 8; i++){
             rows.add(new Row(i));
         }
     }
 
-    /**
-     * fills the red player's board
-     */
     public void fillRedBoard(){
         for( Row row: rows){
             int index = row.getIndex();
@@ -60,9 +58,6 @@ public class Board implements Iterable<Row> {
         }
     }
 
-    /**
-     * fills the white player's board
-     */
     public void fillWhiteBoard(){
         for( Row row: rows){
             switch (row.getIndex()){
@@ -94,7 +89,6 @@ public class Board implements Iterable<Row> {
         }
     }
 
-
     public boolean spaceIsValid(int rowIndex, int spaceIndex){
         Row checkRow = rows.get(rowIndex);
         return checkRow.isSpaceValid(spaceIndex);
@@ -105,4 +99,12 @@ public class Board implements Iterable<Row> {
         return rows.iterator();
     }
 
+    /**
+     * adds a valid board to the stack
+     * for use with BackupMove
+     * @param b board to push
+     */
+    public void addValidBoard( Board b ) { validBoards.push(b); }
+
+    public Board getLastValidBoard(){ return validBoards.pop(); }
 }
