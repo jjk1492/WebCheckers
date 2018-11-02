@@ -79,6 +79,10 @@ public class Game {
         }
     }
 
+    public Message submitTurn(){
+        return new ErrorMessage("need to implement submitTurn in Game class");
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

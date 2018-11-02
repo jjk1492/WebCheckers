@@ -3,6 +3,7 @@ package com.webcheckers.ui;
 import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
 import com.webcheckers.model.ErrorMessage;
+import com.webcheckers.model.Game;
 import com.webcheckers.model.InfoMessage;
 import com.webcheckers.model.Message;
 import org.omg.PortableInterceptor.ACTIVE;
@@ -32,15 +33,17 @@ public class PostSubmitTurnRoute implements Route {
         String name = request.session().attribute( PLAYER_NAME_ATTR );
         Gson gson = new Gson();
         Message message;
+        Game game;
 
         if(gameCenter.isPlayerInGame(name)){
+            game = gameCenter.getGame(name);
             gameCenter.forceSwapTurn(name);
             if (gameCenter.isPlayerActive(name)) {
                 message = new ErrorMessage(SWAP_TURN_ERROR);
             }
             else {
                 // TODO actually submit all of the moves to the game
-                message = new InfoMessage(SUBMIT_TURN_INFO);
+                message = game.submitTurn();
             }
         }
         else {
