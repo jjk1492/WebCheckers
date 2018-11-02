@@ -18,6 +18,10 @@ public class Move {
         this.end = end;
     }
 
+    public Move getInverse() {
+        return new Move( end.getInverse(), start.getInverse() );
+    }
+
     /*
      * returns start Position
      * */
@@ -59,5 +63,6 @@ public class Move {
         }
         return true;
     }
+
 
 }

@@ -34,7 +34,7 @@ public class PostSubmitTurnRoute implements Route {
         Message message;
 
         if(gameCenter.isPlayerInGame(name)){
-            gameCenter.forceSwapTurn(name);
+            gameCenter.finishTurn( name );
             if (gameCenter.isPlayerActive(name)) {
                 message = new ErrorMessage(SWAP_TURN_ERROR);
             }

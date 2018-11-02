@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import static com.webcheckers.model.Game.NUM_ROWS;
+
 /*
  * Position class in the model tier
  * */
@@ -7,6 +9,7 @@ public class Position {
 
     private int row;
     private int cell;
+
 
     /*
      * constructs a Position object
@@ -16,6 +19,11 @@ public class Position {
     public Position(int row, int cell){
         this.row = row;
         this.cell = cell;
+    }
+
+
+    public Position getInverse() {
+        return new Position( NUM_ROWS - 1 - row, cell );
     }
 
     /*

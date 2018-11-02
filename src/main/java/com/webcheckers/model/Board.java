@@ -13,13 +13,11 @@ public class Board implements Iterable<Row> {
 
     //7 rows
     private List<Row> rows;
-    private Stack<Board> validBoards;
 
     /*
     * constructs new Board
     * */
     public Board(){
-        validBoards = new Stack<>();
         this.rows = new ArrayList<>();
         for (int i = 0; i < 8; i++){
             rows.add(new Row(i));
@@ -89,20 +87,43 @@ public class Board implements Iterable<Row> {
         }
     }
 
+
+    public Space getSpace( Position position ) {
+        // TODO row index safety check
+        return rows.get( position.getRow() ).getSpace( position.getCell() );
+    }
+
+    public Piece getPiece( Position position ) {
+        return rows.get( position.getRow() ).getPiece( position.getCell() );
+    }
+
+    public Space getHalfway( Position start, Position end ) {
+        double startRow = (double)start.getRow();
+        double startCol = (double)start.getCell();
+        double endRow = (double)end.getRow();
+        double endCol = (double)end.getCell();
+        double midRow = Math.abs( endRow - startRow ) / 2;
+        double midCol = Math.abs( endCol - startCol ) / 2;
+        if ( midRow == (int)midRow && midCol == (int)midCol ) {
+            return getSpace( new Position( (int)midRow, (int)midCol ) );
+        }
+        return null;
+    }
+
+
     public Message validateMove( Move move ) {
         Position start = move.getStart();
         Position end = move.getEnd();
-        System.out.println( start );
-        System.out.println( end );
-        Space startSpace = rows.get( start.getRow() ).getSpace( start.getCell() );
-        Space endSpace = rows.get( end.getRow() ).getSpace( end.getCell() );
-        // System.out.println( startSpace.toString() );
-        // System.out.println( endSpace.toString() );
+        Space startSpace = getSpace( start );
+        Space endSpace = getSpace( end );
+
         if ( startSpace == null || endSpace == null ) {
             return new ErrorMessage( "Your move was not on valid spaces!" );
         }
+
         Piece startPiece = startSpace.getPiece();
         Piece endPiece = endSpace.getPiece();
+
         if ( startPiece == null ) {
             return new ErrorMessage( "Your move must begin with an occupied space!" );
         }
@@ -121,9 +142,7 @@ public class Board implements Iterable<Row> {
         if ( move.isJump() ) {
             boolean validJump = startPiece.isValidJump( move );
             if ( validJump ) {
-                int halfwayRow = ( start.getRow() + end.getRow() ) / 2;
-                int halfwayCol = ( start.getCell() + end.getCell() ) / 2;
-                Space halfway = rows.get( halfwayRow ).getSpace( halfwayCol );
+                Space halfway = getHalfway( start, end );
                 if ( halfway == null || halfway.getPiece() == null ) {
                     return new ErrorMessage( "Can't jump over nothing!" );
                 }
@@ -136,6 +155,27 @@ public class Board implements Iterable<Row> {
         }
         return new ErrorMessage( "That move is invalid!" );
     }
+    
+    
+    /**
+     * applies a move
+     * @pre move is valid (not my responsibility to check :)
+     */
+    public void applyMove( Move move ) {
+        Position start = move.getStart();
+        Position end = move.getEnd();
+
+        Space startSpace = getSpace( start );
+        Piece subject = startSpace.getPiece();
+        startSpace.setPiece( null );
+        Space destination = getSpace( end );
+        
+        if ( move.isJump() ) {
+            getHalfway( start, end ).setPiece( null );
+        }
+
+    }
+
 
     public boolean spaceIsValid(int rowIndex, int spaceIndex){
         Row checkRow = rows.get(rowIndex);
@@ -146,13 +186,4 @@ public class Board implements Iterable<Row> {
     public Iterator<Row> iterator() {
         return rows.iterator();
     }
-
-    /**
-     * adds a valid board to the stack
-     * for use with BackupMove
-     * @param b board to push
-     */
-    public void addValidBoard( Board b ) { validBoards.push(b); }
-
-    public Board getLastValidBoard(){ return validBoards.pop(); }
 }

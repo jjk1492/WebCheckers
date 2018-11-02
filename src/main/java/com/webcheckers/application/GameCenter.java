@@ -79,20 +79,19 @@ public class GameCenter {
     }
 
 
-    
-    public void forceSwapTurn( String name ) {
-        Game game = getGame( name );
-        if ( game != null ) {
-            game.swapTurn();
-        }
-    }
-
     public boolean isPlayerActive( String name ) {
         Game game = getGame( name );
         if ( name != null && game != null ) {
             return name.equals( game.getActivePlayer().getName() );
         }
         return false;
+    }
+
+    public void finishTurn( String name ) {
+        Game game = getGame( name );
+        if ( game != null ) {
+            game.applyTurn();
+        }
     }
 
 

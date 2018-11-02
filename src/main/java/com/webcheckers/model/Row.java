@@ -94,12 +94,28 @@ public class Row implements Iterable<Space> {
         return spaces;
     }
 
+    public Piece getPiece( int cell ) {
+        Space space = getSpace( cell );
+        if ( space == null ) {
+            return null;
+        }
+        return space.getPiece();
+    }
+
+
     public Space getSpace( int cell ) {
         if ( validIndex( cell ) ) {
             return spaces.get( cell );
         }
         return null;
     }
+
+
+    public void putPiece( int cell, Piece piece ) {
+        Space space = getSpace( cell );
+        space.setPiece( piece );
+    }
+
 
     public boolean validIndex( int index ) {
         return index >= 0 && index < 8;

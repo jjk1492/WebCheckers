@@ -26,7 +26,7 @@ public class PostValidateMove implements Route {
 
         String playerName = request.session().attribute( PLAYER_NAME_ATTR );
         Game currentGame = gameCenter.getGame(playerName);
-        Message moveMessage = currentGame.validateMove(move);
+        Message moveMessage = currentGame.tryMove(move);
 
         String json;
         json = gson.toJson(moveMessage);

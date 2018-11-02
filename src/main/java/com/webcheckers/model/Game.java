@@ -1,20 +1,24 @@
 package com.webcheckers.model;
 
+import com.webcheckers.model.Message.Type;
 
 import java.util.Objects;
-import java.util.Stack;
+import java.util.Deque;
+import java.util.LinkedList;
 
 /**
  * class representing the game, containing players and a board for each player
  */
 public class Game {
 
+    public static final int NUM_ROWS = 8;
+    
     private Player redPlayer;
     private Player whitePlayer;
     private Color activeColor;
     private Board redBoard;
     private Board whiteBoard;
-    private Stack<Move> lastValidMoves;
+    private Deque<Move> pendingMoves;
 
     /**
      * constructor for the game, creates new boards for each player after they are assigned
@@ -29,8 +33,7 @@ public class Game {
         this.whiteBoard = new Board();
         redBoard.fillRedBoard();
         whiteBoard.fillWhiteBoard();
-        lastValidMoves = new Stack<>();
-
+        pendingMoves = new LinkedList<>();
     }
 
 
@@ -61,7 +64,7 @@ public class Game {
         return whitePlayer;
     }
 
-    public void swapTurn() {
+    private void swapTurn() {
         if ( activeColor.equals( Color.RED ) ) {
             activeColor = Color.WHITE;
         }
@@ -70,13 +73,37 @@ public class Game {
         }
     }
 
-    public Message validateMove( Move move ){
-        if ( activeColor == Color.RED ) {
-            return redBoard.validateMove( move );
+    public void applyTurn() {
+        Board activeBoard;
+        Board opponentBoard;
+        if ( activeColor.equals( Color.WHITE ) ) {
+            activeBoard = whiteBoard;
+            opponentBoard = redBoard;
         }
         else {
-            return whiteBoard.validateMove( move );
+            activeBoard = redBoard;
+            opponentBoard = whiteBoard;
         }
+        Move move;
+        while ( ( move = pendingMoves.pollLast() ) != null ) {
+            activeBoard.applyMove( move );
+            opponentBoard.applyMove( move.getInverse() );
+        }
+        swapTurn();
+   }
+
+    public Message tryMove( Move move ){
+        Message message;
+        if ( activeColor == Color.RED ) {
+            message =redBoard.validateMove( move );
+        }
+        else {
+            message = whiteBoard.validateMove( move );
+        }
+        if ( message.getType().equals( Type.info ) ) {
+            pendingMoves.push( move );
+        }
+        return message;
     }
 
     @Override
