@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the methods of the Row class
+ * @author John Knecht V (jjk1492@rit.edu)
  */
 @Tag("Model-Tier")
 public class RowTest {
