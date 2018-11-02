@@ -4,6 +4,7 @@ package com.webcheckers.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Stack;
 
 /*
 * Board class in the model tier
@@ -12,11 +13,13 @@ public class Board implements Iterable<Row> {
 
     //7 rows
     private List<Row> rows;
+    private Stack<Board> validBoards;
 
     /*
     * constructs new Board
     * */
     public Board(){
+        validBoards = new Stack<>();
         this.rows = new ArrayList<>();
         for (int i = 0; i < 8; i++){
             rows.add(new Row(i));
@@ -151,4 +154,13 @@ public class Board implements Iterable<Row> {
     public Iterator<Row> iterator() {
         return rows.iterator();
     }
+
+    /**
+     * adds a valid board to the stack
+     * for use with BackupMove
+     * @param b board to push
+     */
+    public void addValidBoard( Board b ) { validBoards.push(b); }
+
+    public Board getLastValidBoard(){ return validBoards.pop(); }
 }
