@@ -166,12 +166,16 @@ public class Board implements Iterable<Row> {
         Position end = move.getEnd();
 
         Space startSpace = getSpace( start );
+        Space destination = getSpace( end );
         Piece subject = startSpace.getPiece();
         startSpace.setPiece( null );
-        Space destination = getSpace( end );
+        startSpace.setValid( true );
+        destination.setValid( false );
         
         if ( move.isJump() ) {
-            getHalfway( start, end ).setPiece( null );
+            Space halfway = getHalfway( start, end );
+            halfway.setValid( false );
+            halfway.setPiece( null );
         }
 
     }
