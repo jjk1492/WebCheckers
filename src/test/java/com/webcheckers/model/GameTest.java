@@ -85,10 +85,10 @@ public class GameTest {
 
         String validMoveMessage = "Your move was valid.";
 
-        assertEquals(firstMoveMessage.getType(), Message.Type.INFO);
+        assertEquals(firstMoveMessage.getType(), Message.Type.info);
         assertEquals(firstMoveMessage.getText(), validMoveMessage);
 
-        assertEquals(secondMoveMessage.getType(), Message.Type.INFO);
+        assertEquals(secondMoveMessage.getType(), Message.Type.info);
         assertEquals(secondMoveMessage.getText(), validMoveMessage);
     }
 
@@ -108,7 +108,7 @@ public class GameTest {
 
         String invalidMoveMessage = "Pieces must move no more than one row up";
 
-        assertEquals(moveMessage.getType(), Message.Type.ERROR);
+        assertEquals(moveMessage.getType(), Message.Type.error);
         assertEquals(moveMessage.getText(), invalidMoveMessage);
     }
 

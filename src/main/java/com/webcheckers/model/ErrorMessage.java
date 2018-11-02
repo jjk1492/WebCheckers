@@ -6,6 +6,6 @@ package com.webcheckers.model;
 public class ErrorMessage extends Message {
 
     public ErrorMessage( String text ) {
-        super( Type.ERROR, text );
+        super( Type.error, text );
     }
 }

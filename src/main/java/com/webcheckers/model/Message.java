@@ -8,8 +8,8 @@ package com.webcheckers.model;
 public abstract class Message {
 
     public enum Type {
-        INFO,
-        ERROR
+        info,
+        error
     }
 
     private Type type;

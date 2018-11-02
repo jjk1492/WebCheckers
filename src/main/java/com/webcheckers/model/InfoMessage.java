@@ -6,6 +6,6 @@ package com.webcheckers.model;
 public class InfoMessage extends Message {
 
     public InfoMessage( String text ) {
-        super( Type.INFO, text );
+        super( Type.info, text );
     }
 }

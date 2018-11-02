@@ -1,8 +1,6 @@
 package com.webcheckers.ui;
 
-import com.google.gson.Gson;
 import com.webcheckers.application.GameCenter;
-import com.webcheckers.model.InfoMessage;
 import com.webcheckers.model.Message;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -11,9 +9,6 @@ import spark.Request;
 import spark.Response;
 import spark.Session;
 
-import static com.webcheckers.model.Message.Type.ERROR;
-import static com.webcheckers.model.Message.Type.INFO;
-import static com.webcheckers.ui.PostResignGameRoute.GAME_RESIGN_INFO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.verify;
@@ -61,7 +56,7 @@ public class PostResignGameRouteTest {
 
         try {
             Object ret = postResignGameRoute.handle(request, response);
-            assertEquals("{\"type\":\"INFO\",\"text\":\"Resigned from game, please redirect to the home page!\"}", ret);
+            assertEquals("{\"type\":\"info\",\"text\":\"Resigned from game, please redirect to the home page!\"}", ret);
         }catch(Exception e){e.printStackTrace();}
 
         verify(gameCenter).finishedGame(redName);
@@ -77,7 +72,7 @@ public class PostResignGameRouteTest {
 
         try {
             Object ret = postResignGameRoute.handle(request, response);
-            assertEquals("{\"type\":\"ERROR\",\"text\":\"Could not resign from the game, please try again!\"}", ret);
+            assertEquals("{\"type\":\"error\",\"text\":\"Could not resign from the game, please try again!\"}", ret);
         }catch(Exception e){e.printStackTrace();}
 
     }

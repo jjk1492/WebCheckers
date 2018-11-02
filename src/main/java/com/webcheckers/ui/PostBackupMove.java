@@ -8,12 +8,15 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.util.Stack;
+import java.util.Vector;
+
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
 
 
 public class PostBackupMove implements Route{
     private static final String BACKUP_INFO ="Reset board to your last valid move";
-    private static final String BACKUP_ERROR = "There was no move to backup!";
+    private static final String BACKUP_ERROR = "There was no move to backup to!";
 
     private GameCenter gameCenter;
     private Message message;
@@ -25,12 +28,15 @@ public class PostBackupMove implements Route{
 
         String playerName = request.session().attribute( PLAYER_NAME_ATTR );
         Game currentGame = gameCenter.getGame(playerName);
-        if(currentGame.getLastMove().equals(null)){
-            message = new ErrorMessage(BACKUP_ERROR);
-        }
-        else{
+        Stack<Move> moves = currentGame.getLastValidMoves();
+
+//        if(moves.empty()){
+//            message = new ErrorMessage(BACKUP_ERROR);
+//        }
+//        else{
+//            moves.pop();
             message = new InfoMessage(BACKUP_INFO);
-        }
+//        }
 
         String json;
         Gson gson = new GsonBuilder().create();
