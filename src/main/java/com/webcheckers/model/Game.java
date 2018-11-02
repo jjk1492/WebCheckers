@@ -2,6 +2,7 @@ package com.webcheckers.model;
 
 
 import java.util.Objects;
+import java.util.Stack;
 
 /**
  * class representing the game, containing players and a board for each player
@@ -13,6 +14,7 @@ public class Game {
     private Color activeColor;
     private Board redBoard;
     private Board whiteBoard;
+    private Stack<Move> lastValidMoves;
 
     /**
      * constructor for the game, creates new boards for each player after they are assigned
@@ -27,6 +29,8 @@ public class Game {
         this.whiteBoard = new Board();
         redBoard.fillRedBoard();
         whiteBoard.fillWhiteBoard();
+        lastValidMoves = new Stack<>();
+
     }
 
 

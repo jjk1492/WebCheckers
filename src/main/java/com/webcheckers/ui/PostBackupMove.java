@@ -28,7 +28,7 @@ public class PostBackupMove implements Route{
 
         String playerName = request.session().attribute( PLAYER_NAME_ATTR );
         Game currentGame = gameCenter.getGame(playerName);
-        Stack<Move> moves = currentGame.getLastValidMoves();
+//        Stack<Move> moves = currentGame.getLastValidMoves();
 
 //        if(moves.empty()){
 //            message = new ErrorMessage(BACKUP_ERROR);
