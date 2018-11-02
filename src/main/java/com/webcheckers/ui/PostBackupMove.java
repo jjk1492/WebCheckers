@@ -8,6 +8,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.util.Deque;
 import java.util.Stack;
 
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
@@ -27,12 +28,13 @@ public class PostBackupMove implements Route{
 
         String playerName = request.session().attribute( PLAYER_NAME_ATTR );
         Game currentGame = gameCenter.getGame(playerName);
-        Move m = currentGame.backupMove();
+        Deque<Move> stack = currentGame.backupMove();
 
-        if(m.equals(null)){
+        if(stack.isEmpty()){
            message = new ErrorMessage(BACKUP_ERROR);
         }
         else{
+            stack.pop();
             message = new InfoMessage(BACKUP_INFO);
         }
 

@@ -83,8 +83,8 @@ public class Game {
         return new ErrorMessage("need to implement submitTurn in Game class");
     }
 
-    public Move backupMove(){
-        return pendingMoves.pop();
+    public Deque<Move> backupMove(){
+        return pendingMoves;
     }
 
     @Override
