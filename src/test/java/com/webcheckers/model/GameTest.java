@@ -90,8 +90,26 @@ public class GameTest {
 
         assertEquals(secondMoveMessage.getType(), Message.Type.INFO);
         assertEquals(secondMoveMessage.getText(), validMoveMessage);
+    }
 
+    @Test
+    public void ValidateMoveTest_BackwardsMove(){
+        final Player redPlayer = new Player("red");
+        final Player whitePlayer = new Player("white");
+        final Game CuT = new Game(redPlayer, whitePlayer);
 
+        //Create the positions needed to test
+        Position startingPos = new Position(5, 2);
+        Position endingPos = new Position(6, 3);
+
+        Move backwardsMove = new Move( startingPos, endingPos);
+
+        Message moveMessage = CuT.validateMove(backwardsMove);
+
+        String invalidMoveMessage = "Pieces must move no more than one row up";
+
+        assertEquals(moveMessage.getType(), Message.Type.ERROR);
+        assertEquals(moveMessage.getText(), invalidMoveMessage);
     }
 
     @Test
@@ -101,15 +119,15 @@ public class GameTest {
         final Player redPlayer2 = new Player("red2");
         final Player whitePlayer2 = new Player("white2");
 
-        final Game CuT1 = new Game( redPlayer1, whitePlayer1);
-        final Game CuT2 = new Game(redPlayer2, whitePlayer2);
+        final Game CuT1 = new Game( redPlayer1, whitePlayer1 );
+        final Game CuT2 = new Game( redPlayer2, whitePlayer2 );
 
-        boolean sameGame = CuT1.equals(CuT1);
-        boolean nullGame = CuT1.equals(null);
-        boolean differentGame = CuT1.equals(CuT2);
+        boolean sameGame = CuT1.equals( CuT1 );
+        boolean nullGame = CuT1.equals( null );
+        boolean differentGame = CuT1.equals( CuT2 );
 
-        assertEquals(sameGame, true);
-        assertEquals(nullGame, false);
-        assertEquals(differentGame, false);
+        assertTrue( sameGame );
+        assertFalse( nullGame );
+        assertFalse( differentGame );
     }
 }
