@@ -67,6 +67,34 @@ public class GameTest {
     }
 
     @Test
+    public void ValidateMoveTest_ValidMove(){
+        final Player redPlayer = new Player("red");
+        final Player whitePlayer = new Player("white");
+        final Game CuT = new Game(redPlayer, whitePlayer);
+
+        //Create the positions needed to test
+        Position startingPos = new Position(5, 2);
+        Position validEndingPosRight = new Position(4, 3);
+        Position validEndingPosLeft = new Position(4, 1);
+
+        Move firstMove = new Move(startingPos, validEndingPosLeft);
+        Move secondMove = new Move(startingPos, validEndingPosRight);
+
+        Message firstMoveMessage = CuT.validateMove(firstMove);
+        Message secondMoveMessage = CuT.validateMove(secondMove);
+
+        String validMoveMessage = "Your move was valid.";
+
+        assertEquals(firstMoveMessage.getType(), Message.Type.INFO);
+        assertEquals(firstMoveMessage.getText(), validMoveMessage);
+
+        assertEquals(secondMoveMessage.getType(), Message.Type.INFO);
+        assertEquals(secondMoveMessage.getText(), validMoveMessage);
+
+
+    }
+
+    @Test
     public void EqualsTest(){
         final Player redPlayer1 = new Player( "red1");
         final Player whitePlayer1 = new Player( "white1");
