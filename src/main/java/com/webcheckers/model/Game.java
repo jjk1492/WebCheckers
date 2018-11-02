@@ -75,6 +75,10 @@ public class Game {
         }
     }
 
+    public Move getLastMove(){
+        // TODO implement this to return the last validated Move in the current turn
+        return null;
+    }
 
     @Override
     public boolean equals(Object o) {
