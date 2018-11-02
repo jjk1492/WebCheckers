@@ -2,6 +2,8 @@ package com.webcheckers.model;
 
 import com.webcheckers.model.Message.Type;
 
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Deque;
 import java.util.LinkedList;
@@ -35,7 +37,6 @@ public class Game {
         whiteBoard.fillWhiteBoard();
         pendingMoves = new LinkedList<>();
     }
-
 
     public Player getRedPlayer() {
         return redPlayer;
@@ -104,6 +105,14 @@ public class Game {
             pendingMoves.push( move );
         }
         return message;
+    }
+
+    public Message submitTurn(){
+        return new ErrorMessage("need to implement submitTurn in Game class");
+    }
+
+    public Deque<Move> backupMove(){
+        return pendingMoves;
     }
 
     @Override

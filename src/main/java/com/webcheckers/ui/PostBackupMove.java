@@ -8,8 +8,8 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import java.util.Deque;
 import java.util.Stack;
-import java.util.Vector;
 
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
 
@@ -28,15 +28,15 @@ public class PostBackupMove implements Route{
 
         String playerName = request.session().attribute( PLAYER_NAME_ATTR );
         Game currentGame = gameCenter.getGame(playerName);
-//        Stack<Move> moves = currentGame.getLastValidMoves();
+        Deque<Move> stack = currentGame.backupMove();
 
-//        if(moves.empty()){
-//            message = new ErrorMessage(BACKUP_ERROR);
-//        }
-//        else{
-//            moves.pop();
+        if(stack.isEmpty()){
+           message = new ErrorMessage(BACKUP_ERROR);
+        }
+        else{
+            stack.pop();
             message = new InfoMessage(BACKUP_INFO);
-//        }
+        }
 
         String json;
         Gson gson = new GsonBuilder().create();
