@@ -102,10 +102,11 @@ public class Board implements Iterable<Row> {
         double startCol = (double)start.getCell();
         double endRow = (double)end.getRow();
         double endCol = (double)end.getCell();
-        double midRow = Math.abs( endRow - startRow ) / 2;
-        double midCol = Math.abs( endCol - startCol ) / 2;
+        double midRow = Math.abs( endRow + startRow ) / 2;
+        double midCol = Math.abs( endCol + startCol ) / 2;
         if ( midRow == (int)midRow && midCol == (int)midCol ) {
-            return getSpace( new Position( (int)midRow, (int)midCol ) );
+            Position midPos = new Position( (int)midRow, (int)midCol);
+            return getSpace( midPos );
         }
         return null;
     }
@@ -174,7 +175,7 @@ public class Board implements Iterable<Row> {
         
         if ( move.isJump() ) {
             Space halfway = getHalfway( start, end );
-            halfway.setValid( false );
+            halfway.setValid( true );
             halfway.setPiece( null );
         }
 

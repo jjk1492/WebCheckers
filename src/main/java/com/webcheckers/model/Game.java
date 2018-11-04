@@ -98,7 +98,7 @@ public class Game {
     public Message tryMove( Move move ){
         Message message;
         if ( activeColor == Color.RED ) {
-            message =redBoard.validateMove( move );
+            message = redBoard.validateMove( move );
         }
         else {
             message = whiteBoard.validateMove( move );
