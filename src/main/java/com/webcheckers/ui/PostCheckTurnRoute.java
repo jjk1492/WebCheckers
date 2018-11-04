@@ -3,6 +3,7 @@ package com.webcheckers.ui;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.webcheckers.application.GameCenter;
+import com.webcheckers.model.ErrorMessage;
 import com.webcheckers.model.InfoMessage;
 import com.webcheckers.model.Message;
 import spark.Request;
@@ -20,6 +21,7 @@ import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
  */
 public class PostCheckTurnRoute implements Route {
 
+    private static final String OPPONENT_RESIGNED_ERROR = "Your opponent resigned, please redirect to home!";
     private GameCenter gameCenter;
 
     /**
@@ -44,8 +46,14 @@ public class PostCheckTurnRoute implements Route {
     public Object handle(Request request, Response response) throws Exception {
         String name = request.session().attribute( PLAYER_NAME_ATTR );
         String result = Boolean.toString( gameCenter.isPlayerActive( name ) );
+        Message message;
 
-        Message message = new InfoMessage( result );
+        if (!gameCenter.isPlayerInGame(name)){
+            message = new InfoMessage(OPPONENT_RESIGNED_ERROR);
+        }
+        else {
+            message = new InfoMessage(result);
+        }
 
         String json;
         Gson gson = new GsonBuilder().create();
