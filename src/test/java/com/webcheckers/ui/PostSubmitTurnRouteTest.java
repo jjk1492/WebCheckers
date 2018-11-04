@@ -47,8 +47,6 @@ public class PostSubmitTurnRouteTest {
         when(gameCenter.isPlayerInGame(redName)).thenReturn(true);
         when(gameCenter.isPlayerActive(redName)).thenReturn(false);
 
-        verify(gameCenter,atLeastOnce()).finishTurn(redName);
-
         try {
             Object ret = postSubmitTurnRoute.handle(request, response);
             assertEquals("{\"type\":\"info\",\"text\":\"Turn submitted!\"}", ret);
