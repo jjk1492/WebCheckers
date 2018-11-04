@@ -134,6 +134,7 @@ public class Board implements Iterable<Row> {
         if ( move.isStep() ) {
             boolean validStep = startPiece.isValidStep( move );
             if ( validStep ) {
+                // TODO handle stepping when a valid jump move is available for that player
                 return new InfoMessage( "Your move was valid!" );
             }
             else {
