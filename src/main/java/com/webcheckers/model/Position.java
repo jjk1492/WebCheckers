@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import java.util.ArrayList;
+
 import static com.webcheckers.model.Game.NUM_ROWS;
 
 /*
@@ -23,7 +25,16 @@ public class Position {
 
 
     public Position getInverse() {
-        return new Position( NUM_ROWS - 1 - row, cell );
+        ArrayList<Integer> inverseIndex = new ArrayList<>();
+        inverseIndex.add(7);
+        inverseIndex.add(6);
+        inverseIndex.add(5);
+        inverseIndex.add(4);
+        inverseIndex.add(3);
+        inverseIndex.add(2);
+        inverseIndex.add(1);
+        inverseIndex.add(0);
+        return new Position( inverseIndex.get(row), inverseIndex.get(cell));
     }
 
     /*

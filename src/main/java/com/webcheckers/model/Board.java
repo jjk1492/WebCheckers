@@ -128,7 +128,7 @@ public class Board implements Iterable<Row> {
             return new ErrorMessage( "Your move must begin with an occupied space!" );
         }
         if ( endPiece != null ) {
-            return new ErrorMessage( "Your move must begin with an occupied space!" );
+            return new ErrorMessage( "Your cannot move to an occupied space!" );
         }
         if ( move.isStep() ) {
             boolean validStep = startPiece.isValidStep( move );
@@ -161,15 +161,15 @@ public class Board implements Iterable<Row> {
      * applies a move
      * @pre move is valid (not my responsibility to check :)
      */
-    public void applyMove( Move move ) {
+    public void applyMove( Move move, Piece subject ) {
         Position start = move.getStart();
         Position end = move.getEnd();
 
         Space startSpace = getSpace( start );
         Space destination = getSpace( end );
-        Piece subject = startSpace.getPiece();
         startSpace.setPiece( null );
         startSpace.setValid( true );
+        destination.setPiece(subject);
         destination.setValid( false );
         
         if ( move.isJump() ) {

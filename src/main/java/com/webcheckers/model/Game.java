@@ -87,8 +87,10 @@ public class Game {
         }
         Move move;
         while ( ( move = pendingMoves.pollLast() ) != null ) {
-            activeBoard.applyMove( move );
-            opponentBoard.applyMove( move.getInverse() );
+            Piece subject = activeBoard.getPiece(move.getStart());
+            activeBoard.applyMove( move, subject );
+            Move inverseMove = move.getInverse();
+            opponentBoard.applyMove( inverseMove, subject );
         }
         swapTurn();
    }
@@ -114,6 +116,7 @@ public class Game {
     public Deque<Move> backupMove(){
         return pendingMoves;
     }
+
 
     @Override
     public boolean equals(Object o) {

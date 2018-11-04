@@ -1,5 +1,7 @@
 package com.webcheckers.model;
 
+import java.util.ArrayList;
+
 /**
  * class that represents a player
  * @author Shannon Quinn

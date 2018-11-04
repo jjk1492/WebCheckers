@@ -19,7 +19,7 @@ public class Move {
     }
 
     public Move getInverse() {
-        return new Move( end.getInverse(), start.getInverse() );
+        return new Move( start.getInverse(), end.getInverse() );
     }
 
     /*
