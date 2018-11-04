@@ -65,7 +65,7 @@ public class Game {
         return whitePlayer;
     }
 
-    private void swapTurn() {
+    public void swapTurn() {
         if ( activeColor.equals( Color.RED ) ) {
             activeColor = Color.WHITE;
         }

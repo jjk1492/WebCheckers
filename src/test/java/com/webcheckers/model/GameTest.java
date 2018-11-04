@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the methods of the Game class
- * @author John Kencht V (jjk1492@rit.edu)
+ * @author John Knecht V (jjk1492@rit.edu)
  */
 @Tag("Model-Tier")
 public class GameTest {
@@ -58,7 +58,7 @@ public class GameTest {
         assertEquals( whitePlayer, playerAfterSwap );
         assertEquals( Color.WHITE, colorAfterSwap );
 
-//        CuT.swapTurn();
+        CuT.swapTurn();
 
         //Check swapping for white to red
         assertEquals( redPlayer, CuT.getActivePlayer());
@@ -83,7 +83,7 @@ public class GameTest {
         Message firstMoveMessage = CuT.tryMove(firstMove);
         Message secondMoveMessage = CuT.tryMove(secondMove);
 
-        String validMoveMessage = "Your move was valid.";
+        String validMoveMessage = "Your move was valid!";
 
         assertEquals(firstMoveMessage.getType(), Message.Type.info);
         assertEquals(firstMoveMessage.getText(), validMoveMessage);
