@@ -58,7 +58,7 @@ public class GameTest {
         assertEquals( whitePlayer, playerAfterSwap );
         assertEquals( Color.WHITE, colorAfterSwap );
 
-        CuT.swapTurn();
+//        CuT.swapTurn();
 
         //Check swapping for white to red
         assertEquals( redPlayer, CuT.getActivePlayer());
@@ -80,8 +80,8 @@ public class GameTest {
         Move firstMove = new Move(startingPos, validEndingPosLeft);
         Move secondMove = new Move(startingPos, validEndingPosRight);
 
-        Message firstMoveMessage = CuT.validateMove(firstMove);
-        Message secondMoveMessage = CuT.validateMove(secondMove);
+        Message firstMoveMessage = CuT.tryMove(firstMove);
+        Message secondMoveMessage = CuT.tryMove(secondMove);
 
         String validMoveMessage = "Your move was valid.";
 
@@ -104,7 +104,7 @@ public class GameTest {
 
         Move backwardsMove = new Move( startingPos, endingPos);
 
-        Message moveMessage = CuT.validateMove(backwardsMove);
+        Message moveMessage = CuT.tryMove(backwardsMove);
 
         String invalidMoveMessage = "Pieces must move no more than one row up";
 
