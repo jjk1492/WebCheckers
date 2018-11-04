@@ -126,9 +126,9 @@ public class Game {
    }
 
     /**
-     *
-     * @param move
-     * @return
+     * checks if a move is valid
+     * @param move move that is trying to be made
+     * @return info or error message
      */
     public Message tryMove( Move move ){
         Message message;
