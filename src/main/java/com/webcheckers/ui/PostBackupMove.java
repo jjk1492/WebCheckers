@@ -7,13 +7,13 @@ import com.webcheckers.model.*;
 import spark.Request;
 import spark.Response;
 import spark.Route;
-
 import java.util.Deque;
-import java.util.Stack;
 
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
 
-
+/**
+ * PostBackupMove route
+ */
 public class PostBackupMove implements Route{
     private static final String BACKUP_INFO ="Reset board to your last valid move";
     private static final String BACKUP_ERROR = "There was no move to backup to!";
@@ -21,21 +21,31 @@ public class PostBackupMove implements Route{
     private GameCenter gameCenter;
     private Message message;
 
+    /**
+     * constructor for PostBackupMove
+     * @param gameCenter
+     */
     public PostBackupMove(GameCenter gameCenter){ this.gameCenter = gameCenter; }
 
+    /**
+     * sends a message if a backup move was successful or not
+     * @param request the spark request object
+     * @param response he response spark object
+     * @return json with message
+     * @throws Exception
+     */
     @Override
     public Object handle(Request request, Response response) throws Exception{
 
         String playerName = request.session().attribute( PLAYER_NAME_ATTR );
         Game currentGame = gameCenter.getGame(playerName);
-        Deque<Move> stack = currentGame.backupMove();
+        Boolean moveLeft = currentGame.backupMove();
 
-        if(stack.isEmpty()){
-           message = new ErrorMessage(BACKUP_ERROR);
+        if(moveLeft){
+            message = new InfoMessage(BACKUP_INFO);
         }
         else{
-            stack.pop();
-            message = new InfoMessage(BACKUP_INFO);
+            message = new ErrorMessage(BACKUP_ERROR);
         }
 
         String json;

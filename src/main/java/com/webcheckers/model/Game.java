@@ -38,26 +38,50 @@ public class Game {
         pendingMoves = new LinkedList<>();
     }
 
+    /**
+     * get the red player
+     * @return Player
+     */
     public Player getRedPlayer() {
         return redPlayer;
     }
 
+    /**
+     * get the white player
+     * @return Player
+     */
     public Player getWhitePlayer() {
         return whitePlayer;
     }
 
+    /**
+     * get the red player's board
+     * @return Board
+     */
     public Board getRedBoard() {
         return redBoard;
     }
 
+    /**
+     * get the white player's board
+     * @return Board
+     */
     public Board getWhiteBoard(){
         return whiteBoard;
     }
 
+    /**
+     * get the color of the active player
+     * @return Color
+     */
     public Color getActiveColor() {
         return activeColor;
     }
 
+    /**
+     * get the active player
+     * @return Player
+     */
     public Player getActivePlayer() {
         if ( activeColor.equals( Color.RED ) ) {
             return redPlayer;
@@ -65,6 +89,9 @@ public class Game {
         return whitePlayer;
     }
 
+    /**
+     * change whose turn it is
+     */
     public void swapTurn() {
         if ( activeColor.equals( Color.RED ) ) {
             activeColor = Color.WHITE;
@@ -74,6 +101,9 @@ public class Game {
         }
     }
 
+    /**
+     * applies the pending moves to the board
+     */
     public void applyTurn() {
         Board activeBoard;
         Board opponentBoard;
@@ -95,6 +125,11 @@ public class Game {
         swapTurn();
    }
 
+    /**
+     *
+     * @param move
+     * @return
+     */
     public Message tryMove( Move move ){
         Message message;
         if ( activeColor == Color.RED ) {
@@ -113,11 +148,24 @@ public class Game {
         return new ErrorMessage("need to implement submitTurn in Game class");
     }
 
-    public Deque<Move> backupMove(){
-        return pendingMoves;
+    /**
+     * checks if there are pending moves that can be backed up
+     * @return
+     */
+    public boolean backupMove(){
+        if(!pendingMoves.isEmpty()){
+            pendingMoves.pop();
+            return true;
+        }
+        return false;
     }
 
 
+    /**
+     * checks if 2 games are the same game
+     * @param o object to check
+     * @return true if the 2 games are equal
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -130,6 +178,10 @@ public class Game {
                 Objects.equals(whiteBoard, game.whiteBoard);
     }
 
+    /**
+     * creates a hashcode for a game
+     * @return hash code
+     */
     @Override
     public int hashCode() {
         return Objects.hash(redPlayer, whitePlayer, activeColor, redBoard, whiteBoard);

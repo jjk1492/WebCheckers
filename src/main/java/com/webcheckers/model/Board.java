@@ -129,7 +129,7 @@ public class Board implements Iterable<Row> {
             return new ErrorMessage( "Your move must begin with an occupied space!" );
         }
         if ( endPiece != null ) {
-            return new ErrorMessage( "Your cannot move to an occupied space!" );
+            return new ErrorMessage( "You cannot move to an occupied space!" );
         }
         if ( move.isStep() ) {
             boolean validStep = startPiece.isValidStep( move );
