@@ -32,12 +32,22 @@ public class Row implements Iterable<Space> {
         for( Space space : spaces){
             if( index%2 == 0){
                 if( space.getCellIdx()%2 == 1){
-                    space.setPiece( new Piece(Color.RED, Piece.Type.SINGLE));
+                    if( index == 2 || index == 5) {
+                        space.setPiece(new Piece(Color.RED, Piece.State.OPEN));
+                    }
+                    else{
+                        space.setPiece(new Piece(Color.RED, Piece.State.BLOCKED));
+                    }
                 }
             }
             else {
                 if( space.getCellIdx()%2 == 0){
-                    space.setPiece( new Piece(Color.RED, Piece.Type.SINGLE));
+                    if( index == 2 || index == 5) {
+                        space.setPiece(new Piece(Color.RED, Piece.State.OPEN));
+                    }
+                    else{
+                        space.setPiece(new Piece(Color.RED, Piece.State.BLOCKED));
+                    }
                 }
             }
         }
@@ -50,12 +60,22 @@ public class Row implements Iterable<Space> {
         for( Space space : spaces){
             if( index%2 == 0){
                 if( space.getCellIdx()%2 == 1){
-                    space.setPiece( new Piece(Color.WHITE, Piece.Type.SINGLE));
+                    if( index == 2 || index == 5) {
+                        space.setPiece(new Piece(Color.WHITE, Piece.State.OPEN));
+                    }
+                    else{
+                        space.setPiece(new Piece(Color.WHITE, Piece.State.BLOCKED));
+                    }
                 }
             }
             else {
                 if( space.getCellIdx()%2 == 0){
-                    space.setPiece( new Piece(Color.WHITE, Piece.Type.SINGLE));
+                    if( index == 2 || index == 5) {
+                        space.setPiece(new Piece(Color.WHITE, Piece.State.OPEN));
+                    }
+                    else{
+                        space.setPiece(new Piece(Color.WHITE, Piece.State.BLOCKED));
+                    }
                 }
             }
         }

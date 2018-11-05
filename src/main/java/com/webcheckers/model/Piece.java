@@ -18,7 +18,7 @@ public class Piece {
      * OPEN - The piece is able to make at least 1 valid non-jump move
      */
     public enum State{
-        BLOCKED, JUMP, OPEN, START
+        BLOCKED, JUMP, OPEN
     }
 
     private Color color;
