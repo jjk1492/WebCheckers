@@ -256,6 +256,12 @@ public class Board implements Iterable<Row> {
         }
     }
 
+    public void updatePieceStates(){
+        for( Piece piece : redPieces){
+
+        }
+    }
+
     @Override
     public Iterator<Row> iterator() {
         return rows.iterator();

@@ -7,7 +7,6 @@ import java.util.*;
 * */
 public class Row implements Iterable<Space> {
 
-    //7 spaces
     private List<Space> spaces;
     private int index;
 
@@ -46,11 +45,11 @@ public class Row implements Iterable<Space> {
             else {
                 if( space.getCellIdx()%2 == 0){
                     if( index == 2 || index == 5) {
-                        newPiece = new Piece(Color.WHITE, Piece.State.OPEN);
+                        newPiece = new Piece(Color.RED, Piece.State.OPEN);
                         space.setPiece(newPiece);
                     }
                     else{
-                        newPiece = new Piece(Color.WHITE, Piece.State.BLOCKED);
+                        newPiece = new Piece(Color.RED, Piece.State.BLOCKED);
                         space.setPiece(newPiece);
                     }
                 }

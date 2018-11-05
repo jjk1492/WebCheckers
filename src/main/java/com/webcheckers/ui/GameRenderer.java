@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.webcheckers.model.Color.RED;
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
 
 public class GameRenderer implements Renderer {
