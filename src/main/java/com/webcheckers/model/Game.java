@@ -144,10 +144,6 @@ public class Game {
         return message;
     }
 
-    public Message submitTurn(){
-        return new ErrorMessage("need to implement submitTurn in Game class");
-    }
-
     /**
      * checks if there are pending moves that can be backed up
      * @return
