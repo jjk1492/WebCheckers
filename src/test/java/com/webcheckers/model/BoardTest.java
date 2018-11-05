@@ -1,20 +1,28 @@
 package com.webcheckers.model;
 
 import com.webcheckers.ui.PostHomeRoute;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 
 /**
  * Tests the methods of the Board class
  */
 @Tag("Model-Tier")
 public class BoardTest {
+    private Board CuT;
+
+    @BeforeEach
+    public void setup(){
+        CuT = new Board();
+    }
 
     @Test
     public void ConstructorTest_PlayerAssignment(){
 
-        final Board CuT = new Board();
 
         Space cut00Space = CuT.getSpace(new Position(0,0));
         Space cut77Space = CuT.getSpace(new Position(7,7));
@@ -27,8 +35,6 @@ public class BoardTest {
 
     @Test
     public void fillRedBoardTest(){
-
-        final Board CuT = new Board();
 
         CuT.fillRedBoard();
         for(int r =0; r<7; r++)
@@ -50,8 +56,6 @@ public class BoardTest {
     @Test
     public void fillWhiteBoardTest(){
 
-        final Board CuT = new Board();
-
         CuT.fillWhiteBoard();
         for(int r =0; r<7; r++)
             for(int c = 0; c<7;c++)
@@ -71,7 +75,6 @@ public class BoardTest {
 
     @Test
     public void getHalfwayTest(){
-        final Board CuT = new Board();
         Position start = new Position(0,0);
         Position end = new Position(2,2);
         assertSame(CuT.getSpace(new Position(1,1)), CuT.getHalfway(start,end));
@@ -84,7 +87,6 @@ public class BoardTest {
 
     @Test
     public void applyMoveTest(){
-        final Board CuT = new Board();
         CuT.fillRedBoard();
         Position start = new Position(5,0);
         Position end = new Position(4,1);
@@ -98,7 +100,6 @@ public class BoardTest {
 
     @Test
     public void applyJumpTest(){
-        final Board CuT = new Board();
         CuT.fillRedBoard();
         Position start = new Position(5,0);
         Position end = new Position(3,2);
@@ -107,7 +108,38 @@ public class BoardTest {
         CuT.applyMove(move,piece);
         assertTrue(CuT.getPiece(end).color == Color.RED);
         assertNull(CuT.getPiece(start));
+    }
+
+    @Test
+    public void jumpOverOwnPieceRed(){
+       CuT.fillRedBoard();
+       Color activeRed = Color.RED;
+       Position redStart = new Position(6,1);
+       Position redEnd = new Position(4,3);
+       Move moveRed = new Move(redStart,redEnd);
+
+       Message message = CuT.validateMove(moveRed, activeRed);
+       String ownPieceMessage = "You can't jump over your own piece!";
+       assertEquals(message.getType(), Message.Type.error);
+       assertEquals(message.getText(), ownPieceMessage);
 
     }
+
+    @Test
+    public void jumpOverOwnPieceWhite(){
+        CuT.fillWhiteBoard();
+        Color activeWhite = Color.WHITE;
+        Position whiteStart = new Position(6,5);
+        Position whiteEnd = new Position(4,7);
+        Move moveWhite = new Move(whiteStart,whiteEnd);
+
+        Message message = CuT.validateMove(moveWhite, activeWhite);
+        String ownPieceMessage = "You can't jump over your own piece!";
+        assertEquals(message.getType(), Message.Type.error);
+        assertEquals(message.getText(), ownPieceMessage);
+
+    }
+
+
 
 }

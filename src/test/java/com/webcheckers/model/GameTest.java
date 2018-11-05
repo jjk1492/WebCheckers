@@ -170,13 +170,17 @@ public class GameTest {
 
         final Game CuT2 = new Game(redPlayer2, whitePlayer2);
 
+        final String s = "not a board";
+
         boolean sameGame = CuT.equals(CuT);
         boolean nullGame = CuT.equals(null);
         boolean differentGame = CuT.equals(CuT2);
+        boolean diffObjects = CuT.equals(s);
 
         assertTrue(sameGame);
         assertFalse(nullGame);
         assertFalse(differentGame);
+        assertFalse(diffObjects);
     }
 
 

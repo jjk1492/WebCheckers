@@ -127,8 +127,8 @@ public class Row implements Iterable<Space> {
             return false;
         }
         Space checkSpace = spaces.get(spaceIndex);
-        System.out.println( checkSpace.toString() );
-        System.out.println( checkSpace.isValid() );
+//        System.out.println( checkSpace.toString() );
+//        System.out.println( checkSpace.isValid() );
         return checkSpace.isValid();
     }
 
