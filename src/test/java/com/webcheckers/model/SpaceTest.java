@@ -18,4 +18,11 @@ public class SpaceTest {
         assertNull( space.getPiece(), "expected null message" );
     }
 
+    @Test
+    public void testValid() {
+        Space space = new Space( 3 );
+        assertFalse(space.isValid(), "expected false (non-valid space).");
+        space.setValid(true);
+        assertTrue(space.isValid(), "expected true (valid space).");
+    }
 }
