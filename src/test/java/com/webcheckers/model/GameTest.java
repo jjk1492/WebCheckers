@@ -2,6 +2,11 @@ package com.webcheckers.model;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -129,5 +134,34 @@ public class GameTest {
         assertTrue( sameGame );
         assertFalse( nullGame );
         assertFalse( differentGame );
+    }
+
+
+    /**
+     * checks if backup move sends the correct boolean
+     */
+    @Test
+    public void backupMoveTest(){
+        final Player redPlayer = new Player("red");
+        final Player whitePlayer = new Player("white");
+        final Game CuT = new Game(redPlayer, whitePlayer);
+
+        boolean noMoveToBackup = CuT.backupMove();
+
+        Position startingPos = new Position(5, 2);
+        Position validEndingPos= new Position(4, 3);
+        Move move = new Move(startingPos, validEndingPos);
+        Message message = CuT.tryMove(move);
+        String validMoveMessage = "Your move was valid!";
+        assertEquals(message.getType(), Message.Type.info);
+        assertEquals(message.getText(), validMoveMessage);
+
+        boolean backupToMake = CuT.backupMove();
+        boolean noMoveToBackup2 = CuT.backupMove();
+
+        assertFalse(noMoveToBackup);
+        assertTrue(backupToMake);
+        assertFalse(noMoveToBackup2);
+
     }
 }

@@ -14,6 +14,7 @@ import java.util.LinkedList;
 public class Game {
 
     public static final int NUM_ROWS = 8;
+    private final int NUM_PIECES = 12;
     
     private Player redPlayer;
     private Player whitePlayer;
@@ -21,6 +22,8 @@ public class Game {
     private Board redBoard;
     private Board whiteBoard;
     private Deque<Move> pendingMoves;
+    private int redPiecesRemaining;
+    private int whitePiecesRemaining;
 
     /**
      * constructor for the game, creates new boards for each player after they are assigned
@@ -36,6 +39,8 @@ public class Game {
         redBoard.fillRedBoard();
         whiteBoard.fillWhiteBoard();
         pendingMoves = new LinkedList<>();
+        redPiecesRemaining = NUM_PIECES;
+        whitePiecesRemaining = NUM_PIECES;
     }
 
     /**
@@ -87,6 +92,22 @@ public class Game {
             return redPlayer;
         }
         return whitePlayer;
+    }
+
+    /**
+     * get remaining number of pieces that the red player has
+     * @return int
+     */
+    public int getRedPiecesRemaining() {
+        return redPiecesRemaining;
+    }
+
+    /**
+     * get the remaining number of pieces that the white player has
+     * @return
+     */
+    public int getWhitePiecesRemaining() {
+        return whitePiecesRemaining;
     }
 
     /**

@@ -1,10 +1,7 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.application.GameCenter;
-import com.webcheckers.application.PlayerLobby;
 import com.webcheckers.model.Game;
-import com.webcheckers.model.Message;
-import com.webcheckers.model.Move;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import spark.Request;
@@ -21,11 +18,8 @@ class PostBackupMoveTest {
     private Response response;
     private GameCenter gameCenter;
     private Game game;
-    private PlayerLobby playerLobby;
-    private Message message;
     private PostBackupMove postBackupMove;
     private final String redName = "red";
-    private Move move;
 
 
     /**
@@ -33,7 +27,6 @@ class PostBackupMoveTest {
      */
     @BeforeEach
     public void setup() {
-        message = mock(Message.class);
         request = mock(Request.class);
         session = mock(Session.class);
         when(request.session()).thenReturn(session);
@@ -41,8 +34,6 @@ class PostBackupMoveTest {
         gameCenter = mock(GameCenter.class);
         game = mock(Game.class);
         postBackupMove = new PostBackupMove(gameCenter);
-        move = mock(Move.class);
-        playerLobby = mock(PlayerLobby.class);
     }
 
     /**
