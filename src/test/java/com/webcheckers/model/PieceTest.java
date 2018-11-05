@@ -22,7 +22,7 @@ class PieceTest {
         Color expectedDefault = RED;
         Color expectedKing = WHITE;
 
-        Piece defaultPiece = new Piece(expectedDefault);
+        Piece defaultPiece = new Piece(expectedDefault, SINGLE);
         Piece kingPiece = new Piece(expectedKing, KING);
 
         Color actualDefault = defaultPiece.getColor();
@@ -40,7 +40,7 @@ class PieceTest {
         Type expectSingle = SINGLE;
         Type expectKing = KING;
 
-        Piece defaultPiece = new Piece(RED);
+        Piece defaultPiece = new Piece(RED, expectSingle);
         Piece kingPiece = new Piece(WHITE, expectKing);
 
         Type actualDefault = defaultPiece.getType();
