@@ -184,10 +184,54 @@ public class Board implements Iterable<Row> {
             Space halfway = getHalfway( start, end );
             halfway.setValid( true );
             halfway.setPiece( null );
+            Move jumpAgain = secondJump(move.getEnd());
+            if( jumpAgain != null ){
+                applyMove( jumpAgain, subject);
+            }
         }
 
     }
 
+    public Move secondJump(Position postJumpPos){
+        int startRow = postJumpPos.getRow();
+        int startCol = postJumpPos.getCell();
+
+        Position rightJump;
+        Position leftJump;
+        if( startRow >= 2){
+            if( startCol <= 5){
+                rightJump = new Position(startRow - 2, startCol + 2);
+                Move rightMove = new Move(postJumpPos, rightJump);
+                if( isValidJump(rightMove) ){
+                    return rightMove;
+                }
+            }
+            if( startCol >= 2){
+                leftJump = new Position( startRow - 2, startCol - 2);
+                Move leftMove = new Move(postJumpPos, leftJump);
+                if( isValidJump(leftMove) ){
+                    return leftMove;
+                }
+            }
+
+        }
+        return null;
+    }
+
+    public boolean isValidJump(Move move){
+        if( move.isJump() && move.getStart() != null && move.getEnd() != null){
+            //Check that the halfway space is occupied
+            Space halfwaySpace = getHalfway(move.getStart(), move.getEnd());
+            if( !halfwaySpace.isValid() ){
+                Piece halfwayPiece = halfwaySpace.getPiece();
+                Piece currentPiece = getPiece(move.getStart());
+                if( currentPiece.getColor() != halfwayPiece.getColor() ){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     public boolean spaceIsValid(int rowIndex, int spaceIndex){
         Row checkRow = rows.get(rowIndex);
