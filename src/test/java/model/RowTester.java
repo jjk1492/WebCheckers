@@ -1,11 +1,9 @@
 package model;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
-import com.webcheckers.model.Color;
-import com.webcheckers.model.Piece;
-import com.webcheckers.model.Row;
-import com.webcheckers.model.Space;
+import com.webcheckers.model.*;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -42,7 +40,8 @@ public class RowTester {
     public void FillRedRowTest_EvenRow(){
         final Row CuT = new Row(0);
         Piece RED_PIECE = new Piece(Color.RED, Piece.Type.SINGLE);
-        CuT.fillRedRow();
+        Board boardMock = mock(Board.class);
+        CuT.fillRedRow(boardMock);
         List<Space> filledRow = CuT.getSpaces();
 
         Piece piece0 = filledRow.get(0).getPiece();
@@ -69,7 +68,8 @@ public class RowTester {
     public void FillRedRowTest_OddRow(){
         final Row CuT = new Row(1);
         Piece RED_PIECE = new Piece(Color.RED, Piece.Type.SINGLE);
-        CuT.fillRedRow();
+        Board boardMock = mock(Board.class);
+        CuT.fillRedRow(boardMock);
         List<Space> filledRow = CuT.getSpaces();
 
         Piece piece0 = filledRow.get(0).getPiece();
@@ -97,7 +97,8 @@ public class RowTester {
     public void FillWhiteRowTest_EvenRow(){
         final Row CuT = new Row(0);
         Piece WHITE_PIECE = new Piece(Color.WHITE, Piece.Type.SINGLE);
-        CuT.fillWhiteRow();
+        Board boardMock = mock(Board.class);
+        CuT.fillWhiteRow(boardMock);
         List<Space> filledRow = CuT.getSpaces();
 
         Piece piece0 = filledRow.get(0).getPiece();

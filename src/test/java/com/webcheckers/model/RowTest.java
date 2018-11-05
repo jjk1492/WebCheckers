@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 
 /**
@@ -40,7 +41,8 @@ public class RowTest {
         public void FillRedRowTest_EvenRow(){
             final Row CuT = new Row(0);
             Piece RED_PIECE = new Piece(Color.RED, Piece.Type.SINGLE);
-            CuT.fillRedRow();
+            Board boardMock = mock(Board.class);
+            CuT.fillRedRow(boardMock);
             List<Space> filledRow = CuT.getSpaces();
 
             Piece piece0 = filledRow.get(0).getPiece();
@@ -67,7 +69,8 @@ public class RowTest {
         public void FillRedRowTest_OddRow(){
             final Row CuT = new Row(1);
             Piece RED_PIECE = new Piece(Color.RED, Piece.Type.SINGLE);
-            CuT.fillRedRow();
+            Board boardMock = mock(Board.class);
+            CuT.fillRedRow(boardMock);
             List<Space> filledRow = CuT.getSpaces();
 
             Piece piece0 = filledRow.get(0).getPiece();
@@ -95,7 +98,8 @@ public class RowTest {
         public void FillWhiteRowTest_EvenRow(){
             final Row CuT = new Row(0);
             Piece WHITE_PIECE = new Piece(Color.WHITE, Piece.Type.SINGLE);
-            CuT.fillWhiteRow();
+            Board boardMock = mock(Board.class);
+            CuT.fillWhiteRow(boardMock);
             List<Space> filledRow = CuT.getSpaces();
 
             Piece piece0 = filledRow.get(0).getPiece();
@@ -123,7 +127,8 @@ public class RowTest {
     public void FillWhiteRowTest_OddRow(){
         final Row CuT = new Row(1);
         Piece WHITE_PIECE = new Piece(Color.WHITE, Piece.Type.SINGLE);
-        CuT.fillWhiteRow();
+        Board boardMock = mock(Board.class);
+        CuT.fillWhiteRow(boardMock);
         List<Space> filledRow = CuT.getSpaces();
 
         Piece piece0 = filledRow.get(0).getPiece();

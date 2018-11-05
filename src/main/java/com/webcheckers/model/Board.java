@@ -12,6 +12,8 @@ public class Board implements Iterable<Row> {
 
     //7 rows
     private List<Row> rows;
+    private List<Piece> redPieces;
+    private List<Piece> whitePieces;
 
     /*
      * constructs new Board
@@ -21,6 +23,8 @@ public class Board implements Iterable<Row> {
         for (int i = 0; i < 8; i++){
             rows.add(new Row(i));
         }
+        this.redPieces = new ArrayList<>();
+        this.whitePieces = new ArrayList<>();
     }
 
     public void fillRedBoard(){
@@ -28,13 +32,13 @@ public class Board implements Iterable<Row> {
             int index = row.getIndex();
             switch (index) {
                 case 0:
-                    row.fillWhiteRow();
+                    row.fillWhiteRow(this);
                     break;
                 case 1:
-                    row.fillWhiteRow();
+                    row.fillWhiteRow(this);
                     break;
                 case 2:
-                    row.fillWhiteRow();
+                    row.fillWhiteRow(this);
                     break;
                 case 3:
                     row.validateRow();
@@ -43,13 +47,13 @@ public class Board implements Iterable<Row> {
                     row.validateRow();
                     break;
                 case 5:
-                    row.fillRedRow();
+                    row.fillRedRow(this);
                     break;
                 case 6:
-                    row.fillRedRow();
+                    row.fillRedRow(this);
                     break;
                 case 7:
-                    row.fillRedRow();
+                    row.fillRedRow(this);
                     break;
             }
         }
@@ -59,13 +63,13 @@ public class Board implements Iterable<Row> {
         for( Row row: rows){
             switch (row.getIndex()){
                 case 0:
-                    row.fillRedRow();
+                    row.fillRedRow(this);
                     break;
                 case 1:
-                    row.fillRedRow();
+                    row.fillRedRow(this);
                     break;
                 case 2:
-                    row.fillRedRow();
+                    row.fillRedRow(this);
                     break;
                 case 3:
                     row.validateRow();
@@ -74,13 +78,13 @@ public class Board implements Iterable<Row> {
                     row.validateRow();
                     break;
                 case 5:
-                    row.fillWhiteRow();
+                    row.fillWhiteRow(this);
                     break;
                 case 6:
-                    row.fillWhiteRow();
+                    row.fillWhiteRow(this);
                     break;
                 case 7:
-                    row.fillWhiteRow();
+                    row.fillWhiteRow(this);
                     break;
             }
         }
@@ -89,7 +93,10 @@ public class Board implements Iterable<Row> {
 
     public Space getSpace( Position position ) {
         // TODO row index safety check
-        return rows.get( position.getRow() ).getSpace( position.getCell() );
+        if( ! (position.getRow() < 0 || position.getRow() > 7) ){
+            return rows.get( position.getRow() ).getSpace( position.getCell() );
+        }
+        return null;
     }
 
     public Piece getPiece( Position position ) {
@@ -236,6 +243,17 @@ public class Board implements Iterable<Row> {
     public boolean spaceIsValid(int rowIndex, int spaceIndex){
         Row checkRow = rows.get(rowIndex);
         return checkRow.isSpaceValid(spaceIndex);
+    }
+
+    public void addPiece(Piece newPiece ){
+        if( newPiece != null){
+            if( newPiece.getColor() == Color.RED ){
+                redPieces.add(newPiece);
+            }
+            else{
+                whitePieces.add(newPiece);
+            }
+        }
     }
 
     @Override

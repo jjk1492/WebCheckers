@@ -28,35 +28,41 @@ public class Row implements Iterable<Space> {
     /**
      * Called at the beginning of a game to add red pieces to a row
      */
-    public void fillRedRow(){
+    public void fillRedRow( Board board ){
         for( Space space : spaces){
+            Piece newPiece = null;
             if( index%2 == 0){
                 if( space.getCellIdx()%2 == 1){
                     if( index == 2 || index == 5) {
-                        space.setPiece(new Piece(Color.RED, Piece.State.OPEN));
+                        newPiece = new Piece(Color.RED, Piece.State.OPEN);
+                        space.setPiece(newPiece);
                     }
                     else{
-                        space.setPiece(new Piece(Color.RED, Piece.State.BLOCKED));
+                        newPiece = new Piece(Color.RED, Piece.State.BLOCKED);
+                        space.setPiece(newPiece);
                     }
                 }
             }
             else {
                 if( space.getCellIdx()%2 == 0){
                     if( index == 2 || index == 5) {
-                        space.setPiece(new Piece(Color.RED, Piece.State.OPEN));
+                        newPiece = new Piece(Color.WHITE, Piece.State.OPEN);
+                        space.setPiece(newPiece);
                     }
                     else{
-                        space.setPiece(new Piece(Color.RED, Piece.State.BLOCKED));
+                        newPiece = new Piece(Color.WHITE, Piece.State.BLOCKED);
+                        space.setPiece(newPiece);
                     }
                 }
             }
+            board.addPiece(newPiece);
         }
     }
 
     /**
      * Called at the beginning of a game to add white pieces to a row
      */
-    public void fillWhiteRow(){
+    public void fillWhiteRow(Board board){
         for( Space space : spaces){
             if( index%2 == 0){
                 if( space.getCellIdx()%2 == 1){
