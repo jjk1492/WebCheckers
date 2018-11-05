@@ -1,5 +1,6 @@
 package com.webcheckers.model;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -16,14 +17,24 @@ import static org.junit.jupiter.api.Assertions.*;
 @Tag("Model-Tier")
 public class GameTest {
 
+    private Player redPlayer;
+    private Player whitePlayer;
+    private Game CuT;
+    static String validMoveMessage = "Your move was valid!";
+
+    @BeforeEach
+    public  void setup(){
+        redPlayer = new Player("red");
+        whitePlayer = new Player("white");
+        CuT = new Game(redPlayer, whitePlayer);
+    }
+
+
     /**
      * checks if the game class was set ip correctly
      */
     @Test
     public void ConstructorTest_PlayerAssignment() {
-        final Player redPlayer = new Player("red");
-        final Player whitePlayer = new Player("white");
-        final Game CuT = new Game(redPlayer, whitePlayer);
 
         Player CutRedPlayer = CuT.getRedPlayer();
         Player CutWhitePlayer = CuT.getWhitePlayer();
@@ -37,9 +48,6 @@ public class GameTest {
      */
     @Test
     public void ConstructorTest_RedGoesFirst() {
-        final Player redPlayer = new Player("red");
-        final Player whitePlayer = new Player("white");
-        final Game CuT = new Game(redPlayer, whitePlayer);
 
         Color currentColor = CuT.getActiveColor();
         Player currentPlayer = CuT.getActivePlayer();
@@ -54,9 +62,6 @@ public class GameTest {
      */
     @Test
     public void SwapTurnTest() {
-        final Player redPlayer = new Player("red");
-        final Player whitePlayer = new Player("white");
-        final Game CuT = new Game(redPlayer, whitePlayer);
 
         Player playerBeforeSwap = CuT.getActivePlayer();
         Color colorBeforeSwap = CuT.getActiveColor();
@@ -85,9 +90,6 @@ public class GameTest {
      */
     @Test
     public void ValidateMoveTest_ValidMove() {
-        final Player redPlayer = new Player("red");
-        final Player whitePlayer = new Player("white");
-        final Game CuT = new Game(redPlayer, whitePlayer);
 
         //Create the positions needed to test
         Position startingPos = new Position(5, 2);
@@ -114,9 +116,6 @@ public class GameTest {
      */
     @Test
     public void ValidateMoveTest_OccupiedSpace() {
-        final Player redPlayer = new Player("red");
-        final Player whitePlayer = new Player("white");
-        final Game CuT = new Game(redPlayer, whitePlayer);
 
         //Create the positions needed to test
         Position startingPos = new Position(5, 2);
@@ -137,9 +136,6 @@ public class GameTest {
      */
     @Test
     public void ValidateMoveTest_BackwardMove() {
-        final Player redPlayer = new Player("red");
-        final Player whitePlayer = new Player("white");
-        final Game CuT = new Game(redPlayer, whitePlayer);
 
         //Create the positions needed to test
 
@@ -147,7 +143,6 @@ public class GameTest {
         Position endingPos = new Position(4, 1);
         Move forwardMove = new Move(startingPos, endingPos);
         Message moveMessage = CuT.tryMove(forwardMove);
-        String validMoveMessage = "Your move was valid!";
         assertEquals(Message.Type.info, moveMessage.getType());
         assertEquals(validMoveMessage, moveMessage.getText());
 
@@ -169,17 +164,15 @@ public class GameTest {
      */
     @Test
     public void EqualsTest() {
-        final Player redPlayer1 = new Player("red1");
-        final Player whitePlayer1 = new Player("white1");
+
         final Player redPlayer2 = new Player("red2");
         final Player whitePlayer2 = new Player("white2");
 
-        final Game CuT1 = new Game(redPlayer1, whitePlayer1);
         final Game CuT2 = new Game(redPlayer2, whitePlayer2);
 
-        boolean sameGame = CuT1.equals(CuT1);
-        boolean nullGame = CuT1.equals(null);
-        boolean differentGame = CuT1.equals(CuT2);
+        boolean sameGame = CuT.equals(CuT);
+        boolean nullGame = CuT.equals(null);
+        boolean differentGame = CuT.equals(CuT2);
 
         assertTrue(sameGame);
         assertFalse(nullGame);
@@ -192,9 +185,6 @@ public class GameTest {
      */
     @Test
     public void backupMoveTest() {
-        final Player redPlayer = new Player("red");
-        final Player whitePlayer = new Player("white");
-        final Game CuT = new Game(redPlayer, whitePlayer);
 
         boolean noMoveToBackup = CuT.backupMove();
 
@@ -202,7 +192,6 @@ public class GameTest {
         Position validEndingPos = new Position(4, 3);
         Move move = new Move(startingPos, validEndingPos);
         Message message = CuT.tryMove(move);
-        String validMoveMessage = "Your move was valid!";
         assertEquals(message.getType(), Message.Type.info);
         assertEquals(message.getText(), validMoveMessage);
 
@@ -219,9 +208,6 @@ public class GameTest {
      */
     @Test
     public void applyTurn() {
-        final Player redPlayer = new Player("red");
-        final Player whitePlayer = new Player("white");
-        final Game CuT = new Game(redPlayer, whitePlayer);
 
         Position startingPos = new Position(5, 2);
         Position validEndingPosRight = new Position(4, 3);
@@ -243,13 +229,28 @@ public class GameTest {
 
         Move firstMoveWhite = new Move(startingPos, validEndingPosLeft);
         Move secondMoveWhite = new Move(startingPos, validEndingPosRight);
-        String validMoveMessage = "Your move was valid!";
         Message message = CuT.tryMove(firstMoveWhite);
         Message message1 = CuT.tryMove(secondMoveWhite);
         assertEquals(message.getText(), validMoveMessage);
         assertEquals(message1.getText(), validMoveMessage);
         CuT.applyTurn();
 
+    }
+
+    /**
+     * misc tests to get code coverage up
+     */
+    @Test
+    public void miscTests(){
+        int redPieces = CuT.getRedPiecesRemaining();
+        int whitePieces = CuT.getWhitePiecesRemaining();
+        assertEquals(12, redPieces);
+        assertEquals(12, whitePieces);
+
+        Board redBoard = CuT.getRedBoard();
+        assertNotNull(redBoard, "The red board should not be null! ");
+        Board whiteBoard = CuT.getWhiteBoard();
+        assertNotNull(whiteBoard, "The white board should not be null! ");
     }
 
 }
