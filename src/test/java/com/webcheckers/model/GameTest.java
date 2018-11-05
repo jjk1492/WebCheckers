@@ -20,7 +20,7 @@ public class GameTest {
      * checks if the game class was set ip correctly
      */
     @Test
-    public void ConstructorTest_PlayerAssignment(){
+    public void ConstructorTest_PlayerAssignment() {
         final Player redPlayer = new Player("red");
         final Player whitePlayer = new Player("white");
         final Game CuT = new Game(redPlayer, whitePlayer);
@@ -36,7 +36,7 @@ public class GameTest {
      * checks that the red player is going first
      */
     @Test
-    public void ConstructorTest_RedGoesFirst(){
+    public void ConstructorTest_RedGoesFirst() {
         final Player redPlayer = new Player("red");
         final Player whitePlayer = new Player("white");
         final Game CuT = new Game(redPlayer, whitePlayer);
@@ -53,7 +53,7 @@ public class GameTest {
      * checks if the active player swaps correctly
      */
     @Test
-    public void SwapTurnTest(){
+    public void SwapTurnTest() {
         final Player redPlayer = new Player("red");
         final Player whitePlayer = new Player("white");
         final Game CuT = new Game(redPlayer, whitePlayer);
@@ -67,16 +67,16 @@ public class GameTest {
         Color colorAfterSwap = CuT.getActiveColor();
 
         //Check swapping from Red to White
-        assertEquals( redPlayer, playerBeforeSwap );
-        assertEquals( Color.RED, colorBeforeSwap );
-        assertEquals( whitePlayer, playerAfterSwap );
-        assertEquals( Color.WHITE, colorAfterSwap );
+        assertEquals(redPlayer, playerBeforeSwap);
+        assertEquals(Color.RED, colorBeforeSwap);
+        assertEquals(whitePlayer, playerAfterSwap);
+        assertEquals(Color.WHITE, colorAfterSwap);
 
         CuT.swapTurn();
 
         //Check swapping for white to red
-        assertEquals( redPlayer, CuT.getActivePlayer());
-        assertEquals( Color.RED, CuT.getActiveColor());
+        assertEquals(redPlayer, CuT.getActivePlayer());
+        assertEquals(Color.RED, CuT.getActiveColor());
 
     }
 
@@ -84,7 +84,7 @@ public class GameTest {
      * checks if a valid move responds correctly
      */
     @Test
-    public void ValidateMoveTest_ValidMove(){
+    public void ValidateMoveTest_ValidMove() {
         final Player redPlayer = new Player("red");
         final Player whitePlayer = new Player("white");
         final Game CuT = new Game(redPlayer, whitePlayer);
@@ -113,7 +113,7 @@ public class GameTest {
      * makes sure a move to an occupied space can't happen
      */
     @Test
-    public void ValidateMoveTest_OccupiedSpace(){
+    public void ValidateMoveTest_OccupiedSpace() {
         final Player redPlayer = new Player("red");
         final Player whitePlayer = new Player("white");
         final Game CuT = new Game(redPlayer, whitePlayer);
@@ -122,7 +122,7 @@ public class GameTest {
         Position startingPos = new Position(5, 2);
         Position endingPos = new Position(6, 3);
 
-        Move backwardsMove = new Move( startingPos, endingPos);
+        Move backwardsMove = new Move(startingPos, endingPos);
 
         Message moveMessage = CuT.tryMove(backwardsMove);
 
@@ -136,7 +136,7 @@ public class GameTest {
      * makes sure a regular piece can't move backwards
      */
     @Test
-    public void ValidateMoveTest_BackwardMove(){
+    public void ValidateMoveTest_BackwardMove() {
         final Player redPlayer = new Player("red");
         final Player whitePlayer = new Player("white");
         final Game CuT = new Game(redPlayer, whitePlayer);
@@ -145,9 +145,9 @@ public class GameTest {
 
         Position startingPos = new Position(5, 0);
         Position endingPos = new Position(4, 1);
-        Move forwardMove = new Move( startingPos, endingPos);
+        Move forwardMove = new Move(startingPos, endingPos);
         Message moveMessage = CuT.tryMove(forwardMove);
-        String  validMoveMessage = "Your move was valid!";
+        String validMoveMessage = "Your move was valid!";
         assertEquals(Message.Type.info, moveMessage.getType());
         assertEquals(validMoveMessage, moveMessage.getText());
 
@@ -156,9 +156,9 @@ public class GameTest {
 
         Position backStartingPos = new Position(4, 1);
         Position backEndingPos = new Position(5, 0);
-        Move backwardMove = new Move( backStartingPos, backEndingPos);
+        Move backwardMove = new Move(backStartingPos, backEndingPos);
         Message backMoveMessage = CuT.tryMove(backwardMove);
-        String  invalidMoveMessage = "That piece can't do that!";
+        String invalidMoveMessage = "That piece can't do that!";
         assertEquals(Message.Type.error, backMoveMessage.getType());
         assertEquals(invalidMoveMessage, backMoveMessage.getText());
     }
@@ -168,22 +168,22 @@ public class GameTest {
      * checks if 2 games are equal or not
      */
     @Test
-    public void EqualsTest(){
-        final Player redPlayer1 = new Player( "red1");
-        final Player whitePlayer1 = new Player( "white1");
+    public void EqualsTest() {
+        final Player redPlayer1 = new Player("red1");
+        final Player whitePlayer1 = new Player("white1");
         final Player redPlayer2 = new Player("red2");
         final Player whitePlayer2 = new Player("white2");
 
-        final Game CuT1 = new Game( redPlayer1, whitePlayer1 );
-        final Game CuT2 = new Game( redPlayer2, whitePlayer2 );
+        final Game CuT1 = new Game(redPlayer1, whitePlayer1);
+        final Game CuT2 = new Game(redPlayer2, whitePlayer2);
 
-        boolean sameGame = CuT1.equals( CuT1 );
-        boolean nullGame = CuT1.equals( null );
-        boolean differentGame = CuT1.equals( CuT2 );
+        boolean sameGame = CuT1.equals(CuT1);
+        boolean nullGame = CuT1.equals(null);
+        boolean differentGame = CuT1.equals(CuT2);
 
-        assertTrue( sameGame );
-        assertFalse( nullGame );
-        assertFalse( differentGame );
+        assertTrue(sameGame);
+        assertFalse(nullGame);
+        assertFalse(differentGame);
     }
 
 
@@ -191,7 +191,7 @@ public class GameTest {
      * checks if backup move sends the correct boolean
      */
     @Test
-    public void backupMoveTest(){
+    public void backupMoveTest() {
         final Player redPlayer = new Player("red");
         final Player whitePlayer = new Player("white");
         final Game CuT = new Game(redPlayer, whitePlayer);
@@ -199,7 +199,7 @@ public class GameTest {
         boolean noMoveToBackup = CuT.backupMove();
 
         Position startingPos = new Position(5, 2);
-        Position validEndingPos= new Position(4, 3);
+        Position validEndingPos = new Position(4, 3);
         Move move = new Move(startingPos, validEndingPos);
         Message message = CuT.tryMove(move);
         String validMoveMessage = "Your move was valid!";
@@ -214,8 +214,11 @@ public class GameTest {
         assertFalse(noMoveToBackup2);
     }
 
+    /**
+     * checks if moves get applied for white and red player
+     */
     @Test
-    public void applyTurn(){
+    public void applyTurn() {
         final Player redPlayer = new Player("red");
         final Player whitePlayer = new Player("white");
         final Game CuT = new Game(redPlayer, whitePlayer);
@@ -237,6 +240,15 @@ public class GameTest {
 
         Color active2 = CuT.getActiveColor();
         assertEquals(active2, Color.WHITE);
+
+        Move firstMoveWhite = new Move(startingPos, validEndingPosLeft);
+        Move secondMoveWhite = new Move(startingPos, validEndingPosRight);
+        String validMoveMessage = "Your move was valid!";
+        Message message = CuT.tryMove(firstMoveWhite);
+        Message message1 = CuT.tryMove(secondMoveWhite);
+        assertEquals(message.getText(), validMoveMessage);
+        assertEquals(message1.getText(), validMoveMessage);
+        CuT.applyTurn();
 
     }
 

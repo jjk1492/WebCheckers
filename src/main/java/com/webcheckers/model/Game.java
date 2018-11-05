@@ -188,11 +188,7 @@ public class Game {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Game game = (Game) o;
-        return Objects.equals(redPlayer, game.redPlayer) &&
-                Objects.equals(whitePlayer, game.whitePlayer) &&
-                Objects.equals(activeColor, game.activeColor) &&
-                Objects.equals(redBoard, game.redBoard) &&
-                Objects.equals(whiteBoard, game.whiteBoard);
+        return redPlayer.equals(game.redPlayer) && whitePlayer.equals(game.whitePlayer);
     }
 
     /**
@@ -201,6 +197,6 @@ public class Game {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(redPlayer, whitePlayer, activeColor, redBoard, whiteBoard);
+        return Objects.hash(redPlayer, whitePlayer);
     }
 }
