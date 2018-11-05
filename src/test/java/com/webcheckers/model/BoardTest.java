@@ -37,8 +37,8 @@ public class BoardTest {
                     assertFalse(CuT.spaceIsValid(r,c));
                     if((r + c) % 2 == 1){
                         if (r > 4){
-                            assertSame(CuT.getPiece(new Position(r, c)).color, Color.RED);
-                        }else assertSame(CuT.getPiece(new Position(r, c)).color, Color.WHITE);
+                            assertSame(CuT.getPiece(new Position(r, c)).getColor(), Color.RED);
+                        }else assertSame(CuT.getPiece(new Position(r, c)).getColor(), Color.WHITE);
                     }
                     else {
                         assertNull(CuT.getPiece(new Position(r, c)));
@@ -59,8 +59,8 @@ public class BoardTest {
                     assertFalse(CuT.spaceIsValid(r,c));
                     if((r + c) % 2 == 1){
                         if (r > 4){
-                            assertSame(CuT.getPiece(new Position(r, c)).color, Color.WHITE);
-                        }else assertSame(CuT.getPiece(new Position(r, c)).color, Color.RED);
+                            assertSame(CuT.getPiece(new Position(r, c)).getColor(), Color.WHITE);
+                        }else assertSame(CuT.getPiece(new Position(r, c)).getColor(), Color.RED);
                     }
                     else {
                         assertNull(CuT.getPiece(new Position(r, c)));
@@ -91,7 +91,7 @@ public class BoardTest {
         Move move= new Move(start,end);
         Piece piece = CuT.getPiece(start);
         CuT.applyMove(move,piece);
-        assertTrue(CuT.getPiece(end).color == Color.RED);
+        assertTrue(CuT.getPiece(end).getColor() == Color.RED);
         assertNull(CuT.getPiece(start));
 
     }
@@ -105,7 +105,7 @@ public class BoardTest {
         Move move= new Move(start,end);
         Piece piece = CuT.getPiece(start);
         CuT.applyMove(move,piece);
-        assertTrue(CuT.getPiece(end).color == Color.RED);
+        assertTrue(CuT.getPiece(end).getColor() == Color.RED);
         assertNull(CuT.getPiece(start));
 
     }
