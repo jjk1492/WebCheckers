@@ -2,8 +2,6 @@ package com.webcheckers.model;
 
 import java.util.ArrayList;
 
-import static com.webcheckers.model.Game.NUM_ROWS;
-
 /*
  * Position class in the model tier
  * */
@@ -21,6 +19,7 @@ public class Position {
     public Position(int row, int cell){
         this.row = row;
         this.cell = cell;
+
     }
 
 
