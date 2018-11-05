@@ -49,4 +49,5 @@ class PieceTest {
         assertEquals(expectSingle, actualDefault, "Default Piece Type should be : " + expectSingle);
         assertEquals(expectKing, actualKing, "King Piece Type should be : " + expectKing);
     }
+
 }

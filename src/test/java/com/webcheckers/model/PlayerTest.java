@@ -16,4 +16,21 @@ class PlayerTest {
         String actual = p.getName();
         assertEquals( expected, actual, "Name should be " + expected );
     }
+
+    /**
+     * checks if 2 players are equal
+     */
+    @Test
+    void equalsTest(){
+        Player p1 = new Player("The Kraken");
+        Player p2 = new Player("Buttercup");
+        String s = "not a player object";
+
+        boolean notEqual = p1.equals(p2);
+
+        boolean diffObject = p1.equals(s);
+
+        assertFalse(notEqual);
+        assertFalse(diffObject);
+    }
 }

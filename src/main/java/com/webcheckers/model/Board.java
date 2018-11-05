@@ -4,19 +4,18 @@ package com.webcheckers.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Stack;
 
 /*
-* Board class in the model tier
-* */
+ * Board class in the model tier
+ * */
 public class Board implements Iterable<Row> {
 
     //7 rows
     private List<Row> rows;
 
     /*
-    * constructs new Board
-    * */
+     * constructs new Board
+     * */
     public Board(){
         this.rows = new ArrayList<>();
         for (int i = 0; i < 8; i++){
@@ -164,8 +163,8 @@ public class Board implements Iterable<Row> {
         }
         return new ErrorMessage( "That move is invalid!" );
     }
-    
-    
+
+
     /**
      * applies a move
      * @pre move is valid (not my responsibility to check :)
@@ -180,7 +179,7 @@ public class Board implements Iterable<Row> {
         startSpace.setValid( true );
         destination.setPiece(subject);
         destination.setValid( false );
-        
+
         if ( move.isJump() ) {
             Space halfway = getHalfway( start, end );
             halfway.setValid( true );
