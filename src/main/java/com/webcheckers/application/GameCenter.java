@@ -2,7 +2,6 @@ package com.webcheckers.application;
 
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
-import com.webcheckers.ui.GetHomeRoute;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -93,7 +92,6 @@ public class GameCenter {
             game.applyTurn();
         }
     }
-
 
     /**
      * returns a game currently playing

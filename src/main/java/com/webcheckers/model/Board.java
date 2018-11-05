@@ -112,7 +112,7 @@ public class Board implements Iterable<Row> {
     }
 
 
-    public Message validateMove( Move move ) {
+    public Message validateMove( Move move, Color activeColor ) {
         Position start = move.getStart();
         Position end = move.getEnd();
         Space startSpace = getSpace( start );
@@ -148,8 +148,15 @@ public class Board implements Iterable<Row> {
                 if ( halfway == null || halfway.getPiece() == null ) {
                     return new ErrorMessage( "Can't jump over nothing!" );
                 }
-                // TODO handle jumping over own pieces
                 else {
+                    Color pieceColor = halfway.getPiece().getColor();
+                    if(activeColor.equals(Color.RED) &&  pieceColor.equals(Color.RED)){
+                        return new ErrorMessage("You can't jump over your own piece!");
+                    }
+                    else if(activeColor.equals(Color.WHITE) &&  pieceColor.equals(Color.WHITE)){
+                        return new ErrorMessage("You can't jump over your own piece!");
+                    }
+
                     return new InfoMessage( "Valid jump!" );
                 }
             }

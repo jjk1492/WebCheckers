@@ -7,8 +7,6 @@ import com.webcheckers.model.*;
 import spark.Request;
 import spark.Response;
 import spark.Route;
-import java.util.Deque;
-
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
 
 /**

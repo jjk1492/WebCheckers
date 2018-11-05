@@ -14,6 +14,7 @@ import java.util.LinkedList;
 public class Game {
 
     public static final int NUM_ROWS = 8;
+    private final int NUM_PIECES = 12;
     
     private Player redPlayer;
     private Player whitePlayer;
@@ -21,6 +22,8 @@ public class Game {
     private Board redBoard;
     private Board whiteBoard;
     private Deque<Move> pendingMoves;
+    private int redPiecesRemaining;
+    private int whitePiecesRemaining;
 
     /**
      * constructor for the game, creates new boards for each player after they are assigned
@@ -36,6 +39,8 @@ public class Game {
         redBoard.fillRedBoard();
         whiteBoard.fillWhiteBoard();
         pendingMoves = new LinkedList<>();
+        redPiecesRemaining = NUM_PIECES;
+        whitePiecesRemaining = NUM_PIECES;
     }
 
     /**
@@ -90,6 +95,22 @@ public class Game {
     }
 
     /**
+     * get remaining number of pieces that the red player has
+     * @return int
+     */
+    public int getRedPiecesRemaining() {
+        return redPiecesRemaining;
+    }
+
+    /**
+     * get the remaining number of pieces that the white player has
+     * @return
+     */
+    public int getWhitePiecesRemaining() {
+        return whitePiecesRemaining;
+    }
+
+    /**
      * change whose turn it is
      */
     public void swapTurn() {
@@ -126,26 +147,22 @@ public class Game {
    }
 
     /**
-     *
-     * @param move
-     * @return
+     * checks if a move is valid
+     * @param move move that is trying to be made
+     * @return info or error message
      */
     public Message tryMove( Move move ){
         Message message;
         if ( activeColor == Color.RED ) {
-            message = redBoard.validateMove( move );
+            message = redBoard.validateMove( move, activeColor );
         }
         else {
-            message = whiteBoard.validateMove( move );
+            message = whiteBoard.validateMove( move, activeColor );
         }
         if ( message.getType().equals( Type.info ) ) {
             pendingMoves.push( move );
         }
         return message;
-    }
-
-    public Message submitTurn(){
-        return new ErrorMessage("need to implement submitTurn in Game class");
     }
 
     /**
@@ -171,11 +188,7 @@ public class Game {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Game game = (Game) o;
-        return Objects.equals(redPlayer, game.redPlayer) &&
-                Objects.equals(whitePlayer, game.whitePlayer) &&
-                Objects.equals(activeColor, game.activeColor) &&
-                Objects.equals(redBoard, game.redBoard) &&
-                Objects.equals(whiteBoard, game.whiteBoard);
+        return redPlayer.equals(game.redPlayer) && whitePlayer.equals(game.whitePlayer);
     }
 
     /**
@@ -184,6 +197,6 @@ public class Game {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(redPlayer, whitePlayer, activeColor, redBoard, whiteBoard);
+        return Objects.hash(redPlayer, whitePlayer);
     }
 }
