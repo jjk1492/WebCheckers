@@ -133,15 +133,19 @@ public class Game {
     public Message tryMove( Move move ){
         Message message;
         if ( activeColor == Color.RED ) {
-            message = redBoard.validateMove( move );
+            message = redBoard.validateMove( move, activeColor );
         }
         else {
-            message = whiteBoard.validateMove( move );
+            message = whiteBoard.validateMove( move, activeColor );
         }
         if ( message.getType().equals( Type.info ) ) {
             pendingMoves.push( move );
         }
         return message;
+    }
+
+    public Message submitTurn(){
+        return new ErrorMessage("need to implement submitTurn in Game class");
     }
 
     /**
