@@ -11,16 +11,34 @@ public class Piece {
         SINGLE, KING
     }
 
-    public Color color;
-    public Type type;
+    /**
+     * Tells the current state of a piece:
+     * BLOCKED - All surrounding spaces are occupied so the piece is unable to move
+     * JUMP - The piece is able to make a jump, and therefore a jump should be made
+     * OPEN - The piece is able to make at least 1 valid non-jump move
+     */
+    public enum State{
+        BLOCKED, JUMP, OPEN
+    }
+
+    private Color color;
+    private Type type;
+    private State currentState;
 
     /**
      * constructor for a default piece, created with Type SINGLE since default pieces are not kings
      * @param color - an enumeration for the color of the piece, red or white
      */
-    public Piece(Color color){
+    public Piece(Color color, State state){
         this.color = color;
         this.type = Type.SINGLE;
+        this.currentState = state;
+    }
+
+    public Piece(Piece piece){
+        this.color = piece.getColor();
+        this.type = piece.getType();
+        this.currentState = piece.getState();
     }
 
     /**
@@ -31,6 +49,18 @@ public class Piece {
     public Piece( Color color, Type type){
         this.color = color;
         this.type = type;
+    }
+
+    public boolean isValidStep( Move move ) {
+        int startRow = move.getStart().getRow();
+        int endRow = move.getEnd().getRow();
+        return move.isStep() &&  ( startRow - endRow == 1 );
+    }
+
+    public boolean isValidJump( Move move ) {
+        int startRow = move.getStart().getRow();
+        int endRow = move.getEnd().getRow();
+        return move.isJump() && ( startRow - endRow == 2 );
     }
 
 
@@ -49,6 +79,15 @@ public class Piece {
     public Type getType() {
         return type;
     }
+
+    public State getState(){
+        return currentState;
+    }
+
+    public void setState(State state){
+        this.currentState = state;
+    }
+
 
     @Override
     public boolean equals(Object other) {

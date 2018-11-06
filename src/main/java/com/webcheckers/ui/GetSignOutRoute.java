@@ -60,6 +60,7 @@ public class GetSignOutRoute
         String playerName = request.session().attribute( PLAYER_NAME_ATTR );
         if ( playerName != null) {
             gameCenter.removePlayer(playerName);
+            request.session().attribute(PLAYER_NAME_ATTR, null);
             response.redirect( HOME_URL );
             return null;
         }

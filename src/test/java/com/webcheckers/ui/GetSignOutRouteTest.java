@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 import com.webcheckers.application.GameCenter;
+import com.webcheckers.application.PlayerLobby;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -14,19 +15,19 @@ import spark.*;
 import java.util.Map;
 
 /**
- * test for GetHomeRoute
+ * test for GetGameRoute
  *
  * @author Nick Sander
  */
 @Tag("UI-tier")
-public class GetHomeRouteTest {
+public class GetSignOutRouteTest {
 
     private Request request;
     private Session session;
     private Response response;
     private Renderer renderer;
     private GameCenter gameCenter;
-    private GetHomeRoute getHomeRoute;
+    private GetSignOutRoute getSignOutRoute;
 
     /**
      * create mock object
@@ -40,7 +41,7 @@ public class GetHomeRouteTest {
         response = mock(Response.class);
         gameCenter = mock(GameCenter.class);
         renderer = mock(HomePageRenderer.class);
-        getHomeRoute = new GetHomeRoute(renderer, gameCenter);
+        getSignOutRoute = new GetSignOutRoute(renderer,gameCenter);
     }
 
     /**
@@ -54,9 +55,14 @@ public class GetHomeRouteTest {
         when(gameCenter.isPlayerInGame(playerName)).thenReturn(false);
 
         try {
-            getHomeRoute.handle(request, response);
+            getSignOutRoute.handle(request, response);
         } catch (Exception e) {
             fail();
         }
+        verify(gameCenter).removePlayer(playerName);
     }
+
+
+
 }
+

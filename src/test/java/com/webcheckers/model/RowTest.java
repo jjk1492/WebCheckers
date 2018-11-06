@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
 
 /**
  * Tests the methods of the Row class
+ * @author John Knecht V (jjk1492@rit.edu)
  */
 @Tag("Model-Tier")
 public class RowTest {
@@ -39,7 +41,8 @@ public class RowTest {
         public void FillRedRowTest_EvenRow(){
             final Row CuT = new Row(0);
             Piece RED_PIECE = new Piece(Color.RED, Piece.Type.SINGLE);
-            CuT.fillRedRow();
+            Board boardMock = mock(Board.class);
+            CuT.fillRow(boardMock, Color.RED);
             List<Space> filledRow = CuT.getSpaces();
 
             Piece piece0 = filledRow.get(0).getPiece();
@@ -66,7 +69,8 @@ public class RowTest {
         public void FillRedRowTest_OddRow(){
             final Row CuT = new Row(1);
             Piece RED_PIECE = new Piece(Color.RED, Piece.Type.SINGLE);
-            CuT.fillRedRow();
+            Board boardMock = mock(Board.class);
+            CuT.fillRow(boardMock, Color.RED);
             List<Space> filledRow = CuT.getSpaces();
 
             Piece piece0 = filledRow.get(0).getPiece();
@@ -94,7 +98,8 @@ public class RowTest {
         public void FillWhiteRowTest_EvenRow(){
             final Row CuT = new Row(0);
             Piece WHITE_PIECE = new Piece(Color.WHITE, Piece.Type.SINGLE);
-            CuT.fillWhiteRow();
+            Board boardMock = mock(Board.class);
+            CuT.fillRow(boardMock, Color.WHITE);
             List<Space> filledRow = CuT.getSpaces();
 
             Piece piece0 = filledRow.get(0).getPiece();
@@ -122,7 +127,8 @@ public class RowTest {
     public void FillWhiteRowTest_OddRow(){
         final Row CuT = new Row(1);
         Piece WHITE_PIECE = new Piece(Color.WHITE, Piece.Type.SINGLE);
-        CuT.fillWhiteRow();
+        Board boardMock = mock(Board.class);
+        CuT.fillRow(boardMock, Color.WHITE);
         List<Space> filledRow = CuT.getSpaces();
 
         Piece piece0 = filledRow.get(0).getPiece();

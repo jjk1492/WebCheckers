@@ -2,7 +2,6 @@ package com.webcheckers.application;
 
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
-import com.webcheckers.ui.GetHomeRoute;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -79,6 +78,30 @@ public class GameCenter {
     }
 
     /**
+     * returns whether or not the player in question is currently the active player.
+     * @param name name of the player that needs to know whether or not it is their turn
+     * @return a boolean, true if the player is active and false otherwise
+     */
+    public boolean isPlayerActive( String name ) {
+        Game game = getGame( name );
+        if ( name != null && game != null ) {
+            return name.equals( game.getActivePlayer().getName() );
+        }
+        return false;
+    }
+
+    /**
+     * used to fully apply a player's turn when prepared to do so
+     * @param name the player applying their turn
+     */
+    public void finishTurn( String name ) {
+        Game game = getGame( name );
+        if ( game != null ) {
+            game.applyTurn();
+        }
+    }
+
+    /**
      * returns a game currently playing
      * @param name one of the players in the game
      */
@@ -99,9 +122,13 @@ public class GameCenter {
      * @param player1 player we want to remove
      */
     public synchronized void finishedGame( String player1) {
-        playersInGame.remove(player1);
         String opponent = getOpponent(player1);
-        playersInGame.remove(opponent);
+        if(isPlayerInGame(player1)){
+            playersInGame.remove(player1);
+            if(isPlayerInGame(opponent)) {
+                playersInGame.remove(opponent);
+            }
+        }
     }
 
     /**
