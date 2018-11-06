@@ -159,12 +159,13 @@ public class Board implements Iterable<Row> {
      * applies a move
      * @pre move is valid (not my responsibility to check :)
      */
-    public void applyMove( Move move, Piece subject ) {
+    public void applyMove( Move move ) {
         Position start = move.getStart();
         Position end = move.getEnd();
 
         Space startSpace = getSpace( start );
         Space destination = getSpace( end );
+        Piece subject = startSpace.getPiece();
         startSpace.setPiece( null );
         startSpace.setValid( true );
         destination.setPiece(subject);
@@ -179,37 +180,12 @@ public class Board implements Iterable<Row> {
 
     }
 
-    public Move secondJump(Position postJumpPos){
-        int startRow = postJumpPos.getRow();
-        int startCol = postJumpPos.getCell();
-
-        Position rightJump;
-        Position leftJump;
-        if( startRow >= 2){
-            if( startCol <= 5){
-                rightJump = new Position(startRow - 2, startCol + 2);
-                Move rightMove = new Move(postJumpPos, rightJump);
-                if( isValidJump(rightMove) ){
-                    return rightMove;
-                }
-            }
-            if( startCol >= 2){
-                leftJump = new Position( startRow - 2, startCol - 2);
-                Move leftMove = new Move(postJumpPos, leftJump);
-                if( isValidJump(leftMove) ){
-                    return leftMove;
-                }
-            }
-
-        }
-        return null;
-    }
 
     public boolean isValidJump(Move move){
-        if( move.isJump() && move.getStart() != null && move.getEnd() != null){
+        if( move.getStart() != null && move.getEnd() != null && move.isJump() ){
             //Check that the halfway space is occupied
             Space halfwaySpace = getHalfway(move.getStart(), move.getEnd());
-            if( !halfwaySpace.isValid() ){
+            if( !halfwaySpace.isValid() && getPiece(move.getEnd() ) == null ){
                 Piece halfwayPiece = halfwaySpace.getPiece();
                 Piece currentPiece = getPiece(move.getStart());
                 if( currentPiece.getColor() != halfwayPiece.getColor() ){

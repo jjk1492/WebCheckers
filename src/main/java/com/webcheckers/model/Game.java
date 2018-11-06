@@ -138,10 +138,9 @@ public class Game {
         }
         Move move;
         while ( ( move = pendingMoves.pollLast() ) != null ) {
-            Piece subject = activeBoard.getPiece(move.getStart());
-            activeBoard.applyMove( move, subject );
+            activeBoard.applyMove( move );
             Move inverseMove = move.getInverse();
-            opponentBoard.applyMove( inverseMove, subject );
+            opponentBoard.applyMove( inverseMove );
         }
         swapTurn();
    }
@@ -153,12 +152,19 @@ public class Game {
      */
     public Message tryMove( Move move ){
         Message message;
+        Board activeBoard;
         if ( activeColor == Color.RED ) {
-            message = redBoard.validateMove( move, activeColor );
+            activeBoard = redBoard;
+
         }
         else {
-            message = whiteBoard.validateMove( move, activeColor );
+            activeBoard = whiteBoard;
         }
+        activeBoard = new Board( activeBoard );
+        for ( Move pendingMove : pendingMoves ) {
+            activeBoard.applyMove(pendingMove);
+        }
+        message = activeBoard.validateMove( move, activeColor );
         if ( message.getType().equals( Type.info ) ) {
             pendingMoves.push( move );
         }
