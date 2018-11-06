@@ -13,6 +13,7 @@ public class Board implements Iterable<Row> {
     private List<Row> rows;
     private List<Piece> redPieces;
     private List<Piece> whitePieces;
+    private boolean canMove = true;
 
     /*
      * constructs new Board
@@ -118,6 +119,9 @@ public class Board implements Iterable<Row> {
         if ( endPiece != null ) {
             return new ErrorMessage( "You cannot move to an occupied space!" );
         }
+        if (!canMove) {
+            return new ErrorMessage( "You cannot step after already moving!" );
+        }
         if ( move.isStep() ) {
             boolean validStep;
             if ( startPiece.getColor() == activeColor ) {
@@ -205,7 +209,15 @@ public class Board implements Iterable<Row> {
             halfway.setValid( true );
             halfway.setPiece( null );
         }
+        else {
+            canMove = false;
+        }
+
         updatePieceStates( myColor );
+    }
+
+    public void endTurn() {
+        canMove = true;
     }
 
 

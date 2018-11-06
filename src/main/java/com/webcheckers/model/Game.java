@@ -143,6 +143,8 @@ public class Game {
             Move inverseMove = move.getInverse();
             opponentBoard.applyMove( inverseMove, activeColor.getOpposite() );
         }
+        activeBoard.endTurn();
+        opponentBoard.endTurn();
         swapTurn();
    }
 
