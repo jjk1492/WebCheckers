@@ -100,6 +100,7 @@ public class GameTest {
         Move secondMove = new Move(startingPos, validEndingPosRight);
 
         Message firstMoveMessage = CuT.tryMove(firstMove);
+        CuT.backupMove();
         Message secondMoveMessage = CuT.tryMove(secondMove);
 
         String validMoveMessage = "Your move was valid!";
@@ -234,6 +235,7 @@ public class GameTest {
         Move firstMoveWhite = new Move(startingPos, validEndingPosLeft);
         Move secondMoveWhite = new Move(startingPos, validEndingPosRight);
         Message message = CuT.tryMove(firstMoveWhite);
+        CuT.backupMove();
         Message message1 = CuT.tryMove(secondMoveWhite);
         assertEquals(message.getText(), validMoveMessage);
         assertEquals(message1.getText(), validMoveMessage);

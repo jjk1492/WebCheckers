@@ -19,9 +19,11 @@ class PlayerLobbyTest {
     void instanceNotNull() {
         PlayerLobby pl = new PlayerLobby();
         assertNotNull( pl,"Instance is null" );
+        Map<String, Player> players = pl.getPlayers();
+        assertNotNull(players, "players map should not be null");
     }
 
-    /**
+    /**"
      * ensures usernames that are empty, start with a space or contain non-alphanumeric
      * characters are considered invalid
      */
@@ -32,14 +34,13 @@ class PlayerLobbyTest {
         String invalidChars = "!*inVaLId*";
         String spaceStart = " inValid";
 
-        boolean name1 = pl.isValid( empty );
-        assertFalse( name1,"Empty string should not be a valid username" );
+        assertFalse( pl.isValid( empty ),"Empty string should not be a valid username" );
 
-        boolean name2 = pl.isValid( invalidChars );
-        assertFalse( name2, "Names with non-alphanumeric characters should not be a valid username" );
+        assertFalse( pl.isValid( invalidChars ), "Names with non-alphanumeric characters should not be a valid username" );
 
-        boolean name3 = pl.isValid( spaceStart );
-        assertFalse( name3, "Names that with a space should not be a valid username" );
+        assertFalse( pl.isValid( spaceStart ), "Names that with a space should not be a valid username" );
+
+        assertFalse(pl.addPlayer(spaceStart), "Player with invalid name should not be added");
 
     }
 
@@ -73,6 +74,7 @@ class PlayerLobbyTest {
         assertTrue( name5, combo + message );
 
     }
+
 
     /**
      * test to make sure a new player can not use a name already in use

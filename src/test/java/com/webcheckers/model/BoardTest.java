@@ -1,14 +1,11 @@
 package com.webcheckers.model;
 
-import com.webcheckers.ui.PostHomeRoute;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static com.webcheckers.model.Color.RED;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
 
 /**
  * Tests the methods of the Board class
@@ -22,6 +19,9 @@ public class BoardTest {
         CuT = new Board();
     }
 
+    /**
+     * checks correct spaces
+     */
     @Test
     public void ConstructorTest_PlayerAssignment(){
 
@@ -33,8 +33,12 @@ public class BoardTest {
         assertEquals(7,cut77Space.getCellIdx());
         assertFalse(cut00Space.isValid());
         assertFalse(cut77Space.isValid());
+        assertNull(CuT.getSpace(new Position(9,9)));
     }
 
+    /**
+     * test to fill red board
+     */
     @Test
     public void fillRedBoardTest(){
 
@@ -55,6 +59,9 @@ public class BoardTest {
                 }else if((r + c) % 2 == 0) assertFalse(CuT.spaceIsValid(r,c));
     }
 
+    /**
+     * test to fill white board
+     */
     @Test
     public void fillWhiteBoardTest(){
 
@@ -75,6 +82,9 @@ public class BoardTest {
                 }else if((r + c) % 2 == 0) assertFalse(CuT.spaceIsValid(r,c));
     }
 
+    /**
+     * board copy test
+     */
     @Test
     public void copyConstructorTest(){
         CuT.fillBoard(RED);
@@ -102,6 +112,9 @@ public class BoardTest {
         assertNull(CuT.getSpace(end).getPiece());
     }
 
+    /**
+     * check halfway point
+     */
     @Test
     public void getHalfwayTest(){
         Position start = new Position(0,0);
@@ -112,6 +125,43 @@ public class BoardTest {
         end = new Position(1,1);
         assertNull(CuT.getHalfway(start,end));
 
+    }
+
+    /**
+     *
+     */
+    @Test
+    public void validateMoveTest(){
+        CuT.fillBoard(Color.RED);
+        Position start = new Position(5,0);
+        Position end = new Position(4,1);
+        Move move = new Move(start,end);
+        Message message = CuT.validateMove(move, Color.RED);
+        assertSame("info",message.getType().toString());
+
+        start = new Position(5,1);
+        end = new Position(4,0);
+        move = new Move(start,end);
+        message = CuT.validateMove(move, Color.RED);
+        assertSame("error",message.getType().toString());
+
+        start = new Position(5,0);
+        end = new Position(5,2);
+        move = new Move(start,end);
+        message = CuT.validateMove(move, Color.RED);
+        assertSame("error",message.getType().toString());
+
+        start = new Position(5,0);
+        end = new Position(4,0);
+        move = new Move(start,end);
+        message = CuT.validateMove(move, Color.RED);
+        assertSame("error",message.getType().toString());
+
+        start = new Position(5,0);
+        end = new Position(3,2);
+        move = new Move(start,end);
+        message = CuT.validateMove(move, Color.RED);
+        assertSame("error",message.getType().toString());
     }
 
     @Test
@@ -197,6 +247,11 @@ public class BoardTest {
         assertEquals(message.getText(), validJump);
 
 
+    }
+
+    @Test
+    public void iteratorTest(){
+        assertNotNull(CuT.iterator());
     }
 
 }
