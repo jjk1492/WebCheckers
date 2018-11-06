@@ -35,4 +35,14 @@ public class SpaceTest {
         space.setPiece(piece);
         assertEquals(piece, space.getPiece());
     }
+
+    @Test
+    void testSpaceCopy(){
+        Space space = new Space(5);
+        Space copy = new Space(space);
+
+        assertEquals(copy.getCellIdx(), 5);
+        assertEquals(copy.isValid(), false);
+        assertEquals(copy.getPiece(), null);
+    }
 }
