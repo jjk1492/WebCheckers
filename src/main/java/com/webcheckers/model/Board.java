@@ -1,8 +1,5 @@
 package com.webcheckers.model;
 
-
-import javafx.geometry.Pos;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -47,65 +44,18 @@ public class Board implements Iterable<Row> {
         }
     }
 
-    public void fillRedBoard(){
+    public void fillBoard(Color close){
+        int index;
         for( Row row: rows){
-            int index = row.getIndex();
-            switch (index) {
-                case 0:
-                    row.fillWhiteRow(this);
-                    break;
-                case 1:
-                    row.fillWhiteRow(this);
-                    break;
-                case 2:
-                    row.fillWhiteRow(this);
-                    break;
-                case 3:
-                    row.validateRow();
-                    break;
-                case 4:
-                    row.validateRow();
-                    break;
-                case 5:
-                    row.fillRedRow(this);
-                    break;
-                case 6:
-                    row.fillRedRow(this);
-                    break;
-                case 7:
-                    row.fillRedRow(this);
-                    break;
+            index = row.getIndex();
+            if ( index < 3 ) {
+                row.fillRow( this, close );
             }
-        }
-    }
-
-    public void fillWhiteBoard(){
-        for( Row row: rows){
-            switch (row.getIndex()){
-                case 0:
-                    row.fillRedRow(this);
-                    break;
-                case 1:
-                    row.fillRedRow(this);
-                    break;
-                case 2:
-                    row.fillRedRow(this);
-                    break;
-                case 3:
-                    row.validateRow();
-                    break;
-                case 4:
-                    row.validateRow();
-                    break;
-                case 5:
-                    row.fillWhiteRow(this);
-                    break;
-                case 6:
-                    row.fillWhiteRow(this);
-                    break;
-                case 7:
-                    row.fillWhiteRow(this);
-                    break;
+            else if ( index > 4 ) {
+                row.fillRow( this, close.getOpposite() );
+            }
+            else {
+                row.validateRow();
             }
         }
     }

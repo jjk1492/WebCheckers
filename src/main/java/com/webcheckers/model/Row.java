@@ -36,70 +36,22 @@ public class Row implements Iterable<Space> {
     /**
      * Called at the beginning of a game to add red pieces to a row
      */
-    public void fillRedRow( Board board ){
+    public void fillRow( Board board, Color color ){
+        Piece newPiece;
         for( Space space : spaces){
-            Piece newPiece = null;
-            if( index%2 == 0){
-                if( space.getCellIdx()%2 == 1){
-                    if( index == 2 || index == 5) {
-                        newPiece = new Piece(Color.RED, Piece.State.OPEN);
-                        space.setPiece(newPiece);
-                    }
-                    else{
-                        newPiece = new Piece(Color.RED, Piece.State.BLOCKED);
-                        space.setPiece(newPiece);
-                    }
+            if( index%2 + space.getCellIdx()%2 == 1){
+                if( index == 2 || index == 5) {
+                    newPiece = new Piece(color, Piece.State.OPEN);
                 }
-            }
-            else {
-                if( space.getCellIdx()%2 == 0){
-                    if( index == 2 || index == 5) {
-                        newPiece = new Piece(Color.RED, Piece.State.OPEN);
-                        space.setPiece(newPiece);
-                    }
-                    else{
-                        newPiece = new Piece(Color.RED, Piece.State.BLOCKED);
-                        space.setPiece(newPiece);
-                    }
+                else{
+                    newPiece = new Piece(color, Piece.State.BLOCKED);
                 }
+                space.setPiece(newPiece);
+                board.addPiece(newPiece);
             }
-            board.addPiece(newPiece);
         }
     }
 
-    /**
-     * Called at the beginning of a game to add white pieces to a row
-     */
-    public void fillWhiteRow(Board board){
-        for( Space space : spaces){
-            Piece newPiece = null;
-            if( index%2 == 0){
-                if( space.getCellIdx()%2 == 1){
-                    if( index == 2 || index == 5) {
-                        newPiece = new Piece(Color.WHITE, Piece.State.OPEN);
-                        space.setPiece(newPiece);
-                    }
-                    else{
-                        newPiece = new Piece(Color.WHITE, Piece.State.BLOCKED);
-                        space.setPiece(newPiece);
-                    }
-                }
-            }
-            else {
-                if( space.getCellIdx()%2 == 0){
-                    if( index == 2 || index == 5) {
-                        newPiece = new Piece(Color.WHITE, Piece.State.OPEN);
-                        space.setPiece(newPiece);
-                    }
-                    else{
-                        newPiece = new Piece(Color.WHITE, Piece.State.BLOCKED);
-                        space.setPiece(newPiece);
-                    }
-                }
-            }
-            board.addPiece(newPiece);
-        }
-    }
 
     /**
      * Called at the beginning of a game to validate any space in a row that should be
@@ -107,16 +59,7 @@ public class Row implements Iterable<Space> {
      */
     public void validateRow(){
         for( Space space : spaces){
-            if( index%2 == 0){
-                if( space.getCellIdx()%2 == 1){
-                    space.setValid(true);
-                }
-            }
-            else{
-                if( space.getCellIdx()%2 == 0){
-                    space.setValid(true);
-                }
-            }
+            space.setValid(index%2 + space.getCellIdx() == 1);
         }
     }
 
@@ -167,8 +110,6 @@ public class Row implements Iterable<Space> {
             return false;
         }
         Space checkSpace = spaces.get(spaceIndex);
-//        System.out.println( checkSpace.toString() );
-//        System.out.println( checkSpace.isValid() );
         return checkSpace.isValid();
     }
 
