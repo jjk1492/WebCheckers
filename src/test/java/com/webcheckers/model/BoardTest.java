@@ -31,6 +31,7 @@ public class BoardTest {
         assertEquals(7,cut77Space.getCellIdx());
         assertFalse(cut00Space.isValid());
         assertFalse(cut77Space.isValid());
+        assertNull(CuT.getSpace(new Position(9,9)));
     }
 
     @Test
@@ -110,6 +111,34 @@ public class BoardTest {
         end = new Position(1,1);
         assertNull(CuT.getHalfway(start,end));
 
+    }
+
+    @Test
+    public void validateMoveTest(){
+        CuT.fillBoard(Color.RED);
+        Position start = new Position(5,0);
+        Position end = new Position(4,1);
+        Move move = new Move(start,end);
+        Message message = CuT.validateMove(move, Color.RED);
+        assertSame("info",message.getType().toString());
+
+        start = new Position(5,1);
+        end = new Position(4,0);
+        move = new Move(start,end);
+        message = CuT.validateMove(move, Color.RED);
+        assertSame("error",message.getType().toString());
+
+        start = new Position(5,0);
+        end = new Position(5,2);
+        move = new Move(start,end);
+        message = CuT.validateMove(move, Color.RED);
+        assertSame("error",message.getType().toString());
+
+        start = new Position(5,0);
+        end = new Position(4,0);
+        move = new Move(start,end);
+        message = CuT.validateMove(move, Color.RED);
+        assertSame("error",message.getType().toString());
     }
 
     @Test
@@ -195,6 +224,11 @@ public class BoardTest {
         assertEquals(message.getText(), validJump);
 
 
+    }
+
+    @Test
+    public void iteratorTest(){
+        assertNotNull(CuT.iterator());
     }
 
 }
