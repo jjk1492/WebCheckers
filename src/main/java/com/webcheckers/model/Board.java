@@ -175,6 +175,7 @@ public class Board implements Iterable<Row> {
             halfway.setValid( true );
             halfway.setPiece( null );
         }
+        updatePieceStates(subject.getColor());
 
     }
 
@@ -231,6 +232,105 @@ public class Board implements Iterable<Row> {
             }
             else{
                 whitePieces.add(newPiece);
+            }
+        }
+    }
+
+    public void updatePieceStates(Color color){
+        for( Row row : rows){
+            int rowIndex = row.getIndex();
+            Position startPos = null;
+            Position rightEndPos = null;
+            Position leftEndPos = null;
+            Move testMove = null;
+            for( Space space : row.getSpaces() ){
+                int spaceIndex = space.getCellIdx();
+                startPos = new Position(rowIndex,spaceIndex);
+                Piece currentPiece = space.getPiece();
+                if( currentPiece != null ) {
+                    if (currentPiece.getColor() == color) {
+
+                        //Check for a jump
+                        if (rowIndex <= 5 && rowIndex >= 2) {
+
+                            //Check a right jump
+                            if (spaceIndex <= 5) {
+                                rightEndPos = new Position(rowIndex - 2, spaceIndex + 2);
+                                testMove = new Move(startPos, rightEndPos);
+                                if (isValidJump(testMove)) {
+                                    currentPiece.setState(Piece.State.JUMP);
+                                }
+                            }
+
+                            //Check for a left jump
+                            else if (spaceIndex >= 2) {
+                                leftEndPos = new Position(rowIndex - 2, spaceIndex - 2);
+                                testMove = new Move(startPos, leftEndPos);
+                                if (isValidJump(testMove)) {
+                                    currentPiece.setState(Piece.State.JUMP);
+                                }
+                            }
+                        }
+
+                        //Check for a step
+                        if (rowIndex <= 6 && rowIndex >= 1) {
+
+                            //Check for a right step
+                            if (spaceIndex <= 6) {
+                                if (spaceIsValid(rowIndex - 1, spaceIndex + 1)) {
+                                    currentPiece.setState(Piece.State.OPEN);
+                                }
+                            }
+                            //Check for a left step
+                            if (spaceIndex >= 1) {
+                                if (spaceIsValid(rowIndex - 1, spaceIndex - 1)) {
+                                    currentPiece.setState(Piece.State.OPEN);
+                                }
+                            }
+                        }
+                    } else {
+
+                        //Check for a jump
+                        if (rowIndex <= 5 && rowIndex >= 2) {
+
+                            //Check a right jump
+                            if (spaceIndex <= 5) {
+                                rightEndPos = new Position(rowIndex + 2, spaceIndex + 2);
+                                testMove = new Move(startPos, rightEndPos);
+                                if (isValidJump(testMove)) {
+                                    currentPiece.setState(Piece.State.JUMP);
+                                }
+                            }
+
+                            //Check for a left jump
+                            if (spaceIndex >= 2) {
+                                leftEndPos = new Position(rowIndex + 2, spaceIndex - 2);
+                                testMove = new Move(startPos, leftEndPos);
+                                if (isValidJump(testMove)) {
+                                    currentPiece.setState(Piece.State.JUMP);
+                                }
+                            }
+                        }
+
+                        //Check for a step
+                        if (rowIndex <= 6 && rowIndex >= 1) {
+
+                            //Check for a right step
+                            if (spaceIndex <= 6) {
+                                if (spaceIsValid(rowIndex + 1, spaceIndex + 1)) {
+                                    currentPiece.setState(Piece.State.OPEN);
+                                }
+                            }
+                            //Check for a left step
+                            else if (spaceIndex >= 1) {
+                                if (spaceIsValid(rowIndex + 1, spaceIndex - 1)) {
+                                    currentPiece.setState(Piece.State.OPEN);
+                                }
+                            }
+                        }
+
+                    }
+                }
             }
         }
     }
