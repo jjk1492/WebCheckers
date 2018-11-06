@@ -8,11 +8,11 @@ public class Move {
     private Position start;
     private Position end;
 
-    /*
+    /**
      * constructs Move object
      * @param start initial Position
      * @param end final Position
-     * */
+     */
     public Move(Position start, Position end){
         this.start = start;
         this.end = end;
@@ -22,16 +22,16 @@ public class Move {
         return new Move( start.getInverse(), end.getInverse() );
     }
 
-    /*
-     * returns start Position
-     * */
+    /**
+     * @return start Position
+     */
     public Position getStart() {
         return start;
     }
 
-    /*
-     * returns end Position
-     * */
+    /**
+     * @return end Position
+     */
     public Position getEnd() {
         return end;
     }
