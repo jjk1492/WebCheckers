@@ -72,26 +72,32 @@ public class Row implements Iterable<Space> {
      */
     public void fillWhiteRow(Board board){
         for( Space space : spaces){
+            Piece newPiece = null;
             if( index%2 == 0){
                 if( space.getCellIdx()%2 == 1){
                     if( index == 2 || index == 5) {
-                        space.setPiece(new Piece(Color.WHITE, Piece.State.OPEN));
+                        newPiece = new Piece(Color.WHITE, Piece.State.OPEN);
+                        space.setPiece(newPiece);
                     }
                     else{
-                        space.setPiece(new Piece(Color.WHITE, Piece.State.BLOCKED));
+                        newPiece = new Piece(Color.WHITE, Piece.State.BLOCKED);
+                        space.setPiece(newPiece);
                     }
                 }
             }
             else {
                 if( space.getCellIdx()%2 == 0){
                     if( index == 2 || index == 5) {
-                        space.setPiece(new Piece(Color.WHITE, Piece.State.OPEN));
+                        newPiece = new Piece(Color.WHITE, Piece.State.OPEN);
+                        space.setPiece(newPiece);
                     }
                     else{
-                        space.setPiece(new Piece(Color.WHITE, Piece.State.BLOCKED));
+                        newPiece = new Piece(Color.WHITE, Piece.State.BLOCKED);
+                        space.setPiece(newPiece);
                     }
                 }
             }
+            board.addPiece(newPiece);
         }
     }
 

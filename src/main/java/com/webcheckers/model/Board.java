@@ -1,6 +1,8 @@
 package com.webcheckers.model;
 
 
+import javafx.geometry.Pos;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -159,6 +161,20 @@ public class Board implements Iterable<Row> {
             boolean validStep = startPiece.isValidStep( move );
             if ( validStep ) {
                 // TODO handle stepping when a valid jump move is available for that player
+                if( startPiece.getColor() == Color.RED){
+                    for( Piece redPiece : redPieces){
+                        if( redPiece.getState() == Piece.State.JUMP ){
+                            return new ErrorMessage("A jump is available, you must jump.");
+                        }
+                    }
+                }
+                else{
+                    for( Piece whitePiece : whitePieces ){
+                        if( whitePiece.getState() == Piece.State.JUMP ){
+                            return new ErrorMessage("A jump is available, you must jump.");
+                        }
+                    }
+                }
                 return new InfoMessage( "Your move was valid!" );
             }
             else {
@@ -180,7 +196,6 @@ public class Board implements Iterable<Row> {
                     else if(activeColor.equals(Color.WHITE) &&  pieceColor.equals(Color.WHITE)){
                         return new ErrorMessage("You can't jump over your own piece!");
                     }
-
                     return new InfoMessage( "Valid jump!" );
                 }
             }
@@ -209,10 +224,6 @@ public class Board implements Iterable<Row> {
             Space halfway = getHalfway( start, end );
             halfway.setValid( true );
             halfway.setPiece( null );
-            Move jumpAgain = secondJump(move.getEnd());
-            if( jumpAgain != null ){
-                applyMove( jumpAgain, subject);
-            }
         }
 
     }
@@ -274,11 +285,6 @@ public class Board implements Iterable<Row> {
         }
     }
 
-    public void updatePieceStates(){
-        for( Piece piece : redPieces){
-
-        }
-    }
 
     @Override
     public Iterator<Row> iterator() {
