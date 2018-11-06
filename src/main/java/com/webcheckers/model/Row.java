@@ -59,7 +59,7 @@ public class Row implements Iterable<Space> {
      */
     public void validateRow(){
         for( Space space : spaces){
-            space.setValid(index%2 + space.getCellIdx() == 1);
+            space.setValid(index%2 + space.getCellIdx()%2 == 1);
         }
     }
 
