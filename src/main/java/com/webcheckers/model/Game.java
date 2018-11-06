@@ -126,6 +126,7 @@ public class Game {
      * applies the pending moves to the board
      */
     public void applyTurn() {
+//        System.out.println( "applying " + activeColor + "'s turn" );
         Board activeBoard;
         Board opponentBoard;
         if ( activeColor.equals( Color.WHITE ) ) {
@@ -138,9 +139,9 @@ public class Game {
         }
         Move move;
         while ( ( move = pendingMoves.pollLast() ) != null ) {
-            activeBoard.applyMove( move );
+            activeBoard.applyMove( move, activeColor );
             Move inverseMove = move.getInverse();
-            opponentBoard.applyMove( inverseMove );
+            opponentBoard.applyMove( inverseMove, activeColor.getOpposite() );
         }
         swapTurn();
    }
@@ -155,17 +156,18 @@ public class Game {
         Board activeBoard;
         if ( activeColor == Color.RED ) {
             activeBoard = redBoard;
-
         }
         else {
             activeBoard = whiteBoard;
         }
         activeBoard = new Board( activeBoard );
         for ( Move pendingMove : pendingMoves ) {
-            activeBoard.applyMove(pendingMove);
+            activeBoard.applyMove(pendingMove, activeColor);
         }
         message = activeBoard.validateMove( move, activeColor );
         if ( message.getType().equals( Type.info ) ) {
+//            System.out.println( "Good move, new game state" );
+//            System.out.println( activeBoard.toString() );
             pendingMoves.push( move );
         }
         return message;
