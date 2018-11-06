@@ -139,6 +139,12 @@ public class BoardTest {
         move = new Move(start,end);
         message = CuT.validateMove(move, Color.RED);
         assertSame("error",message.getType().toString());
+
+        start = new Position(5,0);
+        end = new Position(3,2);
+        move = new Move(start,end);
+        message = CuT.validateMove(move, Color.RED);
+        assertSame("error",message.getType().toString());
     }
 
     @Test
