@@ -74,6 +74,33 @@ public class BoardTest {
     }
 
     @Test
+    public void copyConstructorTest(){
+        CuT.fillBoard(Color.RED);
+        Board copyCuT = new Board(CuT);
+
+        for(int r =0; r<8; r++)
+            for(int c = 0; c<8;c++)
+                if(r > 4 || r < 3) {
+                    assertFalse(copyCuT.spaceIsValid(r,c));
+                    if((r + c) % 2 == 1){
+                        if (r > 4){
+                            assertSame(copyCuT.getPiece(new Position(r, c)).getColor(), Color.RED);
+                        }else assertSame(CuT.getPiece(new Position(r, c)).getColor(), Color.WHITE);
+                    }
+                    else {
+                        assertNull(copyCuT.getPiece(new Position(r, c)));
+                    }
+
+                }else if((r + c) % 2 == 0) assertFalse(copyCuT.spaceIsValid(r,c));
+
+        Position start = new Position(5,1);
+        Position end = new Position(4,2);
+        Move move = new Move(start,end);
+        copyCuT.applyMove(move,copyCuT.getPiece(start));
+        assertNull(CuT.getSpace(end).getPiece());
+    }
+
+    @Test
     public void getHalfwayTest(){
         Position start = new Position(0,0);
         Position end = new Position(2,2);
