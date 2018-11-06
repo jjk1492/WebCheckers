@@ -176,6 +176,25 @@ public class BoardTest {
 
     }
 
+    @Test
+    public void validJump(){
+        CuT.fillBoard(Color.RED);
 
+        Position whiteOccupy = new Position(4, 1);
+        Space space = CuT.getSpace(whiteOccupy);
+        Piece whitePiece = new Piece(Color.WHITE, Piece.State.OPEN);
+        space.setPiece(whitePiece);
+        space.setValid(false);
+
+        Position start = new Position(5,0);
+        Position end = new Position(3,2);
+        Move move = new Move(start,end);
+        Message message = CuT.validateMove(move, Color.RED);
+        String validJump = "Valid jump!";
+        assertEquals(message.getType(), Message.Type.info);
+        assertEquals(message.getText(), validJump);
+
+
+    }
 
 }
