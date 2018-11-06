@@ -8,7 +8,11 @@ import spark.Request;
 import spark.Response;
 import spark.Session;
 
+import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
+import static com.webcheckers.ui.WebServer.HOME_URL;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class PostSignInRouteTest {
@@ -32,5 +36,43 @@ public class PostSignInRouteTest {
         playerLobby = mock(PlayerLobby.class);
         renderer = mock(HomePageRenderer.class);
         postSignInRoute = new PostSignInRoute( renderer, playerLobby );
+    }
+
+    @Test
+    public void happySignIn() {
+        String playerName = "BigPlayer";
+
+        when( request.queryParams( PLAYER_NAME_ATTR ) ).thenReturn( playerName );
+        when( session.attribute( PLAYER_NAME_ATTR ) ).thenReturn( null );
+        when( playerLobby.isValid(playerName) ).thenReturn(true);
+        when( playerLobby.addPlayer(playerName)).thenReturn(true);
+
+        try {
+            postSignInRoute.handle(request, response);
+        }
+        catch ( Exception e ) {
+            fail();
+        }
+
+        verify(playerLobby).addPlayer(playerName);
+        verify(session).attribute(PLAYER_NAME_ATTR, playerName);
+        verify(response).redirect(HOME_URL);
+    }
+
+    @Test
+    public void alreadySignedIn() {
+        String playerName = "SmallPlayer";
+
+        when( request.queryParams( PLAYER_NAME_ATTR ) ).thenReturn( playerName );
+        when( session.attribute( PLAYER_NAME_ATTR ) ).thenReturn( playerName );
+        when( playerLobby.isValid(playerName) ).thenReturn(true);
+        when( playerLobby.addPlayer(playerName)).thenReturn(false);
+
+        try {
+            postSignInRoute.handle(request,response);
+        }
+        catch ( Exception e ) {
+            fail();
+        }
     }
 }
