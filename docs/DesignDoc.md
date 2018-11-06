@@ -93,62 +93,38 @@ with the WebCheckers application.
 
 
 ### UI Tier
-> _Provide a summary of the Server-side UI tier of your architecture.
-> Describe the types of components in the tier and describe their
-> responsibilities.  This should be a narrative description, i.e. it has
-> a flow or "story line" that the reader can follow._
 
-> _At appropriate places as part of this narrative provide one or more
-> static models (UML class structure or object diagrams) with some
-> details such as critical attributes and methods._
-
-> _You must also provide any dynamic models, such as statechart and
-> sequence diagrams, as is relevant to a particular aspect of the design
-> that you are describing.  For example, in WebCheckers you might create
-> a sequence diagram of the `POST /validateMove` HTTP request processing
-> or you might show a statechart diagram if the Game component uses a
-> state machine to manage the game._
-
-> _If a dynamic model, such as a statechart describes a feature that is
-> not mostly in this tier and cuts across multiple tiers, you can
-> consider placing the narrative description of that feature in a
-> separate section for describing significant features. Place this after
-> you describe the design of the three tiers._
-
-The UI tier starts with the server starting up, which will create all the need HTTP routes.
-
-
-
+Once upon a time our UI tier handled HTTP requests from server. It allowed users
+to think that webcheckers was the work of blak magic (which it is, but that is a story for 
+another time). Users could willingly sign into and sign out of Web Checkers if it did not destroy their 
+soul in the process. It handled refreshing the page constanly to update to see if it was a user's turn in 
+the game, which is where the Javascript reared it's ugly head. It also allowed users to undo their moves and submit 
+their moves by sending unconventionally gross enums. It also handles removing users from a game if a player resigns or if a player wins. If they win they get a cookie. A poisoned cookie. 
 
 
 ### Application Tier
 
 The application tier includes the classes GameCenter and PlayerLobby.
 When the server is started then we create an instance of GameCenter that holds a PlayerLobby.
-PlayerLobby will hold all of the players currently signed into Web Checkers. 
+PlayerLobby will hold all of the players currently signed into Web Checkers. PlayerLobby takes care of username validation. GameCenter handles the creation of games and validation of games. It will not allow a player to be in more than one game. 
 
 
 ### Model Tier
-> _Provide a summary of the Application tier of your architecture. This
-> section will follow the same instructions that are given for the UI
-> Tier above._
+
+Model Tier handles all of the actual game logic. It has a game class that maintains the state of 2 boards, one for each player, in order to keep state protected but also will allow moves to be undone. Each board has some state of it's own to keep track of the current turn, list of rows that make up the actual board. Each row has a list of spaces that make up the row itself. Each space can be marked invalid or valid and if it contains a piece. A piece have a type (single, king) and color (red, white) and a state(open, blocked, jump). Open means no jumps available, but there is a single step to be made. A blocked piece means it currently can not make a move. Jump is used when there is jump is available to make. These states are used to help make determining legal moves for the game more convenient. Position and Move are both data holders which are used for checking when a move is a step or jump. 
+
+![Model UML](Model-UML.png)
 
 ### Design Improvements
->If the project were to continue, we would change the info and error enums to be
+If the project were to continue, we would change the info and error enums to be
 capitalized as it was intended to be. We would also nuke all of the javascript 
 and start from scratch. 
 
 ## Testing
-> _This section will provide information about the testing performed
-> and the results of the testing._
-
 ### Acceptance Testing
 
-We have currently 9 stories fully passing their acceptance criteria tests. 
-We don't have any conerns about the tests that we have checked. 
-Our user story of Multiple Jumps has not yet been tested because we are 
-still having some issues with implementing it. 
-
+We have currently 10 stories fully passing their acceptance criteria tests. 
+We don't have any conerns about the tests that we have checked. We are all concerned for our mental well being though. 
 
 
 ### Unit Testing and Code Coverage
