@@ -41,10 +41,12 @@ This section describes the features of the application.
 > maybe Epics and critical Stories._
 
 ### Definition of MVP
-> _Provide a simple description of the Minimum Viable Product._
+	The MVP of Web Checkers allows players to sign in, choose a username, play a game of American
+checkers against their chosen opponent, resign from a game and sign out when they are
+finished playing.
 
 ### MVP Features
-> _Provide a list of top-level Epics and/or Stories of the MVP._
+> 
 
 ### Roadmap of Enhancements
 > _Provide a list of top-level features in the order you plan to consider them._
@@ -113,11 +115,17 @@ with the WebCheckers application.
 > separate section for describing significant features. Place this after
 > you describe the design of the three tiers._
 
+The UI tier starts with the server starting up, which will create all the need HTTP routes.
+
+
+
+
 
 ### Application Tier
-> _Provide a summary of the Application tier of your architecture. This
-> section will follow the same instructions that are given for the UI
-> Tier above._
+
+The application tier includes the classes GameCenter and PlayerLobby.
+When the server is started then we create an instance of GameCenter that holds a PlayerLobby.
+PlayerLobby will hold all of the players currently signed into Web Checkers. 
 
 
 ### Model Tier
@@ -126,29 +134,26 @@ with the WebCheckers application.
 > Tier above._
 
 ### Design Improvements
-> _Discuss design improvements that you would make if the project were
-> to continue. These improvement should be based on your direct
-> analysis of where there are problems in the code base which could be
-> addressed with design changes, and describe those suggested design
-> improvements. After completion of the Code metrics exercise, you
-> will also discuss the resutling metric measurements.  Indicate the
-> hot spots the metrics identified in your code base, and your
-> suggested design improvements to address those hot spots._
+>If the project were to continue, we would change the info and error enums to be
+capitalized as it was intended to be. We would also nuke all of the javascript 
+and start from scratch. 
 
 ## Testing
 > _This section will provide information about the testing performed
 > and the results of the testing._
 
 ### Acceptance Testing
-> _Report on the number of user stories that have passed all their
-> acceptance criteria tests, the number that have some acceptance
-> criteria tests failing, and the number of user stories that
-> have not had any testing yet. Highlight the issues found during
-> acceptance testing and if there are any concerns._
+
+We have currently 9 stories fully passing their acceptance criteria tests. 
+We don't have any conerns about the tests that we have checked. 
+Our user story of Multiple Jumps has not yet been tested because we are 
+still having some issues with implementing it. 
+
+
 
 ### Unit Testing and Code Coverage
-> _Discuss your unit testing strategy. Report on the code coverage
-> achieved from unit testing of the code base. Discuss the team's
-> coverage targets, why you selected those values, and how well your
-> code coverage met your targets. If there are any anomalies, discuss
-> those._
+Our unit testing strategy was to get as many lines covered as possible. We used Mocktio to help us create mock objects. Currently our code is covered at 91%. We were planning on aiming for 80% coverage in the UI class, but we managed to get 90% coverage.  We aimed for 95% coverage in the application tier, which was accomplished 
+with ease. The coverage in model tier is close to the 95% coverage goal at 94%. Our model tier is 
+still a work in progress, so we should be able to accomplish our goal of 95% at the end of Sprint 3 with no problem.
+
+![Code Coverage](Code-Coverage.png)
