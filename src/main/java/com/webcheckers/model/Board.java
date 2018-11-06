@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/*
+/**
  * Board class in the model tier
- * */
+ * @author several
+ */
 public class Board implements Iterable<Row> {
 
     //7 rows
@@ -15,9 +16,9 @@ public class Board implements Iterable<Row> {
     private List<Piece> whitePieces;
     private boolean canMove = true;
 
-    /*
+    /**
      * constructs new Board
-     * */
+     */
     public Board(){
         this.rows = new ArrayList<>();
         for (int i = 0; i < 8; i++){
@@ -27,9 +28,10 @@ public class Board implements Iterable<Row> {
         this.whitePieces = new ArrayList<>();
     }
 
-    /*
-     * copy constructor for Board
-     * */
+    /**
+     * constructor for board
+     * @param board
+     */
     public Board(Board board){
         this.rows = new ArrayList<>();
         this.redPieces = new ArrayList<>();
@@ -45,15 +47,19 @@ public class Board implements Iterable<Row> {
         }
     }
 
-    public void fillBoard(Color close){
+    /**
+     * fills the rows in the board
+     * @param color the color for the rows to be filled with
+     */
+    public void fillBoard(Color color){
         int index;
         for( Row row: rows){
             index = row.getIndex();
             if ( index > 4 ) {
-                row.fillRow( this, close );
+                row.fillRow( this, color );
             }
             else if ( index < 3 ) {
-                row.fillRow( this, close.getOpposite() );
+                row.fillRow( this, color.getOpposite() );
             }
             else {
                 row.validateRow();
@@ -67,6 +73,11 @@ public class Board implements Iterable<Row> {
     }
 
 
+    /**
+     * retrieves the space at the specified position
+     * @param position the position on the board to be checked for a space
+     * @return the space at said position
+     */
     public Space getSpace( Position position ) {
         if (positionInBounds(position)) {
             if (!(position.getRow() < 0 || position.getRow() > 7)) {
@@ -76,6 +87,11 @@ public class Board implements Iterable<Row> {
         return null;
     }
 
+    /**
+     * retrieves the piece at the specified position
+     * @param position the position on the board to be checked for a piece
+     * @return the piece at said position
+     */
     public Piece getPiece( Position position ) {
         if ( positionInBounds( position ) ) {
             return rows.get(position.getRow()).getPiece(position.getCell());
@@ -83,6 +99,13 @@ public class Board implements Iterable<Row> {
         return null;
     }
 
+    /**
+     * gets the Space the is halfway between the start and end position for a move; the space that
+     * the piece that was taken was previously occupying
+     * @param start the starting position for the calculation
+     * @param end the end position for the calculation
+     * @return the halfway point between these two positions
+     */
     public Space getHalfway( Position start, Position end ) {
         double startRow = (double)start.getRow();
         double startCol = (double)start.getCell();
@@ -97,7 +120,12 @@ public class Board implements Iterable<Row> {
         return null;
     }
 
-
+    /**
+     * checks many conditions to make sure that a move that a player wants to make is valid
+     * @param move the move in question
+     * @param activeColor the color of the piece making the move
+     * @return a message based on whether or not the move was valid or invalid and why
+     */
     public Message validateMove( Move move, Color activeColor ) {
         updatePieceStates( activeColor );
 //        System.out.println(toString());
@@ -190,7 +218,7 @@ public class Board implements Iterable<Row> {
 
     /**
      * applies a move
-     * @pre move is valid (not my responsibility to check :)
+     * @param move the move to be applied
      */
     public void applyMove( Move move, Color myColor ) {
         Position start = move.getStart();
@@ -220,7 +248,11 @@ public class Board implements Iterable<Row> {
         canMove = true;
     }
 
-
+    /**
+     * validates that a jump is a valid move
+     * @param move the move to be validated
+     * @return a boolean; true if the jump is valid and false otherwise
+     */
     public boolean isValidJump(Move move){
         if( move.getStart() != null && move.getEnd() != null && move.isJump() ) {
             //Check that the halfway space is occupied
@@ -241,6 +273,12 @@ public class Board implements Iterable<Row> {
         return false;
     }
 
+    /**
+     * checks to make sure that the row index and space index are within their boundaries
+     * @param rowIndex the index for the row of the space being checked
+     * @param spaceIndex
+     * @return true or false
+     */
     public boolean spaceIsValid(int rowIndex, int spaceIndex){
         if ( !positionInBounds( new Position( rowIndex, spaceIndex ) ) ) {
             return false;
@@ -249,6 +287,10 @@ public class Board implements Iterable<Row> {
         return checkRow.isSpaceValid(spaceIndex);
     }
 
+    /**
+     * adds piece
+     * @param newPiece piece to be added
+     */
     public void addPiece(Piece newPiece ){
         if( newPiece != null){
             if( newPiece.getColor() == Color.RED ){
@@ -260,6 +302,10 @@ public class Board implements Iterable<Row> {
         }
     }
 
+    /**
+     * updating the states of the pieces as appropriate
+     * @param color the color of the piece
+     */
     public void updatePieceStates(Color color){
 //        System.out.println( "Updating for " + color.toString() );
         for( Row row : rows){
