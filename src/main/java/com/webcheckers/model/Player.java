@@ -30,7 +30,7 @@ public class Player {
     /**
      * checks if 2 players are equal
      * @param o object to check
-     * @return true or flase
+     * @return true or false
      */
     @Override
     public boolean equals(Object o){
