@@ -59,6 +59,7 @@ public class GetSignOutRouteTest {
         } catch (Exception e) {
             fail();
         }
+        verify(gameCenter).removePlayer(playerName);
     }
 
 

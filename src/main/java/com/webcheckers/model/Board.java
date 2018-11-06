@@ -48,10 +48,10 @@ public class Board implements Iterable<Row> {
         int index;
         for( Row row: rows){
             index = row.getIndex();
-            if ( index < 3 ) {
+            if ( index > 4 ) {
                 row.fillRow( this, close );
             }
-            else if ( index > 4 ) {
+            else if ( index < 3 ) {
                 row.fillRow( this, close.getOpposite() );
             }
             else {
