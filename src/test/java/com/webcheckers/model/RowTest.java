@@ -42,7 +42,7 @@ public class RowTest {
             final Row CuT = new Row(0);
             Piece RED_PIECE = new Piece(Color.RED, Piece.Type.SINGLE);
             Board boardMock = mock(Board.class);
-            CuT.fillRedRow(boardMock);
+            CuT.fillRow(boardMock, Color.RED);
             List<Space> filledRow = CuT.getSpaces();
 
             Piece piece0 = filledRow.get(0).getPiece();
@@ -70,7 +70,7 @@ public class RowTest {
             final Row CuT = new Row(1);
             Piece RED_PIECE = new Piece(Color.RED, Piece.Type.SINGLE);
             Board boardMock = mock(Board.class);
-            CuT.fillRedRow(boardMock);
+            CuT.fillRow(boardMock, Color.RED);
             List<Space> filledRow = CuT.getSpaces();
 
             Piece piece0 = filledRow.get(0).getPiece();
@@ -99,7 +99,7 @@ public class RowTest {
             final Row CuT = new Row(0);
             Piece WHITE_PIECE = new Piece(Color.WHITE, Piece.Type.SINGLE);
             Board boardMock = mock(Board.class);
-            CuT.fillWhiteRow(boardMock);
+            CuT.fillRow(boardMock, Color.WHITE);
             List<Space> filledRow = CuT.getSpaces();
 
             Piece piece0 = filledRow.get(0).getPiece();
@@ -128,7 +128,7 @@ public class RowTest {
         final Row CuT = new Row(1);
         Piece WHITE_PIECE = new Piece(Color.WHITE, Piece.Type.SINGLE);
         Board boardMock = mock(Board.class);
-        CuT.fillWhiteRow(boardMock);
+        CuT.fillRow(boardMock, Color.WHITE);
         List<Space> filledRow = CuT.getSpaces();
 
         Piece piece0 = filledRow.get(0).getPiece();
