@@ -30,7 +30,7 @@ public class PostSignInRouteTest {
         response = mock(Response.class);
         gameCenter = mock(GameCenter.class);
         renderer = mock(HomePageRenderer.class);
-        postSignInRoute = new PostSignInRoute()
+//        postSignInRoute = new PostSignInRoute();
     }
 
 }
