@@ -35,6 +35,12 @@ public class Piece {
         this.currentState = state;
     }
 
+    public Piece(Piece piece){
+        this.color = piece.getColor();
+        this.type = piece.getType();
+        this.currentState = piece.getState();
+    }
+
     /**
      * an additional constructor for the piece to be used for kings
      * @param color - an enumeration for the color of the piece, red or white

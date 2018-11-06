@@ -24,6 +24,15 @@ public class Row implements Iterable<Space> {
 
     }
 
+    public Row(Row row){
+        spaces = new ArrayList<>();
+        index = row.getIndex();
+        for (int i = 0; i < 8; i++){
+            Space newSpace = new Space(row.getSpace(i));
+            spaces.add(newSpace);
+        }
+    }
+
     /**
      * Called at the beginning of a game to add red pieces to a row
      */

@@ -27,6 +27,24 @@ public class Board implements Iterable<Row> {
         this.whitePieces = new ArrayList<>();
     }
 
+    /*
+     * copy constructor for Board
+     * */
+    public Board(Board board){
+        this.rows = new ArrayList<>();
+        this.redPieces = new ArrayList<>();
+        this.whitePieces = new ArrayList<>();
+        for (int i = 0; i < 8; i++){
+            rows.add(new Row(board.rows.get(i)));
+        }
+        for (int i = 0; i < board.whitePieces.size(); i++){
+            whitePieces.add(new Piece(board.whitePieces.get(i)));
+        }
+        for (int i = 0; i < board.redPieces.size(); i++){
+            redPieces.add(new Piece(board.redPieces.get(i)));
+        }
+    }
+
     public void fillRedBoard(){
         for( Row row: rows){
             int index = row.getIndex();
