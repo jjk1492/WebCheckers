@@ -70,4 +70,33 @@ public class GameCenterTest {
         gameCenter.finishedGame(whiteName);
     }
 
+    @Test
+    void activePlayerTest(){
+        playerLobby.addPlayer(redName);
+        playerLobby.addPlayer(whiteName);
+        gameCenter.addGame(redName, whiteName);
+        assertTrue(gameCenter.isPlayerActive(redName));
+        assertFalse(gameCenter.isPlayerActive("name"));
+
+    }
+
+    @Test
+    void opponentCheck(){
+        playerLobby.addPlayer(redName);
+        playerLobby.addPlayer(whiteName);
+        gameCenter.addGame(redName, whiteName);
+
+        assertEquals(gameCenter.getOpponent(whiteName), redName);
+
+    }
+
+    @Test
+    void removePlayer(){
+        playerLobby.addPlayer(redName);
+        playerLobby.addPlayer(whiteName);
+        gameCenter.addGame(redName, whiteName);
+        gameCenter.removePlayer(redName);
+        assertNull(gameCenter.getOpponent(redName));
+    }
+
 }
