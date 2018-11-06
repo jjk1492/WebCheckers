@@ -97,7 +97,7 @@ public class BoardTest {
         Position start = new Position(5,0);
         Position end = new Position(4,1);
         Move move = new Move(start,end);
-        copyCuT.applyMove(move,copyCuT.getPiece(start));
+        copyCuT.applyMove(move);
         assertNull(CuT.getSpace(end).getPiece());
     }
 
@@ -148,7 +148,7 @@ public class BoardTest {
         Position end = new Position(4,1);
         Move move= new Move(start,end);
         Piece piece = CuT.getPiece(start);
-        CuT.applyMove(move,piece);
+        CuT.applyMove(move);
         assertTrue(CuT.getPiece(end).getColor() == Color.RED);
         Piece p = CuT.getPiece(start);
         assertNull(p);
@@ -169,7 +169,7 @@ public class BoardTest {
         Position end = new Position(3,2);
         Move move= new Move(start,end);
         Piece piece = CuT.getPiece(start);
-        CuT.applyMove(move,piece);
+        CuT.applyMove(move);
         assertTrue(CuT.getPiece(end).getColor() == Color.RED);
         assertNull(CuT.getPiece(start));
     }
