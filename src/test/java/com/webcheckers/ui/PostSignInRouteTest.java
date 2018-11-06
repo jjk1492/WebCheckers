@@ -1,6 +1,7 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.application.GameCenter;
+import com.webcheckers.application.PlayerLobby;
 import org.junit.jupiter.api.BeforeEach;
 import spark.Request;
 import spark.Response;
@@ -15,7 +16,7 @@ public class PostSignInRouteTest {
     private Session session;
     private Response response;
     private Renderer renderer;
-    private GameCenter gameCenter;
+    private PlayerLobby playerLobby;
     private PostSignInRoute postSignInRoute;
 
     /**
@@ -28,9 +29,9 @@ public class PostSignInRouteTest {
         session = mock(Session.class);
         when(request.session()).thenReturn(session);
         response = mock(Response.class);
-        gameCenter = mock(GameCenter.class);
+        playerLobby = mock(PlayerLobby.class);
         renderer = mock(HomePageRenderer.class);
-        postSignInRoute = new PostSignInRoute()
+        postSignInRoute = new PostSignInRoute( renderer, playerLobby );
     }
 
 }
