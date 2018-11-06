@@ -93,8 +93,8 @@ public class BoardTest {
 
                 }else if((r + c) % 2 == 0) assertFalse(copyCuT.spaceIsValid(r,c));
 
-        Position start = new Position(5,1);
-        Position end = new Position(4,2);
+        Position start = new Position(5,0);
+        Position end = new Position(4,1);
         Move move = new Move(start,end);
         copyCuT.applyMove(move,copyCuT.getPiece(start));
         assertNull(CuT.getSpace(end).getPiece());
