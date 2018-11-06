@@ -58,9 +58,9 @@ public class Piece {
     }
 
     public boolean isValidJump( Move move ) {
-        int startCol = move.getStart().getCell();
-        int endCol = move.getEnd().getCell();
-        return move.isJump() && ( Math.abs( startCol - endCol ) == 2 );
+        int startRow = move.getStart().getRow();
+        int endRow = move.getEnd().getRow();
+        return move.isJump() && ( startRow - endRow == 2 );
     }
 
 

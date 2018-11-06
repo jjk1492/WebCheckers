@@ -3,6 +3,8 @@ package com.webcheckers.model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import static com.webcheckers.model.Color.RED;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -40,14 +42,14 @@ public class BoardTest {
     @Test
     public void fillRedBoardTest(){
 
-        CuT.fillBoard(Color.RED);
+        CuT.fillBoard(RED);
         for(int r =0; r<8; r++)
             for(int c = 0; c<8;c++)
                 if(r > 4 || r < 3) {
                     assertFalse(CuT.spaceIsValid(r,c));
                     if((r + c) % 2 == 1){
                         if (r > 4){
-                            assertSame(CuT.getPiece(new Position(r, c)).getColor(), Color.RED);
+                            assertSame(CuT.getPiece(new Position(r, c)).getColor(), RED);
                         }else assertSame(CuT.getPiece(new Position(r, c)).getColor(), Color.WHITE);
                     }
                     else {
@@ -71,7 +73,7 @@ public class BoardTest {
                     if((r + c) % 2 == 1){
                         if (r > 4){
                             assertSame(CuT.getPiece(new Position(r, c)).getColor(), Color.WHITE);
-                        }else assertSame(CuT.getPiece(new Position(r, c)).getColor(), Color.RED);
+                        }else assertSame(CuT.getPiece(new Position(r, c)).getColor(), RED);
                     }
                     else {
                         assertNull(CuT.getPiece(new Position(r, c)));
@@ -85,7 +87,7 @@ public class BoardTest {
      */
     @Test
     public void copyConstructorTest(){
-        CuT.fillBoard(Color.RED);
+        CuT.fillBoard(RED);
         Board copyCuT = new Board(CuT);
 
         for(int r =0; r<8; r++)
@@ -94,7 +96,7 @@ public class BoardTest {
                     assertFalse(copyCuT.spaceIsValid(r,c));
                     if((r + c) % 2 == 1){
                         if (r > 4){
-                            assertSame(copyCuT.getPiece(new Position(r, c)).getColor(), Color.RED);
+                            assertSame(copyCuT.getPiece(new Position(r, c)).getColor(), RED);
                         }else assertSame(CuT.getPiece(new Position(r, c)).getColor(), Color.WHITE);
                     }
                     else {
@@ -106,7 +108,7 @@ public class BoardTest {
         Position start = new Position(5,0);
         Position end = new Position(4,1);
         Move move = new Move(start,end);
-        copyCuT.applyMove(move);
+        copyCuT.applyMove(move,RED);
         assertNull(CuT.getSpace(end).getPiece());
     }
 
@@ -164,13 +166,13 @@ public class BoardTest {
 
     @Test
     public void applyMoveTest(){
-        CuT.fillBoard(Color.RED);
+        CuT.fillBoard(RED);
         Position start = new Position(5,0);
         Position end = new Position(4,1);
         Move move= new Move(start,end);
         Piece piece = CuT.getPiece(start);
-        CuT.applyMove(move);
-        assertTrue(CuT.getPiece(end).getColor() == Color.RED);
+        CuT.applyMove(move,RED);
+        assertTrue(CuT.getPiece(end).getColor() == RED);
         Piece p = CuT.getPiece(start);
         assertNull(p);
 
@@ -178,7 +180,7 @@ public class BoardTest {
 
     @Test
     public void applyJumpTest(){
-        CuT.fillBoard(Color.RED);
+        CuT.fillBoard(RED);
 
         Position whiteOccupy = new Position(4, 1);
         Space space = CuT.getSpace(whiteOccupy);
@@ -190,15 +192,15 @@ public class BoardTest {
         Position end = new Position(3,2);
         Move move= new Move(start,end);
         Piece piece = CuT.getPiece(start);
-        CuT.applyMove(move);
-        assertTrue(CuT.getPiece(end).getColor() == Color.RED);
+        CuT.applyMove(move,RED);
+        assertTrue(CuT.getPiece(end).getColor() == RED);
         assertNull(CuT.getPiece(start));
     }
 
     @Test
     public void jumpOverOwnPieceRed(){
-       CuT.fillBoard(Color.RED);
-       Color activeRed = Color.RED;
+       CuT.fillBoard(RED);
+       Color activeRed = RED;
        Position redStart = new Position(6,1);
        Position redEnd = new Position(4,3);
        Move moveRed = new Move(redStart,redEnd);
@@ -228,7 +230,7 @@ public class BoardTest {
 
     @Test
     public void validJump(){
-        CuT.fillBoard(Color.RED);
+        CuT.fillBoard(RED);
 
         Position whiteOccupy = new Position(4, 1);
         Space space = CuT.getSpace(whiteOccupy);
@@ -239,7 +241,7 @@ public class BoardTest {
         Position start = new Position(5,0);
         Position end = new Position(3,2);
         Move move = new Move(start,end);
-        Message message = CuT.validateMove(move, Color.RED);
+        Message message = CuT.validateMove(move, RED);
         String validJump = "Valid jump!";
         assertEquals(message.getType(), Message.Type.info);
         assertEquals(message.getText(), validJump);

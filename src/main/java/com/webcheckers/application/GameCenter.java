@@ -77,7 +77,11 @@ public class GameCenter {
         return null;
     }
 
-
+    /**
+     * returns whether or not the player in question is currently the active player.
+     * @param name name of the player that needs to know whether or not it is their turn
+     * @return a boolean, true if the player is active and false otherwise
+     */
     public boolean isPlayerActive( String name ) {
         Game game = getGame( name );
         if ( name != null && game != null ) {
@@ -86,6 +90,10 @@ public class GameCenter {
         return false;
     }
 
+    /**
+     * used to fully apply a player's turn when prepared to do so
+     * @param name the player applying their turn
+     */
     public void finishTurn( String name ) {
         Game game = getGame( name );
         if ( game != null ) {
