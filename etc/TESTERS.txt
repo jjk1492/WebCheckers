@@ -1,0 +1,12 @@
+SWEN-261 Testing Instructions (Team D: BIG RED)
+
+1. Download the .zip file containing the WebCheckers project implementation. Extract the files in this folder to a folder on the desktop.
+
+2. Open Command Prompt, and cd into the new folder on the desktop where the .zip file was extracted to. type the command: 'mvn compile exec:java'
+     in order to compile the code and start the server.
+
+3. Open a new window of a browser, and type 'localhost:4567' in the URL bar. Open another incognito window of the browser and connect
+     to the same port in order to log another player on to the application.
+
+4. Test the application in order to ensure that all of the provided Acceptance Test Criteria pass. Only the criteria that have
+    been specified as implemented are code complete and expected to pass at this time.
