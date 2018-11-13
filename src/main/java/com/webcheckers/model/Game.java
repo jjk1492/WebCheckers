@@ -135,7 +135,7 @@ public class Game {
         }
         activeBoard.endTurn();
         opponentBoard.endTurn();
-        if(true || activeBoard.getPieceCount(activeColor.getOpposite()) == 0)
+        if(activeBoard.getPieceCount(activeColor.getOpposite()) == 0)
             gameWon = getActivePlayer().getName();
         swapTurn();
    }
