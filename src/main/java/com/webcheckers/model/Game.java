@@ -36,8 +36,6 @@ public class Game {
         this.activeColor = Color.RED;
         this.redBoard = new Board();
         this.whiteBoard = new Board();
-        redBoard.fillBoard(Color.RED);
-        whiteBoard.fillBoard(Color.WHITE);
         pendingMoves = new LinkedList<>();
         redPiecesRemaining = NUM_PIECES;
         whitePiecesRemaining = NUM_PIECES;

@@ -7,58 +7,59 @@ import java.util.List;
 /*
  * Board class in the model tier
  * */
-public class Board implements Iterable<Row> {
+public class Board implements Iterable<Iterable<Space>> {
 
     //7 rows
-    private List<Row> rows;
-    private List<Piece> redPieces;
-    private List<Piece> whitePieces;
+//    private List<Row> rows;
+    private Space[][] spaces;
+//    private List<Piece> redPieces;
+//    private List<Piece> whitePieces;
     private boolean canMove = true;
 
     /*
      * constructs new Board
      * */
     public Board(){
-        this.rows = new ArrayList<>();
-        for (int i = 0; i < 8; i++){
-            rows.add(new Row(i));
+        Space space;
+        Piece piece;
+        spaces = new Space[8][8];
+        for (int row = 0; row < 8; row++){
+            for ( int col = 0 ; col < 8 ; col++ ) {
+                space = spaces[row][col] = new Space(col);
+                space.setValid( false );
+                if (row % 2 + col % 2 == 1) {
+                    space.setValid( true );
+                    if (row > 4) {
+                        piece = new Piece( Color.WHITE, Piece.State.OPEN );
+                    } else if (row < 3) {
+                        piece = new Piece( Color.RED, Piece.State.OPEN );
+                    } else {
+                        piece = null;
+                        space.setValid( true );
+                    }
+                    space.setPiece( piece );
+                }
+            }
         }
-        this.redPieces = new ArrayList<>();
-        this.whitePieces = new ArrayList<>();
     }
 
     /*
      * copy constructor for Board
      * */
     public Board(Board board){
-        this.rows = new ArrayList<>();
-        this.redPieces = new ArrayList<>();
-        this.whitePieces = new ArrayList<>();
-        for (int i = 0; i < 8; i++){
-            rows.add(new Row(board.rows.get(i)));
-        }
-        for (int i = 0; i < board.whitePieces.size(); i++){
-            whitePieces.add(new Piece(board.whitePieces.get(i)));
-        }
-        for (int i = 0; i < board.redPieces.size(); i++){
-            redPieces.add(new Piece(board.redPieces.get(i)));
-        }
-    }
-
-    public void fillBoard(Color close){
-        int index;
-        for( Row row: rows){
-            index = row.getIndex();
-            if ( index > 4 ) {
-                row.fillRow( this, close );
-            }
-            else if ( index < 3 ) {
-                row.fillRow( this, close.getOpposite() );
-            }
-            else {
-                row.validateRow();
-            }
-        }
+//        this.rows = new ArrayList<>();
+//        this.redPieces = new ArrayList<>();
+//        this.whitePieces = new ArrayList<>();
+//        for (int i = 0; i < 8; i++){
+//            rows.add(new Row(board.rows.get(i)));
+//        }
+//        for (int i = 0; i < board.whitePieces.size(); i++){
+//            whitePieces.add(new Piece(board.whitePieces.get(i)));
+//        }
+//        for (int i = 0; i < board.redPieces.size(); i++){
+//            redPieces.add(new Piece(board.redPieces.get(i)));
+//        }
+        //TODO
     }
 
     public boolean positionInBounds(Position position ) {
@@ -69,16 +70,17 @@ public class Board implements Iterable<Row> {
 
     public Space getSpace( Position position ) {
         if (positionInBounds(position)) {
-            if (!(position.getRow() < 0 || position.getRow() > 7)) {
-                return rows.get(position.getRow()).getSpace(position.getCell());
-            }
+            return spaces[position.getRow()][position.getCell()];
         }
         return null;
     }
 
     public Piece getPiece( Position position ) {
         if ( positionInBounds( position ) ) {
-            return rows.get(position.getRow()).getPiece(position.getCell());
+            Space space = getSpace( position );
+            if ( space != null ) {
+                return space.getPiece();
+            }
         }
         return null;
     }
@@ -245,8 +247,7 @@ public class Board implements Iterable<Row> {
         if ( !positionInBounds( new Position( rowIndex, spaceIndex ) ) ) {
             return false;
         }
-        Row checkRow = rows.get(rowIndex);
-        return checkRow.isSpaceValid(spaceIndex);
+        return spaces[rowIndex][spaceIndex].isValid();
     }
 
     public void addPiece(Piece newPiece ){
