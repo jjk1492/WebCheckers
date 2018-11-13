@@ -234,6 +234,10 @@ public class Board implements Iterable<Row> {
 
         if ( move.isJump() ) {
             Space halfway = getHalfway( start, end );
+            if(myColor == Color.RED)
+                whitePieces.remove(halfway.getPiece());
+            if(myColor == Color.WHITE)
+                redPieces.remove(halfway.getPiece());
             halfway.setValid( true );
             halfway.setPiece( null );
         }
@@ -285,6 +289,14 @@ public class Board implements Iterable<Row> {
         }
         Row checkRow = rows.get(rowIndex);
         return checkRow.isSpaceValid(spaceIndex);
+    }
+
+    public int getPieceCount(Color pieceColor){
+        if (pieceColor == Color.RED)
+            return redPieces.size();
+        if (pieceColor == Color.WHITE)
+            return whitePieces.size();
+        return -1;
     }
 
     /**

@@ -18,10 +18,12 @@ public class GameCenter {
             .getLogger( GameCenter.class.getName() );
 
     private Map<String,Game> playersInGame;
+    private Map<String,String> gameWinners; //player, winner
     private PlayerLobby playerLobby;
 
     public GameCenter( PlayerLobby playerLobby ) {
         playersInGame = new HashMap<>();
+        gameWinners = new HashMap<>();
         this.playerLobby = playerLobby;
     }
     
@@ -118,11 +120,28 @@ public class GameCenter {
     }
 
     /**
+     * returns the winner of the game or null if the game is not won
+     * @param name of the winning player
+     */
+    public synchronized String gameWinner(String name){
+        if (!isPlayerInGame(name)){
+            return gameWinners.get(name);
+        }
+        String winner = getGame(name).gameWinner();
+        if (winner != null){
+            finishedGame(getOpponent(winner));
+        }
+        return winner;
+    }
+
+    /**
      * removes players from playersInGame
      * @param player1 player we want to remove
      */
     public synchronized void finishedGame( String player1) {
         String opponent = getOpponent(player1);
+        gameWinners.put(player1, opponent);
+        gameWinners.put(opponent,opponent);
         if(isPlayerInGame(player1)){
             playersInGame.remove(player1);
             if(isPlayerInGame(opponent)) {

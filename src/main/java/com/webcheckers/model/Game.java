@@ -22,8 +22,7 @@ public class Game {
     private Board redBoard;
     private Board whiteBoard;
     private Deque<Move> pendingMoves;
-    private int redPiecesRemaining;
-    private int whitePiecesRemaining;
+    private String gameWon;
 
     /**
      * constructor for the game, creates new boards for each player after they are assigned
@@ -39,8 +38,7 @@ public class Game {
         redBoard.fillBoard(Color.RED);
         whiteBoard.fillBoard(Color.WHITE);
         pendingMoves = new LinkedList<>();
-        redPiecesRemaining = NUM_PIECES;
-        whitePiecesRemaining = NUM_PIECES;
+        gameWon = null;
     }
 
     /**
@@ -95,22 +93,6 @@ public class Game {
     }
 
     /**
-     * get remaining number of pieces that the red player has
-     * @return int
-     */
-    public int getRedPiecesRemaining() {
-        return redPiecesRemaining;
-    }
-
-    /**
-     * get the remaining number of pieces that the white player has
-     * @return number of pieces remaining
-     */
-    public int getWhitePiecesRemaining() {
-        return whitePiecesRemaining;
-    }
-
-    /**
      * change whose turn it is
      */
     public void swapTurn() {
@@ -120,6 +102,14 @@ public class Game {
         else {
             activeColor = Color.RED;
         }
+    }
+
+    /**
+     * checks if the game is won
+     * @return name of winner or null if game is not won
+     */
+    public String gameWinner(){
+        return gameWon;
     }
 
     /**
@@ -145,6 +135,8 @@ public class Game {
         }
         activeBoard.endTurn();
         opponentBoard.endTurn();
+        if(true || activeBoard.getPieceCount(activeColor.getOpposite()) == 0)
+            gameWon = getActivePlayer().getName();
         swapTurn();
    }
 
