@@ -19,8 +19,8 @@ public class Game {
     private Player redPlayer;
     private Player whitePlayer;
     private Color activeColor;
-    private Board redBoard;
-    private Board whiteBoard;
+    private Board board;
+//    private Board whiteBoard;
     private Deque<Move> pendingMoves;
     private int redPiecesRemaining;
     private int whitePiecesRemaining;
@@ -34,8 +34,9 @@ public class Game {
         this.redPlayer = redPlayer;
         this.whitePlayer = whitePlayer;
         this.activeColor = Color.RED;
-        this.redBoard = new Board();
-        this.whiteBoard = new Board();
+//        this.redBoard = new Board();
+//        this.whiteBoard = new Board();
+        this.board = new Board();
         pendingMoves = new LinkedList<>();
         redPiecesRemaining = NUM_PIECES;
         whitePiecesRemaining = NUM_PIECES;
@@ -62,7 +63,7 @@ public class Game {
      * @return Board
      */
     public Board getRedBoard() {
-        return redBoard;
+        return board.flip();
     }
 
     /**
@@ -70,7 +71,7 @@ public class Game {
      * @return Board
      */
     public Board getWhiteBoard(){
-        return whiteBoard;
+        return board;
     }
 
     /**
@@ -125,24 +126,25 @@ public class Game {
      */
     public void applyTurn() {
 //        System.out.println( "applying " + activeColor + "'s turn" );
-        Board activeBoard;
-        Board opponentBoard;
-        if ( activeColor.equals( Color.WHITE ) ) {
-            activeBoard = whiteBoard;
-            opponentBoard = redBoard;
-        }
-        else {
-            activeBoard = redBoard;
-            opponentBoard = whiteBoard;
-        }
+//        Board activeBoard;
+//        Board opponentBoard;
+//        if ( activeColor.equals( Color.WHITE ) ) {
+//            activeBoard = whiteBoard;
+//            opponentBoard = redBoard;
+//        }
+//        else {
+//            activeBoard = redBoard;
+//            opponentBoard = whiteBoard;
+//        }
         Move move;
         while ( ( move = pendingMoves.pollLast() ) != null ) {
-            activeBoard.applyMove( move, activeColor );
-            Move inverseMove = move.getInverse();
-            opponentBoard.applyMove( inverseMove, activeColor.getOpposite() );
+            board.applyMove( move );
+//            activeBoard.applyMove( move, activeColor );
+//            Move inverseMove = move.getInverse();
+//            opponentBoard.applyMove( inverseMove, activeColor.getOpposite() );
         }
-        activeBoard.endTurn();
-        opponentBoard.endTurn();
+//        activeBoard.endTurn();
+//        opponentBoard.endTurn();
         swapTurn();
    }
 
@@ -154,15 +156,15 @@ public class Game {
     public Message tryMove( Move move ){
         Message message;
         Board activeBoard;
-        if ( activeColor == Color.RED ) {
-            activeBoard = redBoard;
-        }
-        else {
-            activeBoard = whiteBoard;
-        }
-        activeBoard = new Board( activeBoard );
+//        if ( activeColor == Color.RED ) {
+//            activeBoard = redBoard;
+//        }
+//        else {
+//            activeBoard = whiteBoard;
+//        }
+        activeBoard = new Board( board );
         for ( Move pendingMove : pendingMoves ) {
-            activeBoard.applyMove(pendingMove, activeColor);
+            activeBoard.applyMove(pendingMove);
         }
         message = activeBoard.validateMove( move, activeColor );
         if ( message.getType().equals( Type.info ) ) {
