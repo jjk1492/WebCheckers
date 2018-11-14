@@ -18,7 +18,7 @@ public class GameCenter {
             .getLogger( GameCenter.class.getName() );
 
     private Map<String,Game> playersInGame;
-    private Map<String,String> gameWinners; //player, winner
+    private Map<String,String> gameWinners; //<player, winner> of previous games
     private PlayerLobby playerLobby;
 
     public GameCenter( PlayerLobby playerLobby ) {
@@ -120,8 +120,8 @@ public class GameCenter {
     }
 
     /**
-     * returns the winner of the game or null if the game is not won
-     * @param name of the winning player
+     * @return the winner of the game or null if the game has not been won
+     * @param name of a player in the game
      */
     public synchronized String gameWinner(String name){
         if (!isPlayerInGame(name)){
@@ -136,6 +136,7 @@ public class GameCenter {
 
     /**
      * removes players from playersInGame
+     * and adds them to gameWinners
      * @param player1 player we want to remove
      */
     public synchronized void finishedGame( String player1) {

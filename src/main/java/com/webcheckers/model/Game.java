@@ -22,7 +22,7 @@ public class Game {
     private Board redBoard;
     private Board whiteBoard;
     private Deque<Move> pendingMoves;
-    private String gameWon;
+    private String gameWon; // set to null until one player is out of pieces, then set to the winners name
 
     /**
      * constructor for the game, creates new boards for each player after they are assigned
