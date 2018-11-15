@@ -4,10 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -66,7 +62,7 @@ public class GameTest {
         Player playerBeforeSwap = CuT.getActivePlayer();
         Color colorBeforeSwap = CuT.getActiveColor();
 
-        CuT.swapTurn();
+        CuT.endTurn();
 
         Player playerAfterSwap = CuT.getActivePlayer();
         Color colorAfterSwap = CuT.getActiveColor();
@@ -77,7 +73,7 @@ public class GameTest {
         assertEquals(whitePlayer, playerAfterSwap);
         assertEquals(Color.WHITE, colorAfterSwap);
 
-        CuT.swapTurn();
+        CuT.endTurn();
 
         //Check swapping for white to red
         assertEquals(redPlayer, CuT.getActivePlayer());
@@ -148,7 +144,7 @@ public class GameTest {
         assertEquals(validMoveMessage, moveMessage.getText());
 
         CuT.applyTurn();
-        CuT.swapTurn();
+        CuT.endTurn();
 
         Position backStartingPos = new Position(4, 1);
         Position backEndingPos = new Position(5, 0);
@@ -229,8 +225,8 @@ public class GameTest {
 
         CuT.applyTurn();
 
-        Color active2 = CuT.getActiveColor();
-        assertEquals(active2, Color.WHITE);
+        active = CuT.getActiveColor();
+        assertEquals(active, Color.WHITE);
 
         Move firstMoveWhite = new Move(startingPos, validEndingPosLeft);
         Move secondMoveWhite = new Move(startingPos, validEndingPosRight);
@@ -248,10 +244,6 @@ public class GameTest {
      */
     @Test
     public void miscTests(){
-        int redPieces = CuT.getRedPiecesRemaining();
-        int whitePieces = CuT.getWhitePiecesRemaining();
-        assertEquals(12, redPieces);
-        assertEquals(12, whitePieces);
 
         Board redBoard = CuT.getRedBoard();
         assertNotNull(redBoard, "The red board should not be null! ");

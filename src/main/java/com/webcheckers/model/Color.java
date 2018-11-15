@@ -1,7 +1,7 @@
 package com.webcheckers.model;
 
 public enum Color {
-    RED(Direction.DOWN), WHITE(Direction.UP);
+    RED(Direction.UP), WHITE(Direction.DOWN);
 
     private final Direction direction;
 
@@ -13,16 +13,16 @@ public enum Color {
         return direction.getIncrement();
     }
 
-//    public Color getOpposite() {
-//        return getOpposite( this );
-//    }
-//
-//    public static Color getOpposite( Color color ) {
-//        if ( color.equals(RED)) {
-//            return WHITE;
-//        }
-//        return RED;
-//    }
+    public Color getOpposite() {
+        return getOpposite( this );
+    }
+
+    public static Color getOpposite( Color color ) {
+        if ( color.equals(RED)) {
+            return WHITE;
+        }
+        return RED;
+    }
 
     private enum Direction {
         UP(-1), DOWN(1);

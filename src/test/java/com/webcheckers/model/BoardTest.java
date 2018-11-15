@@ -36,28 +36,28 @@ public class BoardTest {
         assertNull(CuT.getSpace(new Position(9,9)));
     }
 
-    /**
-     * test to fill red board
-     */
-    @Test
-    public void fillRedBoardTest(){
-
-        CuT.fillBoard(RED);
-        for(int r =0; r<8; r++)
-            for(int c = 0; c<8;c++)
-                if(r > 4 || r < 3) {
-                    assertFalse(CuT.spaceIsValid(r,c));
-                    if((r + c) % 2 == 1){
-                        if (r > 4){
-                            assertSame(CuT.getPiece(new Position(r, c)).getColor(), RED);
-                        }else assertSame(CuT.getPiece(new Position(r, c)).getColor(), Color.WHITE);
-                    }
-                    else {
-                        assertNull(CuT.getPiece(new Position(r, c)));
-                    }
-
-                }else if((r + c) % 2 == 0) assertFalse(CuT.spaceIsValid(r,c));
-    }
+//    /**
+//     * test to fill red board
+//     */
+//    @Test
+//    public void fillRedBoardTest(){
+//
+////        CuT.fillBoard(RED);
+//        for(int r =0; r<8; r++)
+//            for(int c = 0; c<8;c++)
+//                if(r > 4 || r < 3) {
+//                    assertFalse(CuT.spaceIsValid(r,c));
+//                    if((r + c) % 2 == 1){
+//                        if (r > 4){
+//                            assertSame(CuT.getPiece(new Position(r, c)).getColor(), RED);
+//                        }else assertSame(CuT.getPiece(new Position(r, c)).getColor(), Color.WHITE);
+//                    }
+//                    else {
+//                        assertNull(CuT.getPiece(new Position(r, c)));
+//                    }
+//
+//                }else if((r + c) % 2 == 0) assertFalse(CuT.spaceIsValid(r,c));
+//    }
 
     /**
      * test to fill white board
@@ -65,7 +65,8 @@ public class BoardTest {
     @Test
     public void fillWhiteBoardTest(){
 
-        CuT.fillBoard(Color.WHITE);
+//        CuT.fillBoard(Color.WHITE);
+        CuT = CuT.flipped();
         for(int r =0; r<8; r++)
             for(int c = 0; c<8;c++)
                 if(r > 4 || r < 3) {
@@ -73,7 +74,7 @@ public class BoardTest {
                     if((r + c) % 2 == 1){
                         if (r > 4){
                             assertSame(CuT.getPiece(new Position(r, c)).getColor(), Color.WHITE);
-                        }else assertSame(CuT.getPiece(new Position(r, c)).getColor(), RED);
+                        } else assertSame(CuT.getPiece(new Position(r, c)).getColor(), RED);
                     }
                     else {
                         assertNull(CuT.getPiece(new Position(r, c)));
@@ -87,7 +88,7 @@ public class BoardTest {
      */
     @Test
     public void copyConstructorTest(){
-        CuT.fillBoard(RED);
+//        CuT.fillBoard(RED);
         Board copyCuT = new Board(CuT);
 
         for(int r =0; r<8; r++)
@@ -108,7 +109,7 @@ public class BoardTest {
         Position start = new Position(5,0);
         Position end = new Position(4,1);
         Move move = new Move(start,end);
-        copyCuT.applyMove(move,RED);
+        copyCuT.applyMove(move);
         assertNull(CuT.getSpace(end).getPiece());
     }
 
@@ -132,46 +133,46 @@ public class BoardTest {
      */
     @Test
     public void validateMoveTest(){
-        CuT.fillBoard(Color.RED);
+//        CuT.fillBoard(Color.RED);
         Position start = new Position(5,0);
         Position end = new Position(4,1);
         Move move = new Move(start,end);
-        Message message = CuT.validateMove(move, Color.RED);
+        Message message = CuT.validateMove(move);
         assertSame("info",message.getType().toString());
 
         start = new Position(5,1);
         end = new Position(4,0);
         move = new Move(start,end);
-        message = CuT.validateMove(move, Color.RED);
+        message = CuT.validateMove(move);
         assertSame("error",message.getType().toString());
 
         start = new Position(5,0);
         end = new Position(5,2);
         move = new Move(start,end);
-        message = CuT.validateMove(move, Color.RED);
+        message = CuT.validateMove(move);
         assertSame("error",message.getType().toString());
 
         start = new Position(5,0);
         end = new Position(4,0);
         move = new Move(start,end);
-        message = CuT.validateMove(move, Color.RED);
+        message = CuT.validateMove(move);
         assertSame("error",message.getType().toString());
 
         start = new Position(5,0);
         end = new Position(3,2);
         move = new Move(start,end);
-        message = CuT.validateMove(move, Color.RED);
+        message = CuT.validateMove(move);
         assertSame("error",message.getType().toString());
     }
 
     @Test
     public void applyMoveTest(){
-        CuT.fillBoard(RED);
+//        CuT.fillBoard(RED);
         Position start = new Position(5,0);
         Position end = new Position(4,1);
         Move move= new Move(start,end);
-        Piece piece = CuT.getPiece(start);
-        CuT.applyMove(move,RED);
+//        Piece piece = CuT.getPiece(start);
+        CuT.applyMove(move);
         assertTrue(CuT.getPiece(end).getColor() == RED);
         Piece p = CuT.getPiece(start);
         assertNull(p);
@@ -180,7 +181,7 @@ public class BoardTest {
 
     @Test
     public void applyJumpTest(){
-        CuT.fillBoard(RED);
+//        CuT.fillBoard(RED);
 
         Position whiteOccupy = new Position(4, 1);
         Space space = CuT.getSpace(whiteOccupy);
@@ -192,21 +193,19 @@ public class BoardTest {
         Position end = new Position(3,2);
         Move move= new Move(start,end);
         Piece piece = CuT.getPiece(start);
-        CuT.applyMove(move,RED);
+        CuT.applyMove(move);
         assertTrue(CuT.getPiece(end).getColor() == RED);
         assertNull(CuT.getPiece(start));
     }
 
     @Test
     public void jumpOverOwnPieceRed(){
-       CuT.fillBoard(RED);
-       Color activeRed = RED;
        Position redStart = new Position(6,1);
        Position redEnd = new Position(4,3);
        Move moveRed = new Move(redStart,redEnd);
 
 
-       Message message = CuT.validateMove(moveRed, activeRed);
+       Message message = CuT.validateMove(moveRed);
        String ownPieceMessage = "You can't jump over your own piece!";
        assertEquals(message.getType(), Message.Type.error);
        assertEquals(message.getText(), ownPieceMessage);
@@ -215,13 +214,12 @@ public class BoardTest {
 
     @Test
     public void jumpOverOwnPieceWhite(){
-        CuT.fillBoard(Color.WHITE);
-        Color activeWhite = Color.WHITE;
+//        CuT.fillBoard(Color.WHITE);
         Position whiteStart = new Position(6,5);
         Position whiteEnd = new Position(4,7);
         Move moveWhite = new Move(whiteStart,whiteEnd);
 
-        Message message = CuT.validateMove(moveWhite, activeWhite);
+        Message message = CuT.validateMove(moveWhite);
         String ownPieceMessage = "You can't jump over your own piece!";
         assertEquals(message.getType(), Message.Type.error);
         assertEquals(message.getText(), ownPieceMessage);
@@ -230,7 +228,7 @@ public class BoardTest {
 
     @Test
     public void validJump(){
-        CuT.fillBoard(RED);
+//        CuT.fillBoard(RED);
 
         Position whiteOccupy = new Position(4, 1);
         Space space = CuT.getSpace(whiteOccupy);
@@ -241,7 +239,7 @@ public class BoardTest {
         Position start = new Position(5,0);
         Position end = new Position(3,2);
         Move move = new Move(start,end);
-        Message message = CuT.validateMove(move, RED);
+        Message message = CuT.validateMove(move);
         String validJump = "Valid jump!";
         assertEquals(message.getType(), Message.Type.info);
         assertEquals(message.getText(), validJump);
