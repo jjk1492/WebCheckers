@@ -12,6 +12,7 @@ public class Position {
     private int row;
     private int cell;
 
+
     /**
      * constructs a Position object
      * @param row int from 0 to 7
@@ -32,14 +33,14 @@ public class Position {
     }
 
     /**
-     * returns row
+     * @return row
      */
     public int getRow(){
         return row;
     }
 
     /**
-     * returns cell
+     * @return cell
      */
     public int getCell() {
         return cell;

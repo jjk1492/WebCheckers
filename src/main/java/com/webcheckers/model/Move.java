@@ -23,14 +23,14 @@ public class Move {
     }
 
     /**
-     * returns start Position
+     * @return start Position
      */
     public Position getStart() {
         return start;
     }
 
     /**
-     * returns end Position
+     * @return end Position
      */
     public Position getEnd() {
         return end;

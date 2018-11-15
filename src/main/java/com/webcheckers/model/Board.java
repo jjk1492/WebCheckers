@@ -7,6 +7,7 @@ import static com.webcheckers.model.Color.WHITE;
 
 /**
  * Board class in the model tier
+ * @author several
  */
 public class Board implements Iterable<Row> {
 
@@ -47,7 +48,7 @@ public class Board implements Iterable<Row> {
         }
         updatePieceStates();
     }
-
+    
 
     /**
      * copy constructor, public accessible
@@ -90,6 +91,11 @@ public class Board implements Iterable<Row> {
     }
 
 
+    /**
+     * retrieves the space at the specified position
+     * @param position the position on the board to be checked for a space
+     * @return the space at said position
+     */
     public Space getSpace( Position position ) {
         if (positionInBounds(position)) {
             return spaces[position.getRow()][position.getCell()];
@@ -97,6 +103,11 @@ public class Board implements Iterable<Row> {
         return null;
     }
 
+    /**
+     * retrieves the piece at the specified position
+     * @param position the position on the board to be checked for a piece
+     * @return the piece at said position
+     */
     public Piece getPiece( Position position ) {
         if ( positionInBounds( position ) ) {
             Space space = getSpace( position );
@@ -107,6 +118,13 @@ public class Board implements Iterable<Row> {
         return null;
     }
 
+    /**
+     * gets the Space the is halfway between the start and end position for a move; the space that
+     * the piece that was taken was previously occupying
+     * @param start the starting position for the calculation
+     * @param end the end position for the calculation
+     * @return the halfway point between these two positions
+     */
     public Space getHalfway( Position start, Position end ) {
         double startRow = (double)start.getRow();
         double startCol = (double)start.getCell();
@@ -120,16 +138,18 @@ public class Board implements Iterable<Row> {
         }
         return null;
     }
+  
 
-
+    /**
+     * checks many conditions to make sure that a move that a player wants to make is valid
+     * @param move the move in question
+     * @param activeColor the color of the piece making the move
+     * @return a message based on whether or not the move was valid or invalid and why
+     */
     public Message validateMove( Move move ) {
-//        System.out.println( this );
         if ( activeColor == Color.WHITE ) {
-//            System.out.println( "correcting for white" );
             move = move.getInverse();
         }
-//        System.out.println( move );
-
         Position start = move.getStart();
         Position end = move.getEnd();
         Space startSpace = getSpace( start );
@@ -197,7 +217,7 @@ public class Board implements Iterable<Row> {
 
     /**
      * applies a move
-     * @pre move is valid (not my responsibility to check :)
+     * @param move the move to be applied
      */
     public void applyMove( Move move ) {
         if ( activeColor == WHITE ) {
@@ -269,7 +289,11 @@ public class Board implements Iterable<Row> {
         }
         return false;
     }
-
+    /**
+     * validates that a jump is a valid move
+     * @param move the move to be validated
+     * @return a boolean; true if the jump is valid and false otherwise
+     */
     private boolean isValidJump( Move move ){
         if( move.getStart() != null && move.getEnd() != null && move.isJump() ) {
             Space halfwaySpace = getHalfway(move.getStart(), move.getEnd());
@@ -290,6 +314,12 @@ public class Board implements Iterable<Row> {
     }
 
 
+    /**
+     * checks to make sure that the row index and space index are within their boundaries
+     * @param rowIndex the index for the row of the space being checked
+     * @param spaceIndex
+     * @return true or false
+     */
     private boolean canStep( Position position ) {
         if ( !positionInBounds( position ) ) {
             return false;
@@ -312,6 +342,7 @@ public class Board implements Iterable<Row> {
                     isValidStep( new Move( position, leftJump ) );
     }
 
+  
     private boolean canJump( Position position ) {
         if ( !positionInBounds( position ) ) {
             return false;
