@@ -143,7 +143,6 @@ public class Board implements Iterable<Row> {
     /**
      * checks many conditions to make sure that a move that a player wants to make is valid
      * @param move the move in question
-     * @param activeColor the color of the piece making the move
      * @return a message based on whether or not the move was valid or invalid and why
      */
     public Message validateMove( Move move ) {
@@ -316,8 +315,7 @@ public class Board implements Iterable<Row> {
 
     /**
      * checks to make sure that the row index and space index are within their boundaries
-     * @param rowIndex the index for the row of the space being checked
-     * @param spaceIndex
+     * @param position the position to check
      * @return true or false
      */
     private boolean canStep( Position position ) {
