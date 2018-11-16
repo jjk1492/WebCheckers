@@ -18,6 +18,8 @@ public class Board implements Iterable<Row> {
     private Color activeColor;
     private boolean canStep;
     private boolean canJump;
+    private int redPiecesRemaining;
+    private int whitePiecesRemaining;
 
     /**
      * constructs new Board
@@ -26,6 +28,8 @@ public class Board implements Iterable<Row> {
         Space space;
         Piece piece;
         activeColor = RED;
+        redPiecesRemaining = 12;
+        whitePiecesRemaining = 12;
         canJump = true;
         canStep = true;
         spaces = new Space[ROWS][COLS];
@@ -116,6 +120,17 @@ public class Board implements Iterable<Row> {
             }
         }
         return null;
+    }
+
+    /**
+     * returns whether or not the color has more pieces on the board
+     * @param color the color of the pieces
+     * @return true if there is still pieces of that color, false otherwise
+     */
+    public boolean hasPieces(Color color){
+        if (color == RED)
+            return redPiecesRemaining > 0;
+        return whitePiecesRemaining > 0;
     }
 
     /**
@@ -238,6 +253,10 @@ public class Board implements Iterable<Row> {
             Space halfway = getHalfway( start, end );
             halfway.setValid( true );
             halfway.setPiece( null );
+            if (activeColor == RED)
+                whitePiecesRemaining--;
+            else
+                redPiecesRemaining--;
         }
         else {
             canJump = false;

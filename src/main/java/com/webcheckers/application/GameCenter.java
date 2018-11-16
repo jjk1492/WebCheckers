@@ -127,7 +127,7 @@ public class GameCenter {
         if (!isPlayerInGame(name)){
             return gameWinners.get(name);
         }
-        String winner = getGame(name).gameWinner();
+        String winner = getGame(name).getGameWinner();
         if (winner != null){
             finishedGame(getOpponent(winner));
         }
