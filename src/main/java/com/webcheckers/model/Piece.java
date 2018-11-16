@@ -3,14 +3,14 @@ package com.webcheckers.model;
 import java.util.Objects;
 
 /**
- * class that represents a piece on the board
  * @author Zeke Miller
- * @author Nick Sander
  */
-public class Piece {
-    public enum Type{
+public abstract class Piece {
+
+    public enum Type {
         SINGLE, KING
     }
+
 
     /**
      * Tells the current state of a piece:
@@ -22,18 +22,19 @@ public class Piece {
         BLOCKED, JUMP, OPEN
     }
 
-    private Color color;
-    private Type type;
+    private final Color color;
+    private final Type type;
     private State currentState;
+
 
     /**
      * constructor for a default piece, created with Type SINGLE since default pieces are not kings
      * @param color - an enumeration for the color of the piece, red or white
      */
-    public Piece(Color color, State state){
+    protected Piece( Type type, Color color, State state){
         this.color = color;
         this.currentState = state;
-        this.type = Type.SINGLE;
+        this.type = type;
     }
 
 
@@ -41,7 +42,7 @@ public class Piece {
      * Copy constructor
      * @param piece the piece to copy
      */
-    public Piece(Piece piece){
+    public Piece(Piece piece) {
         this.color = piece.getColor();
         this.type = piece.getType();
         this.currentState = piece.getState();
@@ -49,27 +50,24 @@ public class Piece {
 
 
     /**
+     * make a copy of the piece
+     * @return copied Piece
+     */
+    abstract Piece copy();
+
+    /**
      * checks if the piece can take the given Move as a step
      * @param move the move to check
      * @return true if can take
      */
-    public boolean isValidStep( Move move ) {
-        int startRow = move.getStart().getRow();
-        int endRow = move.getEnd().getRow();
-        return move.isStep() && ( endRow - startRow == color.getIncrement() );
-    }
-
+    abstract boolean isValidStep( Move move );
 
     /**
      * checks if the piece can take the given Move as a jump
      * @param move the move to check
      * @return true if can take
      */
-    public boolean isValidJump( Move move ) {
-        int startRow = move.getStart().getRow();
-        int endRow = move.getEnd().getRow();
-        return move.isJump() && ( endRow - startRow == color.getIncrement() * 2 );
-    }
+    abstract boolean isValidJump( Move move );
 
 
     /**
@@ -107,6 +105,6 @@ public class Piece {
 
     @Override
     public int hashCode() {
-        return Objects.hash(color, type);
+        return Objects.hash( color, type);
     }
 }

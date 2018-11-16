@@ -181,11 +181,10 @@ public class BoardTest {
 
     @Test
     public void applyJumpTest(){
-//        CuT.fillBoard(RED);
 
         Position whiteOccupy = new Position(4, 1);
         Space space = CuT.getSpace(whiteOccupy);
-        Piece whitePiece = new Piece(Color.WHITE, Piece.State.OPEN);
+        Piece whitePiece = new SinglePiece(Color.WHITE, Piece.State.OPEN);
         space.setPiece(whitePiece);
         space.setValid(false);
 
@@ -228,11 +227,10 @@ public class BoardTest {
 
     @Test
     public void validJump(){
-//        CuT.fillBoard(RED);
 
         Position whiteOccupy = new Position(4, 1);
         Space space = CuT.getSpace(whiteOccupy);
-        Piece whitePiece = new Piece(Color.WHITE, Piece.State.OPEN);
+        Piece whitePiece = new SinglePiece(Color.WHITE, Piece.State.OPEN);
         space.setPiece(whitePiece);
         space.setValid(false);
 

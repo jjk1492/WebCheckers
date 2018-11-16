@@ -19,7 +19,7 @@ public class Space {
             piece = null;
         }
         else {
-            piece = new Piece( space.getPiece() );
+            piece = space.getPiece().copy();
         }
     }
 

@@ -13,6 +13,7 @@ public class Board implements Iterable<Row> {
 
     public static final int ROWS = 8;
     public static final int COLS = 8;
+    public static final String UNOCCUPIED_START_SPACE = "Your move must begin with an occupied space!";
 
     private Space[][] spaces;
     private Color activeColor;
@@ -35,9 +36,9 @@ public class Board implements Iterable<Row> {
                 space.setValid( false );
                 if (row % 2 + col % 2 == 1) {
                     if (row > 4) {
-                        piece = new Piece( RED, Piece.State.OPEN );
+                        piece = new SinglePiece( RED, Piece.State.OPEN );
                     } else if (row < 3) {
-                        piece = new Piece( Color.WHITE, Piece.State.OPEN );
+                        piece = new SinglePiece( WHITE, Piece.State.OPEN );
                     } else {
                         piece = null;
                         space.setValid( true );
@@ -75,7 +76,13 @@ public class Board implements Iterable<Row> {
                 if ( flip ) {
                     position = position.getInverse();
                 }
-                spaces[row][col] = board.spaces[position.getRow()][position.getCell()].getInverse();
+                Space toCopy = board.spaces[position.getRow()][position.getCell()];
+                if ( flip ) {
+                    spaces[row][col] = toCopy.getInverse();
+                }
+                else {
+                    spaces[row][col] = new Space( toCopy );
+                }
             }
         }
     }
@@ -162,7 +169,7 @@ public class Board implements Iterable<Row> {
         Piece endPiece = endSpace.getPiece();
 
         if ( startPiece == null ) {
-            return new ErrorMessage( "Your move must begin with an occupied space!" );
+            return new ErrorMessage( UNOCCUPIED_START_SPACE );
         }
         if ( endPiece != null ) {
             return new ErrorMessage( "You cannot move to an occupied space!" );
