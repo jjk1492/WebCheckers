@@ -32,4 +32,10 @@ public abstract class Message {
     public Type getType() {
         return type;
     }
+
+
+    @Override
+    public String toString() {
+        return type + " " + text;
+    }
 }

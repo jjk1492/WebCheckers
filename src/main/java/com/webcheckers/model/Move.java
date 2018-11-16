@@ -1,8 +1,8 @@
 package com.webcheckers.model;
 
-/*
+/**
  * Move class in the model tier
- * */
+ */
 public class Move {
 
     private Position start;
@@ -36,6 +36,11 @@ public class Move {
         return end;
     }
 
+
+    /**
+     * checks if a Move is a step in any direction
+     * @return true if the move is a step
+     */
     public boolean isStep() {
         int startRow = getStart().getRow();
         int startCol = getStart().getCell();
@@ -44,12 +49,14 @@ public class Move {
         if ( Math.abs( startRow - endRow ) != 1 ) {
             return false;
         }
-        if ( Math.abs( startCol - endCol ) != 1 ) {
-            return false;
-        }
-        return true;
+        return Math.abs( startCol - endCol ) == 1;
     }
 
+
+    /**
+     * Checks if a Move is a jump in any direction
+     * @return true if the move is a jump
+     */
     public boolean isJump() {
         int startRow = getStart().getRow();
         int startCol = getStart().getCell();
@@ -58,11 +65,12 @@ public class Move {
         if ( Math.abs( startRow - endRow ) != 2 ) {
             return false;
         }
-        if ( Math.abs( startCol - endCol ) != 2 ) {
-            return false;
-        }
-        return true;
+        return Math.abs( startCol - endCol ) == 2;
     }
 
 
+    @Override
+    public String toString() {
+        return start.toString() + " " + end.toString();
+    }
 }

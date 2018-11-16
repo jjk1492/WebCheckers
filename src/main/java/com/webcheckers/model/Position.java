@@ -1,10 +1,12 @@
 package com.webcheckers.model;
 
-import java.util.ArrayList;
+import static com.webcheckers.model.Board.COLS;
+import static com.webcheckers.model.Board.ROWS;
 
-/*
+/**
  * Position class in the model tier
- * */
+ * @author Zeke Miller
+ */
 public class Position {
 
     private int row;
@@ -16,24 +18,18 @@ public class Position {
      * @param row int from 0 to 7
      * @param cell int 0 to 7
      */
-    public Position(int row, int cell){
+    public Position(int row, int cell) {
         this.row = row;
         this.cell = cell;
-
     }
 
 
-    public Position getInverse() {
-        ArrayList<Integer> inverseIndex = new ArrayList<>();
-        inverseIndex.add(7);
-        inverseIndex.add(6);
-        inverseIndex.add(5);
-        inverseIndex.add(4);
-        inverseIndex.add(3);
-        inverseIndex.add(2);
-        inverseIndex.add(1);
-        inverseIndex.add(0);
-        return new Position( inverseIndex.get(row), inverseIndex.get(cell));
+    /**
+     * gets the corresponding position if the board were rotated 180 degrees
+     * @return inverted Position
+     */
+    public Position getInverse()  {
+        return new Position( ROWS - 1 - row, COLS - 1 - cell );
     }
 
     /**
@@ -50,4 +46,9 @@ public class Position {
         return cell;
     }
 
+
+    @Override
+    public String toString() {
+        return "(" + row + "," + cell + ")";
+    }
 }
