@@ -5,25 +5,17 @@ import com.webcheckers.model.Message.Type;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Objects;
-import java.util.Deque;
-import java.util.LinkedList;
 
 /**
  * class representing the game, containing players and a board for each player
  */
 public class Game {
-
-    public static final int NUM_ROWS = 8;
-    private final int NUM_PIECES = 12;
     
     private Player redPlayer;
     private Player whitePlayer;
     private Color activeColor;
-    private Board redBoard;
-    private Board whiteBoard;
+    private Board board;
     private Deque<Move> pendingMoves;
-    private int redPiecesRemaining;
-    private int whitePiecesRemaining;
 
     /**
      * constructor for the game, creates new boards for each player after they are assigned
@@ -34,13 +26,8 @@ public class Game {
         this.redPlayer = redPlayer;
         this.whitePlayer = whitePlayer;
         this.activeColor = Color.RED;
-        this.redBoard = new Board();
-        this.whiteBoard = new Board();
-        redBoard.fillBoard(Color.RED);
-        whiteBoard.fillBoard(Color.WHITE);
+        this.board = new Board();
         pendingMoves = new LinkedList<>();
-        redPiecesRemaining = NUM_PIECES;
-        whitePiecesRemaining = NUM_PIECES;
     }
 
     /**
@@ -64,7 +51,7 @@ public class Game {
      * @return Board
      */
     public Board getRedBoard() {
-        return redBoard;
+        return board;
     }
 
     /**
@@ -72,7 +59,7 @@ public class Game {
      * @return Board
      */
     public Board getWhiteBoard(){
-        return whiteBoard;
+        return board.flipped();
     }
 
     /**
@@ -94,58 +81,24 @@ public class Game {
         return whitePlayer;
     }
 
-    /**
-     * get remaining number of pieces that the red player has
-     * @return int
-     */
-    public int getRedPiecesRemaining() {
-        return redPiecesRemaining;
-    }
 
     /**
-     * get the remaining number of pieces that the white player has
-     * @return number of pieces remaining
+     * end of turn operations
      */
-    public int getWhitePiecesRemaining() {
-        return whitePiecesRemaining;
-    }
-
-    /**
-     * change whose turn it is
-     */
-    public void swapTurn() {
-        if ( activeColor.equals( Color.RED ) ) {
-            activeColor = Color.WHITE;
-        }
-        else {
-            activeColor = Color.RED;
-        }
+    public void endTurn() {
+        activeColor = activeColor.getOpposite();
+        board.endTurn();
     }
 
     /**
      * applies the pending moves to the board
      */
     public void applyTurn() {
-//        System.out.println( "applying " + activeColor + "'s turn" );
-        Board activeBoard;
-        Board opponentBoard;
-        if ( activeColor.equals( Color.WHITE ) ) {
-            activeBoard = whiteBoard;
-            opponentBoard = redBoard;
-        }
-        else {
-            activeBoard = redBoard;
-            opponentBoard = whiteBoard;
-        }
         Move move;
         while ( ( move = pendingMoves.pollLast() ) != null ) {
-            activeBoard.applyMove( move, activeColor );
-            Move inverseMove = move.getInverse();
-            opponentBoard.applyMove( inverseMove, activeColor.getOpposite() );
+            board.applyMove( move );
         }
-        activeBoard.endTurn();
-        opponentBoard.endTurn();
-        swapTurn();
+        endTurn();
    }
 
     /**
@@ -155,21 +108,14 @@ public class Game {
      */
     public Message tryMove( Move move ){
         Message message;
-        Board activeBoard;
-        if ( activeColor == Color.RED ) {
-            activeBoard = redBoard;
-        }
-        else {
-            activeBoard = whiteBoard;
-        }
-        activeBoard = new Board( activeBoard );
+        Board copyBoard;
+
+        copyBoard = new Board( board );
         for ( Move pendingMove : pendingMoves ) {
-            activeBoard.applyMove(pendingMove, activeColor);
+            copyBoard.applyMove(pendingMove);
         }
-        message = activeBoard.validateMove( move, activeColor );
+        message = copyBoard.validateMove( move );
         if ( message.getType().equals( Type.info ) ) {
-//            System.out.println( "Good move, new game state" );
-//            System.out.println( activeBoard.toString() );
             pendingMoves.push( move );
         }
         return message;
@@ -177,10 +123,10 @@ public class Game {
 
     /**
      * checks if there are pending moves that can be backed up
-     * @return
+     * @return true if something popped
      */
     public boolean backupMove(){
-        if(!pendingMoves.isEmpty()){
+        if( !pendingMoves.isEmpty()){
             pendingMoves.pop();
             return true;
         }

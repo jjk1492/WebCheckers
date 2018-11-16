@@ -15,11 +15,20 @@ public class Space {
     public Space(Space space){
         cellIdx = space.getCellIdx();
         isValid = space.isValid();
-        if (space.getPiece() == null)
+        if (space.getPiece() == null) {
             piece = null;
-        else
-            piece = new Piece(space.getPiece());
+        }
+        else {
+            piece = new Piece( space.getPiece() );
+        }
     }
+
+    public Space getInverse() {
+        Space copy = new Space(this);
+        copy.cellIdx = 7 - copy.cellIdx;
+        return copy;
+    }
+
 
     public int getCellIdx() {
         return cellIdx;
