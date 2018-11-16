@@ -1,8 +1,9 @@
 package com.webcheckers.model;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+
+import static com.webcheckers.model.Color.RED;
+import static com.webcheckers.model.Color.WHITE;
 
 /**
  * Board class in the model tier
@@ -10,66 +11,83 @@ import java.util.List;
  */
 public class Board implements Iterable<Row> {
 
-    //7 rows
-    private List<Row> rows;
-    private List<Piece> redPieces;
-    private List<Piece> whitePieces;
-    private boolean canMove = true;
+    public static final int ROWS = 8;
+    public static final int COLS = 8;
+
+    private Space[][] spaces;
+    private Color activeColor;
+    private boolean canStep;
+    private boolean canJump;
 
     /**
      * constructs new Board
      */
-    public Board(){
-        this.rows = new ArrayList<>();
-        for (int i = 0; i < 8; i++){
-            rows.add(new Row(i));
+    public Board() {
+        Space space;
+        Piece piece;
+        activeColor = RED;
+        canJump = true;
+        canStep = true;
+        spaces = new Space[ROWS][COLS];
+        for (int row = 0; row < ROWS ; row++){
+            for ( int col = 0 ; col < COLS ; col++ ) {
+                space = spaces[row][col] = new Space(col);
+                space.setValid( false );
+                if (row % 2 + col % 2 == 1) {
+                    if (row > 4) {
+                        piece = new Piece( RED, Piece.State.OPEN );
+                    } else if (row < 3) {
+                        piece = new Piece( Color.WHITE, Piece.State.OPEN );
+                    } else {
+                        piece = null;
+                        space.setValid( true );
+                    }
+                    space.setPiece( piece );
+                }
+            }
         }
-        this.redPieces = new ArrayList<>();
-        this.whitePieces = new ArrayList<>();
+        updatePieceStates();
+    }
+    
+
+    /**
+     * copy constructor, public accessible
+     * @param board the board to copy
+     */
+    public Board( Board board ) {
+        this( board, false );
     }
 
     /**
-     * constructor for board
-     * @param board
+     * copy constructor for Board usable by other constructor and flipped
+     * @param board the board to copy
+     * @param flip whether to flip the board
      */
-    public Board(Board board){
-        this.rows = new ArrayList<>();
-        this.redPieces = new ArrayList<>();
-        this.whitePieces = new ArrayList<>();
-        for (int i = 0; i < 8; i++){
-            rows.add(new Row(board.rows.get(i)));
-        }
-        for (int i = 0; i < board.whitePieces.size(); i++){
-            whitePieces.add(new Piece(board.whitePieces.get(i)));
-        }
-        for (int i = 0; i < board.redPieces.size(); i++){
-            redPieces.add(new Piece(board.redPieces.get(i)));
+    private Board( Board board, boolean flip ) {
+        canJump = board.canJump;
+        canStep = board.canStep;
+        activeColor = board.activeColor;
+        spaces = new Space[ROWS][COLS];
+        Position position;
+        for ( int row = 0 ; row < ROWS ; row++ ) {
+            for ( int col = 0 ; col < COLS ; col++ ) {
+                position = new Position( row, col );
+                if ( flip ) {
+                    position = position.getInverse();
+                }
+                spaces[row][col] = board.spaces[position.getRow()][position.getCell()].getInverse();
+            }
         }
     }
 
-    /**
-     * fills the rows in the board
-     * @param color the color for the rows to be filled with
-     */
-    public void fillBoard(Color color){
-        int index;
-        for( Row row: rows){
-            index = row.getIndex();
-            if ( index > 4 ) {
-                row.fillRow( this, color );
-            }
-            else if ( index < 3 ) {
-                row.fillRow( this, color.getOpposite() );
-            }
-            else {
-                row.validateRow();
-            }
-        }
+    public Board flipped() {
+        return new Board( this, true );
     }
+
 
     public boolean positionInBounds(Position position ) {
-        return ( position.getRow() >= 0 && position.getRow() < 8 &&
-                position.getCell() >= 0 && position.getCell() < 8 );
+        return ( position.getRow() >= 0 && position.getRow() < ROWS &&
+                position.getCell() >= 0 && position.getCell() < COLS );
     }
 
 
@@ -80,9 +98,7 @@ public class Board implements Iterable<Row> {
      */
     public Space getSpace( Position position ) {
         if (positionInBounds(position)) {
-            if (!(position.getRow() < 0 || position.getRow() > 7)) {
-                return rows.get(position.getRow()).getSpace(position.getCell());
-            }
+            return spaces[position.getRow()][position.getCell()];
         }
         return null;
     }
@@ -94,7 +110,10 @@ public class Board implements Iterable<Row> {
      */
     public Piece getPiece( Position position ) {
         if ( positionInBounds( position ) ) {
-            return rows.get(position.getRow()).getPiece(position.getCell());
+            Space space = getSpace( position );
+            if ( space != null ) {
+                return space.getPiece();
+            }
         }
         return null;
     }
@@ -119,16 +138,17 @@ public class Board implements Iterable<Row> {
         }
         return null;
     }
+  
 
     /**
      * checks many conditions to make sure that a move that a player wants to make is valid
      * @param move the move in question
-     * @param activeColor the color of the piece making the move
      * @return a message based on whether or not the move was valid or invalid and why
      */
-    public Message validateMove( Move move, Color activeColor ) {
-        updatePieceStates( activeColor );
-//        System.out.println(toString());
+    public Message validateMove( Move move ) {
+        if ( activeColor == Color.WHITE ) {
+            move = move.getInverse();
+        }
         Position start = move.getStart();
         Position end = move.getEnd();
         Space startSpace = getSpace( start );
@@ -147,72 +167,50 @@ public class Board implements Iterable<Row> {
         if ( endPiece != null ) {
             return new ErrorMessage( "You cannot move to an occupied space!" );
         }
-        if (!canMove) {
-            return new ErrorMessage( "You cannot step after already moving!" );
+
+        if ( startPiece.getColor() != activeColor ) {
+            return new ErrorMessage( "You can't move your opponent's pieces!" );
         }
+
         if ( move.isStep() ) {
-            boolean validStep;
-            if ( startPiece.getColor() == activeColor ) {
-                validStep = startPiece.isValidStep( move );
+            if ( !canStep ) {
+                return new ErrorMessage( "You can't step after moving!" );
             }
-            else {
-                validStep = startPiece.isValidStep( move.getInverse() );
+
+            if ( hasOpenJump( startPiece.getColor() ) ) {
+                return new ErrorMessage( "A jump is available, you must jump.");
             }
-            if ( validStep ) {
-                // TODO handle stepping when a valid jump move is available for that player
-                if( startPiece.getColor() ==  Color.RED ){
-                    for( Piece redPiece : redPieces){
-                        if( redPiece.getState() == Piece.State.JUMP ){
-                            return new ErrorMessage("A jump is available, you must jump.");
-                        }
-                        else {
-//                            System.out.println( redPiece + " (red) is in state: " + redPiece.getState() );
-                        }
-                    }
-                }
-                else{
-                    for( Piece whitePiece : whitePieces ){
-                        if( whitePiece.getState() == Piece.State.JUMP ){
-                            return new ErrorMessage("A jump is available, you must jump.");
-                        }
-                        else {
-//                            System.out.println( whitePiece + " (white) is in state: " + whitePiece.getState() );
-                        }
-                    }
-                }
+
+            if ( isValidStep( move ) ) {
                 return new InfoMessage( "Your move was valid!" );
             }
             else {
                 return new ErrorMessage( "That piece can't do that!" );
             }
         }
-        if ( move.isJump() ) {
-            boolean validJump;
-            if ( startPiece.getColor() == activeColor ) {
-                validJump = startPiece.isValidJump( move );
+        else if ( move.isJump() ) {
+            if ( !canJump ) {
+                return new ErrorMessage( "Can't jump after taking a step!" );
+            }
+            if ( isValidJump( move ) ) {
+                return new InfoMessage( "Valid jump!" );
             }
             else {
-                validJump = startPiece.isValidJump( move.getInverse() );
-            }
-            if ( validJump ) {
                 Space halfway = getHalfway( start, end );
                 if ( halfway == null || halfway.getPiece() == null ) {
                     return new ErrorMessage( "Can't jump over nothing!" );
                 }
+                else if( activeColor == halfway.getPiece().getColor() ) {
+                    return new ErrorMessage( "You can't jump over your own piece!" );
+                }
                 else {
-                    Color pieceColor = halfway.getPiece().getColor();
-                    if(activeColor == Color.RED &&  pieceColor == Color.RED ){
-                        return new ErrorMessage("You can't jump over your own piece!");
-                    }
-                    else if( activeColor == Color.WHITE &&  pieceColor == Color.WHITE ){
-                        return new ErrorMessage("You can't jump over your own piece!");
-                    }
-                    return new InfoMessage( "Valid jump!" );
+                    return new ErrorMessage( "That piece can't do that!" );
                 }
             }
-            return new ErrorMessage( "That piece can't do that!" );
         }
-        return new ErrorMessage( "That move is invalid!" );
+        else {
+            return new ErrorMessage( "That move is invalid!" );
+        }
     }
 
 
@@ -220,7 +218,11 @@ public class Board implements Iterable<Row> {
      * applies a move
      * @param move the move to be applied
      */
-    public void applyMove( Move move, Color myColor ) {
+    public void applyMove( Move move ) {
+        if ( activeColor == WHITE ) {
+            move = move.getInverse();
+        }
+//        System.out.println( "applying " + move + " for " + activeColor );
         Position start = move.getStart();
         Position end = move.getEnd();
 
@@ -234,42 +236,37 @@ public class Board implements Iterable<Row> {
 
         if ( move.isJump() ) {
             Space halfway = getHalfway( start, end );
-            if(myColor == Color.RED)
-                whitePieces.remove(halfway.getPiece());
-            if(myColor == Color.WHITE)
-                redPieces.remove(halfway.getPiece());
             halfway.setValid( true );
             halfway.setPiece( null );
         }
         else {
-            canMove = false;
+            canJump = false;
         }
+        canStep = false;
 
-        updatePieceStates( myColor );
+        updatePieceStates();
     }
 
     public void endTurn() {
-        canMove = true;
+        activeColor = activeColor.getOpposite();
+        canStep = true;
+        canJump = true;
     }
 
-    /**
-     * validates that a jump is a valid move
-     * @param move the move to be validated
-     * @return a boolean; true if the jump is valid and false otherwise
-     */
-    public boolean isValidJump(Move move){
-        if( move.getStart() != null && move.getEnd() != null && move.isJump() ) {
-            //Check that the halfway space is occupied
-            Space halfwaySpace = getHalfway(move.getStart(), move.getEnd());
-            Piece p = getPiece(move.getStart());
-            if ( p == null ) {
-//                System.out.println( "NULL START PIECE" );
-                return false;
-            }
-            if( halfwaySpace != null && getPiece(move.getEnd() ) == null ) {
-                Piece halfwayPiece = halfwaySpace.getPiece();
-                Piece currentPiece = getPiece(move.getStart());
-                if( currentPiece != null && halfwayPiece != null && currentPiece.getColor() != ( halfwayPiece.getColor() ) ) {
+    public boolean spaceIsValid(int rowIndex, int spaceIndex){
+        if ( !positionInBounds( new Position( rowIndex, spaceIndex ) ) ) {
+            return false;
+        }
+        return spaces[rowIndex][spaceIndex].isValid();
+    }
+
+
+    private boolean hasOpenJump( Color color ) {
+        Piece piece;
+        for ( Space[] row : spaces ) {
+            for ( Space space : row ) {
+                piece = space.getPiece();
+                if ( piece != null && piece.getColor() == color && piece.getState() == Piece.State.JUMP ) {
                     return true;
                 }
             }
@@ -277,168 +274,147 @@ public class Board implements Iterable<Row> {
         return false;
     }
 
+
+    private boolean isValidStep( Move move ) {
+        if( move.getStart() != null && move.getEnd() != null && move.isStep() ) {
+
+            Piece piece = getPiece(move.getStart());
+            if ( piece == null ) {
+                return false;
+            }
+
+            return getPiece( move.getEnd() ) == null &&
+                   piece.isValidStep( move );
+        }
+        return false;
+    }
+    /**
+     * validates that a jump is a valid move
+     * @param move the move to be validated
+     * @return a boolean; true if the jump is valid and false otherwise
+     */
+    private boolean isValidJump( Move move ){
+        if( move.getStart() != null && move.getEnd() != null && move.isJump() ) {
+            Space halfwaySpace = getHalfway(move.getStart(), move.getEnd());
+            if ( halfwaySpace == null || halfwaySpace.getPiece() == null ) {
+                return false;
+            }
+            Piece piece = getPiece(move.getStart());
+            if ( piece == null ) {
+                return false;
+            }
+            if( getPiece( move.getEnd() ) == null && piece.isValidJump( move ) ) {
+
+                Piece halfwayPiece = halfwaySpace.getPiece();
+                return halfwayPiece != null && piece.getColor() != ( halfwayPiece.getColor() );
+            }
+        }
+        return false;
+    }
+
+
     /**
      * checks to make sure that the row index and space index are within their boundaries
-     * @param rowIndex the index for the row of the space being checked
-     * @param spaceIndex
+     * @param position the position to check
      * @return true or false
      */
-    public boolean spaceIsValid(int rowIndex, int spaceIndex){
-        if ( !positionInBounds( new Position( rowIndex, spaceIndex ) ) ) {
+    private boolean canStep( Position position ) {
+        if ( !positionInBounds( position ) ) {
             return false;
         }
-        Row checkRow = rows.get(rowIndex);
-        return checkRow.isSpaceValid(spaceIndex);
-    }
-
-    public int getPieceCount(Color pieceColor){
-        if (pieceColor == Color.RED)
-            return redPieces.size();
-        if (pieceColor == Color.WHITE)
-            return whitePieces.size();
-        return -1;
-    }
-
-    /**
-     * adds piece
-     * @param newPiece piece to be added
-     */
-    public void addPiece(Piece newPiece ){
-        if( newPiece != null){
-            if( newPiece.getColor() == Color.RED ){
-                redPieces.add(newPiece);
-            }
-            else{
-                whitePieces.add(newPiece);
-            }
+        Piece piece = getPiece( position );
+        if ( piece == null ) {
+            return false;
         }
+        int startRow = position.getRow();
+        int startCol = position.getCell();
+        int destRow = startRow + piece.getColor().getIncrement();
+        int rightDestCol = startCol + 1;
+        int leftDestCol = startCol - 1;
+        Position rightJump = new Position( destRow, rightDestCol );
+        Position leftJump = new Position( destRow, leftDestCol );
+
+        return positionInBounds( rightJump ) &&
+                    isValidStep( new Move( position, rightJump ) )
+               || positionInBounds( leftJump ) &&
+                    isValidStep( new Move( position, leftJump ) );
     }
 
-    /**
-     * updating the states of the pieces as appropriate
-     * @param color the color of the piece
-     */
-    public void updatePieceStates(Color color){
-//        System.out.println( "Updating for " + color.toString() );
-        for( Row row : rows){
-            int rowIndex = row.getIndex();
-            Position startPos;
-            Position rightEndPos;
-            Position leftEndPos;
-            Move testMove;
-            for( Space space : row.getSpaces() ){
-                int spaceIndex = space.getCellIdx();
-                startPos = new Position(rowIndex,spaceIndex);
-                Piece currentPiece = space.getPiece();
-                if( currentPiece != null ) {
-                    if (currentPiece.getColor() == color) {
+  
+    private boolean canJump( Position position ) {
+        if ( !positionInBounds( position ) ) {
+            return false;
+        }
+        Piece piece = getPiece( position );
+        if ( piece == null ) {
+            return false;
+        }
+        int startRow = position.getRow();
+        int startCol = position.getCell();
+        int destRow = startRow + piece.getColor().getIncrement() * 2;
+        int rightDestCol = startCol + 2;
+        int leftDestCol = startCol - 2;
+        Position rightJump = new Position( destRow, rightDestCol );
+        Position leftJump = new Position( destRow, leftDestCol );
 
-                        //Check for a jump
-//                        if (rowIndex >= 2) {
+        return positionInBounds( rightJump ) &&
+                    isValidJump( new Move( position, rightJump ) )
+               || positionInBounds( leftJump ) &&
+                    isValidJump( new Move( position, leftJump ) );
+    }
 
-                            //Check a right jump
-//                            if (spaceIndex <= 5) {
-                                rightEndPos = new Position(rowIndex - 2, spaceIndex + 2);
-                                testMove = new Move(startPos, rightEndPos);
-                                if (isValidJump(testMove)) {
-                                    currentPiece.setState(Piece.State.JUMP);
-                                    continue;
-                                }
-//                            }
 
-                            //Check for a left jump
-//                            if (spaceIndex >= 2) {
-                                leftEndPos = new Position(rowIndex - 2, spaceIndex - 2);
-                                testMove = new Move(startPos, leftEndPos);
-                                if (isValidJump(testMove)) {
-                                    currentPiece.setState(Piece.State.JUMP);
-                                    continue;
-                                }
-//                            }
-//                        }
-
-                        //Check for a step
-//                        if (rowIndex >= 1) {
-
-                            //Check for a right step
-//                            if (spaceIndex <= 6) {
-                                if (spaceIsValid(rowIndex - 1, spaceIndex + 1)) {
-                                    currentPiece.setState(Piece.State.OPEN);
-                                }
-//                            }
-                            //Check for a left step
-//                            if (spaceIndex >= 1) {
-                                if (spaceIsValid(rowIndex - 1, spaceIndex - 1)) {
-                                    currentPiece.setState(Piece.State.OPEN);
-                                }
-//                            }
-//                        }
-                    } else {
-
-                        //Check for a jump
-//                        if (rowIndex <= 5) {
-
-                            //Check a right jump
-//                            if (spaceIndex <= 5) {
-                                rightEndPos = new Position(rowIndex + 2, spaceIndex + 2);
-                                testMove = new Move(startPos, rightEndPos);
-                                if (isValidJump(testMove)) {
-                                    currentPiece.setState(Piece.State.JUMP);
-                                    continue;
-                                }
-//                            }
-
-                            //Check for a left jump
-//                            if (spaceIndex >= 2) {
-                                leftEndPos = new Position(rowIndex + 2, spaceIndex - 2);
-                                testMove = new Move(startPos, leftEndPos);
-                                if (isValidJump(testMove)) {
-                                    currentPiece.setState(Piece.State.JUMP);
-                                    continue;
-                                }
-//                            }
-//                        }
-
-                        //Check for a step
-//                        if (rowIndex >= 1) {
-
-                            //Check for a right step
-//                            if (spaceIndex <= 6) {
-                                if (spaceIsValid(rowIndex + 1, spaceIndex + 1)) {
-                                    currentPiece.setState(Piece.State.OPEN);
-                                }
-//                            }
-                            //Check for a left step
-//                            if (spaceIndex >= 1) {
-                                if (spaceIsValid(rowIndex + 1, spaceIndex - 1)) {
-                                    currentPiece.setState(Piece.State.OPEN);
-                                }
-//                            }
-//                        }
-
+    private void updatePieceStates() {
+        Space space;
+        Piece piece;
+        Position position;
+        Piece.State state;
+        for ( int row = 0 ; row < ROWS ; row++ ) {
+            for ( int col = 0 ; col < COLS ; col++ ) {
+                space = spaces[ row ][ col ];
+                piece = space.getPiece();
+                position = new Position( row, col );
+                if ( piece != null ) {
+                    if ( canJump( position ) ) {
+                        state = Piece.State.JUMP;
                     }
+                    else if ( canStep( position ) ) {
+                        state = Piece.State.OPEN;
+                    }
+                    else {
+                        state = Piece.State.BLOCKED;
+                    }
+                    piece.setState( state );
                 }
             }
         }
-//        System.out.println(toString());
     }
 
 
     @Override
     public Iterator<Row> iterator() {
-        return rows.iterator();
+        Collection<Row> linkedList = new LinkedList<>();
+        for ( int row = 0 ; row < ROWS ; row++ ) {
+            linkedList.add( new Row( row, Arrays.asList( spaces[row] ) ) );
+        }
+        return linkedList.iterator();
     }
 
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for ( int row = 0 ; row < rows.size() ; row++ ) {
-            for ( int col = 0 ; col < rows.get( row ).getSpaces().size() ; col++ ) {
-                Space space = rows.get( row ).getSpace( col );
-                sb.append( String.format( "(%d,%d) v:%s ", row, col, space.isValid() ? "t" : "f" ) );
+        for ( int row = 0 ; row < ROWS ; row++ ) {
+            for ( int col = 0 ; col < COLS ; col++ ) {
+//        for ( Row row : this ) {
+//            for ( Space space : row ) {
+                Space space = spaces[row][col];
+//                int row = row.getIndex();
+//                int col = space.getCellIdx();
+                sb.append( String.format( "(%d,%d)", row, col ) );
+                sb.append( space.isValid() ? 'v' : 'i' );
                 if ( space.getPiece() == null ) {
-                    sb.append( "no piece  " ) ;
+                    sb.append( "__ " );
                 }
                 else {
                     String state = null;
@@ -453,7 +429,9 @@ public class Board implements Iterable<Row> {
                             state = "b";
                             break;
                     }
-                    sb.append(String.format("c:%s s:%s   " , space.getPiece().getColor() == Color.RED ? "r" : "w", state) );
+                    sb.append( state.charAt( 0 ) );
+                    sb.append( space.getPiece().getColor() == RED ? 'r' : 'w' );
+                    sb.append( ' ' );
                 }
             }
             sb.append( '\n' );

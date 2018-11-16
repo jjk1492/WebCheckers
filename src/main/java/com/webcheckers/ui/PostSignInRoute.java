@@ -85,7 +85,6 @@ public class PostSignInRoute implements Route {
         else {
             final Session session = request.session();
             session.attribute( PLAYER_NAME_ATTR, name );
-            // TODO should we be storing the Player or the name?
             response.redirect( HOME_URL );
             return null;
         }

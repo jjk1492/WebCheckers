@@ -65,7 +65,6 @@ public class PostCheckTurnRoute implements Route {
         Gson gson = new GsonBuilder().create();
         json = gson.toJson( message );
 
-        // TODO not sure exactly how the black box JS expects it?
         return json;
     }
 }

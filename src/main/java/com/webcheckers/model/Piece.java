@@ -4,6 +4,7 @@ import java.util.Objects;
 
 /**
  * class that represents a piece on the board
+ * @author Zeke Miller
  * @author Nick Sander
  */
 public class Piece {
@@ -31,36 +32,43 @@ public class Piece {
      */
     public Piece(Color color, State state){
         this.color = color;
-        this.type = Type.SINGLE;
         this.currentState = state;
+        this.type = Type.SINGLE;
     }
 
+
+    /**
+     * Copy constructor
+     * @param piece the piece to copy
+     */
     public Piece(Piece piece){
         this.color = piece.getColor();
         this.type = piece.getType();
         this.currentState = piece.getState();
     }
 
-    /**
-     * an additional constructor for the piece to be used for kings
-     * @param color - an enumeration for the color of the piece, red or white
-     * @param type - type is 'single' unless piece has made it to opposing edge of board
-     */
-    public Piece( Color color, Type type){
-        this.color = color;
-        this.type = type;
-    }
 
+    /**
+     * checks if the piece can take the given Move as a step
+     * @param move the move to check
+     * @return true if can take
+     */
     public boolean isValidStep( Move move ) {
         int startRow = move.getStart().getRow();
         int endRow = move.getEnd().getRow();
-        return move.isStep() &&  ( startRow - endRow == 1 );
+        return move.isStep() && ( endRow - startRow == color.getIncrement() );
     }
 
+
+    /**
+     * checks if the piece can take the given Move as a jump
+     * @param move the move to check
+     * @return true if can take
+     */
     public boolean isValidJump( Move move ) {
         int startRow = move.getStart().getRow();
         int endRow = move.getEnd().getRow();
-        return move.isJump() && ( startRow - endRow == 2 );
+        return move.isJump() && ( endRow - startRow == color.getIncrement() * 2 );
     }
 
 
@@ -94,8 +102,7 @@ public class Piece {
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
         Piece piece = (Piece) other;
-        return color == piece.color &&
-                type == piece.type;
+        return color == piece.color && type == piece.type;
     }
 
     @Override
