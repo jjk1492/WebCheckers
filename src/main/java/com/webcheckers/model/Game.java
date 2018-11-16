@@ -107,7 +107,7 @@ public class Game {
         while ( ( move = pendingMoves.pollLast() ) != null ) {
             board.applyMove( move );
         }
-        if(!board.hasPieces(activeColor.getOpposite())){
+        if(!board.hasUnblockedPieces(activeColor.getOpposite())){
             gameWinner = getActivePlayer().getName();
         }
         endTurn();
