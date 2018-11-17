@@ -10,7 +10,7 @@ import java.util.Objects;
  * class representing the game, containing players and a board for each player
  */
 public class Game {
-    
+
     private Player redPlayer;
     private Player whitePlayer;
     private Color activeColor;
@@ -93,13 +93,36 @@ public class Game {
     /**
      * applies the pending moves to the board
      */
-    public void applyTurn() {
+    public boolean applyTurn() {
+        if(forceJump()){
+            return false;
+        }
         Move move;
         while ( ( move = pendingMoves.pollLast() ) != null ) {
             board.applyMove( move );
         }
         endTurn();
-   }
+        return true;
+    }
+
+    /**
+     * checks if there is still a jump to be made at the end of the turn
+     * @return true if there is a jump that needs tp be made
+     */
+    public boolean forceJump(){
+        Board copyBoard;
+        copyBoard = new Board( board );
+        for ( Move pendingMove : pendingMoves ) {
+            copyBoard.applyMove( pendingMove );
+        }
+        Move move = pendingMoves.peekLast();
+        if( move.isJump() ) {
+            if ( copyBoard.hasOpenJump(activeColor) ) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * checks if a move is valid
@@ -121,18 +144,19 @@ public class Game {
         return message;
     }
 
+
+
     /**
      * checks if there are pending moves that can be backed up
      * @return true if something popped
      */
     public boolean backupMove(){
-        if( !pendingMoves.isEmpty()){
+        if( !pendingMoves.isEmpty() ){
             pendingMoves.pop();
             return true;
         }
         return false;
     }
-
 
     /**
      * checks if 2 games are the same game

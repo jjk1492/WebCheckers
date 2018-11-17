@@ -48,7 +48,7 @@ public class Board implements Iterable<Row> {
         }
         updatePieceStates();
     }
-    
+
 
     /**
      * copy constructor, public accessible
@@ -138,7 +138,7 @@ public class Board implements Iterable<Row> {
         }
         return null;
     }
-  
+
 
     /**
      * checks many conditions to make sure that a move that a player wants to make is valid
@@ -247,12 +247,21 @@ public class Board implements Iterable<Row> {
         updatePieceStates();
     }
 
+    /**
+     * ends a player's turn
+     */
     public void endTurn() {
         activeColor = activeColor.getOpposite();
         canStep = true;
         canJump = true;
     }
 
+    /**
+     * checks if a space is valid
+     * @param rowIndex row to check
+     * @param spaceIndex space to check
+     * @return true if valid
+     */
     public boolean spaceIsValid(int rowIndex, int spaceIndex){
         if ( !positionInBounds( new Position( rowIndex, spaceIndex ) ) ) {
             return false;
@@ -260,8 +269,12 @@ public class Board implements Iterable<Row> {
         return spaces[rowIndex][spaceIndex].isValid();
     }
 
-
-    private boolean hasOpenJump( Color color ) {
+    /**
+     * checks if there is a jump
+     * @param color active player's color
+     * @return true if jump available
+     */
+    public boolean hasOpenJump( Color color ) {
         Piece piece;
         for ( Space[] row : spaces ) {
             for ( Space space : row ) {
@@ -274,7 +287,11 @@ public class Board implements Iterable<Row> {
         return false;
     }
 
-
+    /**
+     * checks if a simple move is valid
+     * @param move move that is trying to be made
+     * @return true if valid
+     */
     private boolean isValidStep( Move move ) {
         if( move.getStart() != null && move.getEnd() != null && move.isStep() ) {
 
@@ -284,7 +301,7 @@ public class Board implements Iterable<Row> {
             }
 
             return getPiece( move.getEnd() ) == null &&
-                   piece.isValidStep( move );
+                    piece.isValidStep( move );
         }
         return false;
     }
@@ -335,12 +352,17 @@ public class Board implements Iterable<Row> {
         Position leftJump = new Position( destRow, leftDestCol );
 
         return positionInBounds( rightJump ) &&
-                    isValidStep( new Move( position, rightJump ) )
-               || positionInBounds( leftJump ) &&
-                    isValidStep( new Move( position, leftJump ) );
+                isValidStep( new Move( position, rightJump ) )
+                || positionInBounds( leftJump ) &&
+                isValidStep( new Move( position, leftJump ) );
     }
 
-  
+
+    /**
+     * checks if a piece can jump
+     * @param position
+     * @return true if they can jump
+     */
     private boolean canJump( Position position ) {
         if ( !positionInBounds( position ) ) {
             return false;
@@ -358,12 +380,15 @@ public class Board implements Iterable<Row> {
         Position leftJump = new Position( destRow, leftDestCol );
 
         return positionInBounds( rightJump ) &&
-                    isValidJump( new Move( position, rightJump ) )
-               || positionInBounds( leftJump ) &&
-                    isValidJump( new Move( position, leftJump ) );
+                isValidJump( new Move( position, rightJump ) )
+                || positionInBounds( leftJump ) &&
+                isValidJump( new Move( position, leftJump ) );
     }
 
 
+    /**
+     * updates the status of a piece
+     */
     private void updatePieceStates() {
         Space space;
         Piece piece;
