@@ -99,4 +99,12 @@ public class GameCenterTest {
         assertNull(gameCenter.getOpponent(redName));
     }
 
+//    @Test
+//    void finishTurnTest(){
+//        playerLobby.addPlayer(redName);
+//        playerLobby.addPlayer(whiteName);
+//        gameCenter.addGame(redName, whiteName);
+//        gameCenter.finishTurn(redName);
+//
+//    }
 }

@@ -1,6 +1,7 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.application.GameCenter;
+import com.webcheckers.model.Game;
 import com.webcheckers.model.Message;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,6 +45,7 @@ public class PostSubmitTurnRouteTest {
     public void submitTurn() {
         when(request.session().attribute(PostSignInRoute.PLAYER_NAME_ATTR)).thenReturn(redName);
         when(gameCenter.isPlayerInGame(redName)).thenReturn(true);
+        when(gameCenter.finishTurn( redName )).thenReturn(true);
         when(gameCenter.isPlayerActive(redName)).thenReturn(false);
 
         try {
@@ -61,6 +63,7 @@ public class PostSubmitTurnRouteTest {
     void errorMessage() {
         when(request.session().attribute(PostSignInRoute.PLAYER_NAME_ATTR)).thenReturn(redName);
         when(gameCenter.isPlayerInGame(redName)).thenReturn(true);
+        when(gameCenter.finishTurn( redName )).thenReturn(true);
         when(gameCenter.isPlayerActive(redName)).thenReturn(true);
 
         try {
@@ -79,6 +82,7 @@ public class PostSubmitTurnRouteTest {
     void gameEnded() {
         when(request.session().attribute(PostSignInRoute.PLAYER_NAME_ATTR)).thenReturn(redName);
         when(gameCenter.isPlayerInGame(redName)).thenReturn(false);
+        when(gameCenter.finishTurn( redName )).thenReturn(true);
 
         try {
             Object ret = postSubmitTurnRoute.handle(request, response);

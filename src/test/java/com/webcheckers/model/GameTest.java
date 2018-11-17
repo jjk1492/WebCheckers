@@ -242,6 +242,9 @@ public class GameTest {
 
     }
 
+    /**
+     * tests for no forced jump
+     */
     @Test
     public void noForceJumpTest(){
         Position start = new Position(5, 6);
@@ -255,6 +258,9 @@ public class GameTest {
 
     }
 
+    /**
+     * tests for a forced double jump
+     */
     @Test
     public void doubleForceJump(){
         Board whiteBoard = CuT.getWhiteBoard();
