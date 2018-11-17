@@ -34,19 +34,21 @@ public class Board implements Iterable<Row> {
                 space = spaces[row][col] = new Space(col);
                 space.setValid( false );
                 if (row % 2 + col % 2 == 1) {
-                    if (row > 4) {
-                        piece = new Piece( RED, Piece.State.OPEN );
+                    if(row == 3 && col == 2){
+                        piece = new Piece( Color.RED, Piece.State.OPEN );
                     }
-                    else if(row == 1 && col == 0){
+                    else if(row == 6 && col == 5){
                         piece = null;
                         space.setValid(true);
                     }
-                    else if (row < 3 && !(row == 1 && col == 0)) {
+                    else if (row > 4 &&!(row == 6 && col == 5)) {
+                        piece = new Piece( RED, Piece.State.OPEN );
+                    }
+
+                    else if (row < 3) {
                         piece = new Piece( Color.WHITE, Piece.State.OPEN );
                     }
-                    else if(row == 4 && col == 3){
-                        piece = new Piece( Color.WHITE, Piece.State.OPEN );
-                    }
+
                     else {
                         piece = null;
                         space.setValid( true );

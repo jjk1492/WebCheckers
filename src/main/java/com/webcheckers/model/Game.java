@@ -116,6 +116,9 @@ public class Game {
             copyBoard.applyMove( pendingMove );
         }
         Move move = pendingMoves.peekLast();
+        if ( activeColor == Color.WHITE ) {
+            move = move.getInverse();
+        }
         if( move.isJump() ) {
             Position end = move.getEnd();
             if ( copyBoard.canJump( end ) ) {
