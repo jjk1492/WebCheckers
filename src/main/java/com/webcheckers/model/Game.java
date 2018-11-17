@@ -117,7 +117,8 @@ public class Game {
         }
         Move move = pendingMoves.peekLast();
         if( move.isJump() ) {
-            if ( copyBoard.hasOpenJump(activeColor) ) {
+            Position end = move.getEnd();
+            if ( copyBoard.canJump( end ) ) {
                 return true;
             }
         }
@@ -143,7 +144,6 @@ public class Game {
         }
         return message;
     }
-
 
 
     /**

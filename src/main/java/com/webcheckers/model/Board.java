@@ -36,9 +36,18 @@ public class Board implements Iterable<Row> {
                 if (row % 2 + col % 2 == 1) {
                     if (row > 4) {
                         piece = new Piece( RED, Piece.State.OPEN );
-                    } else if (row < 3) {
+                    }
+                    else if(row == 1 && col == 0){
+                        piece = null;
+                        space.setValid(true);
+                    }
+                    else if (row < 3 && !(row == 1 && col == 0)) {
                         piece = new Piece( Color.WHITE, Piece.State.OPEN );
-                    } else {
+                    }
+                    else if(row == 4 && col == 3){
+                        piece = new Piece( Color.WHITE, Piece.State.OPEN );
+                    }
+                    else {
                         piece = null;
                         space.setValid( true );
                     }
@@ -274,7 +283,7 @@ public class Board implements Iterable<Row> {
      * @param color active player's color
      * @return true if jump available
      */
-    public boolean hasOpenJump( Color color ) {
+    private boolean hasOpenJump( Color color ) {
         Piece piece;
         for ( Space[] row : spaces ) {
             for ( Space space : row ) {
@@ -363,7 +372,7 @@ public class Board implements Iterable<Row> {
      * @param position
      * @return true if they can jump
      */
-    private boolean canJump( Position position ) {
+    public boolean canJump( Position position ) {
         if ( !positionInBounds( position ) ) {
             return false;
         }
