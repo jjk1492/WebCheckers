@@ -34,22 +34,11 @@ public class Board implements Iterable<Row> {
                 space = spaces[row][col] = new Space(col);
                 space.setValid( false );
                 if (row % 2 + col % 2 == 1) {
-                    if(row == 3 && col == 2){
-                        piece = new Piece( Color.RED, Piece.State.OPEN );
-                    }
-                    else if(row == 6 && col == 5){
-                        piece = null;
-                        space.setValid(true);
-                    }
-                    else if (row > 4 &&!(row == 6 && col == 5)) {
+                    if (row > 4) {
                         piece = new Piece( RED, Piece.State.OPEN );
-                    }
-
-                    else if (row < 3) {
+                    } else if (row < 3) {
                         piece = new Piece( Color.WHITE, Piece.State.OPEN );
-                    }
-
-                    else {
+                    } else {
                         piece = null;
                         space.setValid( true );
                     }
@@ -59,7 +48,6 @@ public class Board implements Iterable<Row> {
         }
         updatePieceStates();
     }
-
 
     /**
      * copy constructor, public accessible
@@ -437,41 +425,41 @@ public class Board implements Iterable<Row> {
     }
 
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for ( int row = 0 ; row < ROWS ; row++ ) {
-            for ( int col = 0 ; col < COLS ; col++ ) {
-//        for ( Row row : this ) {
-//            for ( Space space : row ) {
-                Space space = spaces[row][col];
-//                int row = row.getIndex();
-//                int col = space.getCellIdx();
-                sb.append( String.format( "(%d,%d)", row, col ) );
-                sb.append( space.isValid() ? 'v' : 'i' );
-                if ( space.getPiece() == null ) {
-                    sb.append( "__ " );
-                }
-                else {
-                    String state = null;
-                    switch ( space.getPiece().getState() ) {
-                        case JUMP:
-                            state = "j";
-                            break;
-                        case OPEN:
-                            state = "o";
-                            break;
-                        case BLOCKED:
-                            state = "b";
-                            break;
-                    }
-                    sb.append( state.charAt( 0 ) );
-                    sb.append( space.getPiece().getColor() == RED ? 'r' : 'w' );
-                    sb.append( ' ' );
-                }
-            }
-            sb.append( '\n' );
-        }
-        return sb.toString();
-    }
+//    @Override
+//    public String toString() {
+//        StringBuilder sb = new StringBuilder();
+//        for ( int row = 0 ; row < ROWS ; row++ ) {
+//            for ( int col = 0 ; col < COLS ; col++ ) {
+////        for ( Row row : this ) {
+////            for ( Space space : row ) {
+//                Space space = spaces[row][col];
+////                int row = row.getIndex();
+////                int col = space.getCellIdx();
+//                sb.append( String.format( "(%d,%d)", row, col ) );
+//                sb.append( space.isValid() ? 'v' : 'i' );
+//                if ( space.getPiece() == null ) {
+//                    sb.append( "__ " );
+//                }
+//                else {
+//                    String state = null;
+//                    switch ( space.getPiece().getState() ) {
+//                        case JUMP:
+//                            state = "j";
+//                            break;
+//                        case OPEN:
+//                            state = "o";
+//                            break;
+//                        case BLOCKED:
+//                            state = "b";
+//                            break;
+//                    }
+//                    sb.append( state.charAt( 0 ) );
+//                    sb.append( space.getPiece().getColor() == RED ? 'r' : 'w' );
+//                    sb.append( ' ' );
+//                }
+//            }
+//            sb.append( '\n' );
+//        }
+//        return sb.toString();
+//    }
 }

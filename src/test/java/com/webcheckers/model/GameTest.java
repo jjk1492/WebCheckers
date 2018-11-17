@@ -1,9 +1,11 @@
 package com.webcheckers.model;
 
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -17,6 +19,7 @@ public class GameTest {
     private Player whitePlayer;
     private Game CuT;
     static String validMoveMessage = "Your move was valid!";
+    static String validJumpMessage = "Valid jump!";
 
     @BeforeEach
     public  void setup(){
@@ -240,10 +243,50 @@ public class GameTest {
     }
 
     @Test
-    public void forceJumpTest(){
+    public void noForceJumpTest(){
+        Position start = new Position(5, 6);
+        Position end = new Position(4, 7);
+        Move noJump = new Move(start, end);
+        Message message = CuT.tryMove(noJump);
+        boolean noForce = CuT.forceJump();
+        CuT.applyTurn();
+        assertEquals(message.getText(), validMoveMessage);
+        assertFalse(noForce);
+
+    }
+
+    @Test
+    public void doubleForceJump(){
+        Board whiteBoard = CuT.getWhiteBoard();
+        Board redBoard = CuT.getRedBoard();
+        Position startingPos = new Position(1, 0);
+        Position endPos = new Position(4, 3);
+        Move setUpMove = new Move(startingPos, endPos);
+        whiteBoard.applyMove(setUpMove);
+        redBoard.applyMove(setUpMove);
+
+        redBoard.endTurn();
+        redBoard.endTurn();
+
+        Position jumpStart = new Position(5, 4);
+        Position jumpMiddle = new Position(3, 2);
+        Position jumpEnd = new Position(1, 0);
+
+        Move jump = new Move(jumpStart, jumpMiddle);
+        Move jump2 = new Move(jumpMiddle, jumpEnd);
+        Message message1 = CuT.tryMove(jump);
+        boolean force = CuT.forceJump();
+        assertEquals(message1.getText(), validJumpMessage);
+        assertTrue(force);
+
+        Message message2 = CuT.tryMove(jump2);
+        boolean noForce = CuT.forceJump();
+        assertEquals(message2.getText(), validJumpMessage);
+        assertFalse(noForce);
 
 
     }
+
 
     /**
      * misc tests to get code coverage up

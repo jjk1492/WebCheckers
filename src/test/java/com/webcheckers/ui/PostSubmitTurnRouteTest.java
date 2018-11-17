@@ -1,7 +1,6 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.application.GameCenter;
-import com.webcheckers.model.Game;
 import com.webcheckers.model.Message;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
