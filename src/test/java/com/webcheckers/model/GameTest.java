@@ -239,6 +239,12 @@ public class GameTest {
 
     }
 
+    @Test
+    public void forceJumpTest(){
+
+
+    }
+
     /**
      * misc tests to get code coverage up
      */

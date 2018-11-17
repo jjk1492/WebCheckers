@@ -89,4 +89,18 @@ public class PostSubmitTurnRouteTest {
         }
 
     }
+
+    @Test
+    void forceJumpMessage(){
+        when(request.session().attribute(PostSignInRoute.PLAYER_NAME_ATTR)).thenReturn(redName);
+        when(gameCenter.isPlayerInGame(redName)).thenReturn(true);
+        when(gameCenter.finishTurn( redName )).thenReturn(false);
+        try {
+            Object ret = postSubmitTurnRoute.handle(request, response);
+            assertEquals("{\"type\":\"error\",\"text\":\"You still have a jump you need to make!\"}", ret);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }
