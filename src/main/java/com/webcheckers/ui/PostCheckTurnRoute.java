@@ -22,6 +22,8 @@ import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
 public class PostCheckTurnRoute implements Route {
 
     private static final String OPPONENT_RESIGNED_ERROR = "Your opponent resigned, please redirect to home!";
+    private static final String GAME_WON_ERROR = "You win! Please redirect to home!";
+    private static final String GAME_LOST_ERROR = "You lose! Please redirect to home!";
     private GameCenter gameCenter;
 
     /**
@@ -35,7 +37,7 @@ public class PostCheckTurnRoute implements Route {
     }
 
 
-    /**
+    /**piece-4-3
      * Handles the HTTP request
      * @param request the Spark request object
      * @param response the Spark response object
@@ -46,10 +48,14 @@ public class PostCheckTurnRoute implements Route {
     public Object handle(Request request, Response response) throws Exception {
         String name = request.session().attribute( PLAYER_NAME_ATTR );
         String result = Boolean.toString( gameCenter.isPlayerActive( name ) );
+        String winner = gameCenter.gameWinner(name);
         Message message;
 
-        if (!gameCenter.isPlayerInGame(name)){
-            message = new InfoMessage(OPPONENT_RESIGNED_ERROR);
+        if(winner != null){
+            if (winner.equals(name))
+                message = new ErrorMessage(GAME_WON_ERROR);
+            else
+                message = new ErrorMessage(GAME_LOST_ERROR);
         }
         else {
             message = new InfoMessage(result);
