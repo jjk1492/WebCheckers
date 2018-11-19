@@ -33,6 +33,10 @@ public class PostCheckTurnRouteTest {
     private static final String trueJson = gson.toJson( trueMessage );
     private static final Message falseMessage = new InfoMessage( "false" );
     private static final String falseJson = gson.toJson( falseMessage );
+    private static final Message wonMessage = new ErrorMessage( "You win! Please redirect to home!" );
+    private static final String wonJson = gson.toJson( wonMessage );
+    private static final Message lostMessage = new ErrorMessage( "You lose! Please redirect to home!" );
+    private static final String lostJson = gson.toJson( lostMessage );
 
     private PostCheckTurnRoute route;
 
@@ -42,6 +46,10 @@ public class PostCheckTurnRouteTest {
         // getName same for all
         when( redPlayer.getName() ).thenReturn( redPlayerName );
         when( whitePlayer.getName() ).thenReturn( whitePlayerName );
+
+        // game is not over
+        when(centerMock.gameWinner(redPlayerName)).thenReturn(null);
+        when(centerMock.gameWinner(redPlayerName)).thenReturn(null);
 
         // getRedPlayer and getWhitePlayer same for all
         when( gameMock.getRedPlayer() ).thenReturn( redPlayer );
@@ -144,5 +152,29 @@ public class PostCheckTurnRouteTest {
     public void testHappyConstructor() {
         route = new PostCheckTurnRoute( centerMock );
         assertNotNull( route );
+    }
+
+    @Test
+    public void testGameWon() {
+
+        happySetup( Color.RED, redPlayerName );
+        when(centerMock.gameWinner(redPlayerName)).thenReturn(redPlayerName);
+
+        String expected = wonJson;
+        String actual = getJson();
+
+        assertEquals( expected, actual, "Expected a game won error message" );
+    }
+
+    @Test
+    public void testGameLost() {
+
+        happySetup( Color.RED, redPlayerName );
+        when(centerMock.gameWinner(redPlayerName)).thenReturn(whitePlayerName);
+
+        String expected = lostJson;
+        String actual = getJson();
+
+        assertEquals( expected, actual, "Expected a game lost error message" );
     }
 }
