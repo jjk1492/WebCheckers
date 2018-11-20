@@ -4,6 +4,8 @@ import static com.webcheckers.model.Piece.State.OPEN;
 import static com.webcheckers.model.Piece.Type.KING;
 
 /**
+ * Represents a Kinged Piece
+ *
  * @author Zeke Miller
  */
 public class KingPiece extends Piece {
@@ -16,6 +18,10 @@ public class KingPiece extends Piece {
 
     public KingPiece( Color color, State state ) {
         super( KING, color, state );
+    }
+
+    public KingPiece( Piece piece ) {
+        super( KING, piece.getColor(), piece.getState() );
     }
 
 

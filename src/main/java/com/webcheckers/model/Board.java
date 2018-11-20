@@ -4,6 +4,7 @@ import java.util.*;
 
 import static com.webcheckers.model.Color.RED;
 import static com.webcheckers.model.Color.WHITE;
+import static com.webcheckers.model.Piece.Type.SINGLE;
 
 /**
  * Board class in the model tier
@@ -161,6 +162,7 @@ public class Board implements Iterable<Row> {
         Space startSpace = getSpace( start );
         Space endSpace = getSpace( end );
 
+        // TODO magic strings
         if ( startSpace == null || endSpace == null ) {
             return new ErrorMessage( "Your move was not on valid spaces!" );
         }
@@ -238,8 +240,13 @@ public class Board implements Iterable<Row> {
         Piece subject = startSpace.getPiece();
         startSpace.setPiece( null );
         startSpace.setValid( true );
-        destination.setPiece(subject);
         destination.setValid( false );
+        if ( subject.getType() == SINGLE && end.getRow() % ( ROWS - 1 ) == 0 ) {
+            destination.setPiece( new KingPiece( subject ) );
+        }
+        else {
+            destination.setPiece(subject);
+        }
 
         if ( move.isJump() ) {
             Space halfway = getHalfway( start, end );
