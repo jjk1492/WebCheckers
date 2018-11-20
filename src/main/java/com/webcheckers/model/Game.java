@@ -94,7 +94,7 @@ public class Game {
     /**
      * end of turn operations
      */
-    public void endTurn() {
+    private void endTurn() {
         activeColor = activeColor.getOpposite();
         board.endTurn();
     }
@@ -103,11 +103,14 @@ public class Game {
      * applies the pending moves to the board
      */
     public boolean applyTurn() {
+        if ( pendingMoves.size() == 0 ) {
+            return false;
+        }
         if(forceJump()){
             return false;
         }
         Move move;
-        while ( ( move = pendingMoves.pollLast() ) != null ) {
+        while ( ( move = pendingMoves.pollFirst() ) != null ) {
             board.applyMove( move );
         }
         if(!board.hasUnblockedPieces(activeColor.getOpposite())){
@@ -131,11 +134,8 @@ public class Game {
         if ( activeColor == Color.WHITE ) {
             move = move.getInverse();
         }
-        if( move.isJump() ) {
-            Position end = move.getEnd();
-            if ( copyBoard.canJump( end ) ) {
-                return true;
-            }
+        if( move != null && move.isJump() ) {
+            return copyBoard.canJump( move.getEnd() );
         }
         return false;
     }
@@ -155,7 +155,7 @@ public class Game {
         }
         message = copyBoard.validateMove( move );
         if ( message.getType().equals( Type.info ) ) {
-            pendingMoves.push( move );
+            pendingMoves.offerLast( move );
         }
         return message;
     }
@@ -167,7 +167,7 @@ public class Game {
      */
     public boolean backupMove(){
         if( !pendingMoves.isEmpty() ){
-            pendingMoves.pop();
+            pendingMoves.pollLast();
             return true;
         }
         return false;

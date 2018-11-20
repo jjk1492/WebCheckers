@@ -180,11 +180,11 @@ public class BoardTest {
 
     }
 
-    @Test
-    public void hasPiecesTest(){
-        assertTrue(CuT.hasPieces(RED));
-        assertTrue(CuT.hasPieces(WHITE));
-    }
+//    @Test
+//    public void hasPiecesTest(){
+//        assertTrue(CuT.hasPieces(RED));
+//        assertTrue(CuT.hasPieces(WHITE));
+//    }
 
     @Test
     public void applyJumpTest(){

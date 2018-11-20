@@ -65,7 +65,9 @@ public class GameTest {
         Player playerBeforeSwap = CuT.getActivePlayer();
         Color colorBeforeSwap = CuT.getActiveColor();
 
-        CuT.endTurn();
+        CuT.tryMove( new Move( new Position( 5, 2 ), new Position( 4, 3 ) ) );
+
+        CuT.applyTurn();
 
         Player playerAfterSwap = CuT.getActivePlayer();
         Color colorAfterSwap = CuT.getActiveColor();
@@ -76,7 +78,9 @@ public class GameTest {
         assertEquals(whitePlayer, playerAfterSwap);
         assertEquals(Color.WHITE, colorAfterSwap);
 
-        CuT.endTurn();
+        CuT.tryMove( new Move( new Position( 2, 1 ), new Position( 3, 0 ) ).getInverse() );
+
+        CuT.applyTurn();
 
         //Check swapping for white to red
         assertEquals(redPlayer, CuT.getActivePlayer());
@@ -147,11 +151,14 @@ public class GameTest {
         assertEquals(validMoveMessage, moveMessage.getText());
 
         CuT.applyTurn();
-        CuT.endTurn();
 
-        Position backStartingPos = new Position(4, 1);
-        Position backEndingPos = new Position(5, 0);
-        Move backwardMove = new Move(backStartingPos, backEndingPos);
+        Position whiteStart = new Position( 2, 1 ).getInverse();
+        Position whiteEnd = new Position( 3, 0 ).getInverse();
+        CuT.tryMove( new Move( whiteStart, whiteEnd ) );
+        CuT.applyTurn();
+
+
+        Move backwardMove = new Move(endingPos, startingPos);
         Message backMoveMessage = CuT.tryMove(backwardMove);
         String invalidMoveMessage = "That piece can't do that!";
         assertEquals(Message.Type.error, backMoveMessage.getType());
@@ -271,16 +278,38 @@ public class GameTest {
      */
     @Test
     public void doubleForceJump(){
-        Board whiteBoard = CuT.getWhiteBoard();
-        Board redBoard = CuT.getRedBoard();
-        Position startingPos = new Position(1, 0);
-        Position endPos = new Position(4, 3);
-        Move setUpMove = new Move(startingPos, endPos);
-        whiteBoard.applyMove(setUpMove);
-        redBoard.applyMove(setUpMove);
+        Position redStart1 = new Position( 5, 0 );
+        Position redEnd1 = new Position( 4, 1 );
+        Move red1 = new Move( redStart1, redEnd1 );
+        Position redStart2 = new Position( 6, 1 );
+        Position redEnd2 = redStart1;
+        Move red2 = new Move( redStart2, redEnd2 );
+        Position redStart3 = new Position( 5, 6 );
+        Position redEnd3 = new Position( 4, 7 );
+        Move red3 = new Move( redStart3, redEnd3 );
 
-        redBoard.endTurn();
-        redBoard.endTurn();
+        Position whiteStart1 = new Position( 2, 1 ).getInverse();
+        Position whiteEnd1 = new Position( 3, 2 ).getInverse();
+        Move white1 = new Move( whiteStart1, whiteEnd1 );
+        Position whiteStart2 = new Position( 1, 0 ).getInverse();
+        Position whiteEnd2 = whiteStart1;
+        Move white2 = new Move( whiteStart2, whiteEnd2 );
+        Position whiteStart3 = whiteEnd1;
+        Position whiteEnd3 = new Position( 4, 3 ).getInverse();
+        Move white3 = new Move( whiteStart3, whiteEnd3 );
+
+        CuT.tryMove( red1 );
+        CuT.applyTurn();
+        CuT.tryMove( white1 );
+        CuT.applyTurn();
+        CuT.tryMove( red2 );
+        CuT.applyTurn();
+        CuT.tryMove( white2 );
+        CuT.applyTurn();
+        CuT.tryMove( red3 );
+        CuT.applyTurn();
+        CuT.tryMove( white3 );
+        CuT.applyTurn();
 
         Position jumpStart = new Position(5, 4);
         Position jumpMiddle = new Position(3, 2);

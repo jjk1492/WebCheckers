@@ -253,6 +253,11 @@ public class Board implements Iterable<Row> {
         Space startSpace = getSpace( start );
         Space destination = getSpace( end );
         Piece subject = startSpace.getPiece();
+
+        if ( subject == null ) {
+            return;
+        }
+
         startSpace.setPiece( null );
         startSpace.setValid( true );
         destination.setValid( false );
@@ -375,15 +380,22 @@ public class Board implements Iterable<Row> {
         int startRow = position.getRow();
         int startCol = position.getCell();
         int destRow = startRow + piece.getColor().getIncrement();
+        int backRow = startRow - piece.getColor().getIncrement();
         int rightDestCol = startCol + 1;
         int leftDestCol = startCol - 1;
-        Position rightJump = new Position( destRow, rightDestCol );
-        Position leftJump = new Position( destRow, leftDestCol );
+        Position rightStep = new Position( destRow, rightDestCol );
+        Position leftStep = new Position( destRow, leftDestCol );
+        Position backRightStep = new Position( backRow, rightDestCol );
+        Position backLeftStep = new Position( backRow, leftDestCol );
 
-        return positionInBounds( rightJump ) &&
-                isValidStep( new Move( position, rightJump ) )
-                || positionInBounds( leftJump ) &&
-                isValidStep( new Move( position, leftJump ) );
+        return positionInBounds( rightStep ) &&
+                isValidStep( new Move( position, rightStep ) )
+                || positionInBounds( leftStep ) &&
+                isValidStep( new Move( position, leftStep ) )
+                || positionInBounds( backRightStep ) &&
+                isValidJump( new Move( position, backRightStep ) )
+                || positionInBounds( backLeftStep ) &&
+                isValidJump( new Move( position, backLeftStep ) );
     }
 
 
@@ -403,15 +415,22 @@ public class Board implements Iterable<Row> {
         int startRow = position.getRow();
         int startCol = position.getCell();
         int destRow = startRow + piece.getColor().getIncrement() * 2;
+        int backRow = startRow - piece.getColor().getIncrement() * 2;
         int rightDestCol = startCol + 2;
         int leftDestCol = startCol - 2;
         Position rightJump = new Position( destRow, rightDestCol );
         Position leftJump = new Position( destRow, leftDestCol );
+        Position backRightJump = new Position( backRow, rightDestCol );
+        Position backLeftJump = new Position( backRow, leftDestCol );
 
         return positionInBounds( rightJump ) &&
                 isValidJump( new Move( position, rightJump ) )
                 || positionInBounds( leftJump ) &&
-                isValidJump( new Move( position, leftJump ) );
+                isValidJump( new Move( position, leftJump ) )
+                || positionInBounds( backRightJump ) &&
+                isValidJump( new Move( position, backRightJump ) )
+                || positionInBounds( backLeftJump ) &&
+                isValidJump( new Move( position, backLeftJump ) );
     }
 
 
