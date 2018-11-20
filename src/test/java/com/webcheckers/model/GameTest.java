@@ -208,6 +208,14 @@ public class GameTest {
     }
 
     /**
+     * checks gamewinner
+     */
+    @Test
+    public void gameWinnerTest() {
+        assertNull(CuT.getGameWinner());
+    }
+
+    /**
      * checks if moves get applied for white and red player
      */
     @Test

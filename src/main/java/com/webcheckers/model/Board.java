@@ -118,6 +118,22 @@ public class Board implements Iterable<Row> {
     }
 
     /**
+     * returns whether or not the color has more pieces on the board
+     * @param color the color of the pieces
+     * @return true if there is still pieces of that color that are unblocked, false otherwise
+     */
+    public boolean hasUnblockedPieces(Color color){
+        Piece piece;
+        for (int row = 0; row < ROWS; row++)
+            for (int col = 0; col < COLS; col++) {
+                piece = spaces[row][col].getPiece();
+                if(piece != null && piece.getColor() == color && piece.getState() != Piece.State.BLOCKED)
+                    return true;
+            }
+        return false;
+    }
+
+    /**
      * gets the Space the is halfway between the start and end position for a move; the space that
      * the piece that was taken was previously occupying
      * @param start the starting position for the calculation

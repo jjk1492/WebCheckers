@@ -16,6 +16,7 @@ public class Game {
     private Color activeColor;
     private Board board;
     private Deque<Move> pendingMoves;
+    private String gameWinner;
 
     /**
      * constructor for the game, creates new boards for each player after they are assigned
@@ -28,6 +29,7 @@ public class Game {
         this.activeColor = Color.RED;
         this.board = new Board();
         pendingMoves = new LinkedList<>();
+        gameWinner = null;
     }
 
     /**
@@ -81,6 +83,13 @@ public class Game {
         return whitePlayer;
     }
 
+    /**
+     * get the winner of the game
+     * @return name of winner or null if players still have pieces
+     */
+    public String getGameWinner() {
+        return gameWinner;
+    }
 
     /**
      * end of turn operations
@@ -100,6 +109,9 @@ public class Game {
         Move move;
         while ( ( move = pendingMoves.pollLast() ) != null ) {
             board.applyMove( move );
+        }
+        if(!board.hasUnblockedPieces(activeColor.getOpposite())){
+            gameWinner = getActivePlayer().getName();
         }
         endTurn();
         return true;
