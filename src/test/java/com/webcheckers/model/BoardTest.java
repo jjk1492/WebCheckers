@@ -182,8 +182,8 @@ public class BoardTest {
 
     @Test
     public void hasPiecesTest(){
-        assertTrue(CuT.hasPieces(RED));
-        assertTrue(CuT.hasPieces(WHITE));
+        assertTrue(CuT.hasUnblockedPieces(RED));
+        assertTrue(CuT.hasUnblockedPieces(WHITE));
     }
 
     @Test
