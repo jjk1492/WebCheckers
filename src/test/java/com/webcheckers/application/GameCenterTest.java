@@ -110,5 +110,4 @@ public class GameCenterTest {
         assertEquals(whiteName, gameCenter.gameWinner(redName));
         assertEquals(whiteName, gameCenter.gameWinner(whiteName));
     }
-
 }

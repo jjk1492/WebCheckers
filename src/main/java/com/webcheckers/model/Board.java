@@ -48,7 +48,6 @@ public class Board implements Iterable<Row> {
         }
         updatePieceStates();
     }
-    
 
     /**
      * copy constructor, public accessible
@@ -154,7 +153,7 @@ public class Board implements Iterable<Row> {
         }
         return null;
     }
-  
+
 
     /**
      * checks many conditions to make sure that a move that a player wants to make is valid
@@ -263,12 +262,21 @@ public class Board implements Iterable<Row> {
         updatePieceStates();
     }
 
+    /**
+     * ends a player's turn
+     */
     public void endTurn() {
         activeColor = activeColor.getOpposite();
         canStep = true;
         canJump = true;
     }
 
+    /**
+     * checks if a space is valid
+     * @param rowIndex row to check
+     * @param spaceIndex space to check
+     * @return true if valid
+     */
     public boolean spaceIsValid(int rowIndex, int spaceIndex){
         if ( !positionInBounds( new Position( rowIndex, spaceIndex ) ) ) {
             return false;
@@ -276,7 +284,11 @@ public class Board implements Iterable<Row> {
         return spaces[rowIndex][spaceIndex].isValid();
     }
 
-
+    /**
+     * checks if there is a jump
+     * @param color active player's color
+     * @return true if jump available
+     */
     private boolean hasOpenJump( Color color ) {
         Piece piece;
         for ( Space[] row : spaces ) {
@@ -290,7 +302,11 @@ public class Board implements Iterable<Row> {
         return false;
     }
 
-
+    /**
+     * checks if a simple move is valid
+     * @param move move that is trying to be made
+     * @return true if valid
+     */
     private boolean isValidStep( Move move ) {
         if( move.getStart() != null && move.getEnd() != null && move.isStep() ) {
 
@@ -300,7 +316,7 @@ public class Board implements Iterable<Row> {
             }
 
             return getPiece( move.getEnd() ) == null &&
-                   piece.isValidStep( move );
+                    piece.isValidStep( move );
         }
         return false;
     }
@@ -351,13 +367,18 @@ public class Board implements Iterable<Row> {
         Position leftJump = new Position( destRow, leftDestCol );
 
         return positionInBounds( rightJump ) &&
-                    isValidStep( new Move( position, rightJump ) )
-               || positionInBounds( leftJump ) &&
-                    isValidStep( new Move( position, leftJump ) );
+                isValidStep( new Move( position, rightJump ) )
+                || positionInBounds( leftJump ) &&
+                isValidStep( new Move( position, leftJump ) );
     }
 
-  
-    private boolean canJump( Position position ) {
+
+    /**
+     * checks if a piece can jump
+     * @param position
+     * @return true if they can jump
+     */
+    public boolean canJump( Position position ) {
         if ( !positionInBounds( position ) ) {
             return false;
         }
@@ -374,12 +395,15 @@ public class Board implements Iterable<Row> {
         Position leftJump = new Position( destRow, leftDestCol );
 
         return positionInBounds( rightJump ) &&
-                    isValidJump( new Move( position, rightJump ) )
-               || positionInBounds( leftJump ) &&
-                    isValidJump( new Move( position, leftJump ) );
+                isValidJump( new Move( position, rightJump ) )
+                || positionInBounds( leftJump ) &&
+                isValidJump( new Move( position, leftJump ) );
     }
 
 
+    /**
+     * updates the status of a piece
+     */
     private void updatePieceStates() {
         Space space;
         Piece piece;
@@ -417,41 +441,41 @@ public class Board implements Iterable<Row> {
     }
 
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for ( int row = 0 ; row < ROWS ; row++ ) {
-            for ( int col = 0 ; col < COLS ; col++ ) {
-//        for ( Row row : this ) {
-//            for ( Space space : row ) {
-                Space space = spaces[row][col];
-//                int row = row.getIndex();
-//                int col = space.getCellIdx();
-                sb.append( String.format( "(%d,%d)", row, col ) );
-                sb.append( space.isValid() ? 'v' : 'i' );
-                if ( space.getPiece() == null ) {
-                    sb.append( "__ " );
-                }
-                else {
-                    String state = null;
-                    switch ( space.getPiece().getState() ) {
-                        case JUMP:
-                            state = "j";
-                            break;
-                        case OPEN:
-                            state = "o";
-                            break;
-                        case BLOCKED:
-                            state = "b";
-                            break;
-                    }
-                    sb.append( state.charAt( 0 ) );
-                    sb.append( space.getPiece().getColor() == RED ? 'r' : 'w' );
-                    sb.append( ' ' );
-                }
-            }
-            sb.append( '\n' );
-        }
-        return sb.toString();
-    }
+//    @Override
+//    public String toString() {
+//        StringBuilder sb = new StringBuilder();
+//        for ( int row = 0 ; row < ROWS ; row++ ) {
+//            for ( int col = 0 ; col < COLS ; col++ ) {
+////        for ( Row row : this ) {
+////            for ( Space space : row ) {
+//                Space space = spaces[row][col];
+////                int row = row.getIndex();
+////                int col = space.getCellIdx();
+//                sb.append( String.format( "(%d,%d)", row, col ) );
+//                sb.append( space.isValid() ? 'v' : 'i' );
+//                if ( space.getPiece() == null ) {
+//                    sb.append( "__ " );
+//                }
+//                else {
+//                    String state = null;
+//                    switch ( space.getPiece().getState() ) {
+//                        case JUMP:
+//                            state = "j";
+//                            break;
+//                        case OPEN:
+//                            state = "o";
+//                            break;
+//                        case BLOCKED:
+//                            state = "b";
+//                            break;
+//                    }
+//                    sb.append( state.charAt( 0 ) );
+//                    sb.append( space.getPiece().getColor() == RED ? 'r' : 'w' );
+//                    sb.append( ' ' );
+//                }
+//            }
+//            sb.append( '\n' );
+//        }
+//        return sb.toString();
+//    }
 }

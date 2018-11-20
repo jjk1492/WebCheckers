@@ -45,6 +45,7 @@ public class PostSubmitTurnRouteTest {
     public void submitTurn() {
         when(request.session().attribute(PostSignInRoute.PLAYER_NAME_ATTR)).thenReturn(redName);
         when(gameCenter.isPlayerInGame(redName)).thenReturn(true);
+        when(gameCenter.finishTurn( redName )).thenReturn(true);
         when(gameCenter.isPlayerActive(redName)).thenReturn(false);
 
         try {
@@ -62,6 +63,7 @@ public class PostSubmitTurnRouteTest {
     void errorMessage() {
         when(request.session().attribute(PostSignInRoute.PLAYER_NAME_ATTR)).thenReturn(redName);
         when(gameCenter.isPlayerInGame(redName)).thenReturn(true);
+        when(gameCenter.finishTurn( redName )).thenReturn(true);
         when(gameCenter.isPlayerActive(redName)).thenReturn(true);
 
         try {
@@ -80,10 +82,25 @@ public class PostSubmitTurnRouteTest {
     void gameEnded() {
         when(request.session().attribute(PostSignInRoute.PLAYER_NAME_ATTR)).thenReturn(redName);
         when(gameCenter.isPlayerInGame(redName)).thenReturn(false);
+        when(gameCenter.finishTurn( redName )).thenReturn(true);
 
         try {
             Object ret = postSubmitTurnRoute.handle(request, response);
             assertEquals("{\"type\":\"info\",\"text\":\"The game has ended, please redirect to home!\"}", ret);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Test
+    void forceJumpMessage(){
+        when(request.session().attribute(PostSignInRoute.PLAYER_NAME_ATTR)).thenReturn(redName);
+        when(gameCenter.isPlayerInGame(redName)).thenReturn(true);
+        when(gameCenter.finishTurn( redName )).thenReturn(false);
+        try {
+            Object ret = postSubmitTurnRoute.handle(request, response);
+            assertEquals("{\"type\":\"error\",\"text\":\"You still have a jump you need to make!\"}", ret);
         } catch (Exception e) {
             e.printStackTrace();
         }
