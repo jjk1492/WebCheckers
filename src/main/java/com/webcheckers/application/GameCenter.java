@@ -26,7 +26,7 @@ public class GameCenter {
         gameWinners = new HashMap<>();
         this.playerLobby = playerLobby;
     }
-    
+
 
     /**
      * makes a game
@@ -52,7 +52,7 @@ public class GameCenter {
         playersInGame.put(whitePlayer, game);
 
         LOG.finer( String.format( "Made a game for %s and %s", redPlayer,
-                                  whitePlayer ) );
+                whitePlayer ) );
 
         return true;
     }
@@ -96,11 +96,13 @@ public class GameCenter {
      * used to fully apply a player's turn when prepared to do so
      * @param name the player applying their turn
      */
-    public void finishTurn( String name ) {
+    public boolean finishTurn( String name ) {
         Game game = getGame( name );
+        boolean applied = false;
         if ( game != null ) {
-            game.applyTurn();
+            applied = game.applyTurn();
         }
+        return applied;
     }
 
     /**

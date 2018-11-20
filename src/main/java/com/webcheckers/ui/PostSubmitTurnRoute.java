@@ -22,6 +22,7 @@ public class PostSubmitTurnRoute implements Route {
     private static final String SWAP_TURN_ERROR = "Could not submit turn, please try again!";
     private static final String SUBMIT_TURN_INFO = "Turn submitted!";
     private static final String GAME_OVER_INFO = "The game has ended, please redirect to home!";
+    private static final String FORCE_JUMP = "You still have a jump you need to make!";
     private GameCenter gameCenter;
 
     public PostSubmitTurnRoute(GameCenter gameCenter){
@@ -36,9 +37,13 @@ public class PostSubmitTurnRoute implements Route {
 
         if(gameCenter.isPlayerInGame(name)){
 
-            gameCenter.finishTurn( name );
+            boolean success = gameCenter.finishTurn( name );
 
-            if (gameCenter.isPlayerActive(name)) {
+            if(!success){
+                message = new ErrorMessage(FORCE_JUMP);
+            }
+
+            else if (gameCenter.isPlayerActive(name)) {
                 message = new ErrorMessage(SWAP_TURN_ERROR);
             }
             else {
