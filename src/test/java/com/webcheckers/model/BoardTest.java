@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static com.webcheckers.model.Color.RED;
+import static com.webcheckers.model.Color.WHITE;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -177,6 +178,12 @@ public class BoardTest {
         Piece p = CuT.getPiece(start);
         assertNull(p);
 
+    }
+
+    @Test
+    public void hasPiecesTest(){
+        assertTrue(CuT.hasPieces(RED));
+        assertTrue(CuT.hasPieces(WHITE));
     }
 
     @Test

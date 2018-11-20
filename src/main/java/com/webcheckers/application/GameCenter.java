@@ -18,13 +18,15 @@ public class GameCenter {
             .getLogger( GameCenter.class.getName() );
 
     private Map<String,Game> playersInGame;
+    private Map<String,String> gameWinners; //<player, winner> of previous games
     private PlayerLobby playerLobby;
 
     public GameCenter( PlayerLobby playerLobby ) {
         playersInGame = new HashMap<>();
+        gameWinners = new HashMap<>();
         this.playerLobby = playerLobby;
     }
-    
+
 
     /**
      * makes a game
@@ -50,7 +52,7 @@ public class GameCenter {
         playersInGame.put(whitePlayer, game);
 
         LOG.finer( String.format( "Made a game for %s and %s", redPlayer,
-                                  whitePlayer ) );
+                whitePlayer ) );
 
         return true;
     }
@@ -94,11 +96,13 @@ public class GameCenter {
      * used to fully apply a player's turn when prepared to do so
      * @param name the player applying their turn
      */
-    public void finishTurn( String name ) {
+    public boolean finishTurn( String name ) {
         Game game = getGame( name );
+        boolean applied = false;
         if ( game != null ) {
-            game.applyTurn();
+            applied = game.applyTurn();
         }
+        return applied;
     }
 
     /**
@@ -118,11 +122,29 @@ public class GameCenter {
     }
 
     /**
+     * @return the winner of the game or null if the game has not been won
+     * @param name of a player in the game
+     */
+    public synchronized String gameWinner(String name){
+        if (!isPlayerInGame(name)){
+            return gameWinners.get(name);
+        }
+        String winner = getGame(name).getGameWinner();
+        if (winner != null){
+            finishedGame(getOpponent(winner));
+        }
+        return winner;
+    }
+
+    /**
      * removes players from playersInGame
+     * and adds them to gameWinners
      * @param player1 player we want to remove
      */
     public synchronized void finishedGame( String player1) {
         String opponent = getOpponent(player1);
+        gameWinners.put(player1, opponent);
+        gameWinners.put(opponent,opponent);
         if(isPlayerInGame(player1)){
             playersInGame.remove(player1);
             if(isPlayerInGame(opponent)) {
