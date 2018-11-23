@@ -186,7 +186,6 @@ public class BoardTest {
 
     @Test
     public void jumpOverOwnPieceWhite(){
-//        CuT.fillBoard(Color.WHITE);
         Position whiteStart = new Position(6,5);
         Position whiteEnd = new Position(4,7);
         Move moveWhite = new Move(whiteStart,whiteEnd);
@@ -200,7 +199,6 @@ public class BoardTest {
 
     @Test
     public void validJump(){
-
         Position whiteOccupy = new Position(4, 1);
         Space space = CuT.getSpace(whiteOccupy);
         Piece whitePiece = new SinglePiece(Color.WHITE, Piece.State.OPEN);
@@ -215,6 +213,10 @@ public class BoardTest {
         assertEquals(message.getType(), Message.Type.info);
         assertEquals(message.getText(), validJump);
 
+    }
+
+    @Test
+    void jumpOverOwnPieceTesr(){
 
     }
 
