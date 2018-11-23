@@ -169,9 +169,6 @@ public class Board implements Iterable<Row> {
      * @return a message based on whether or not the move was valid or invalid and why
      */
     public Message validateMove( Move move ) {
-        if ( activeColor == Color.WHITE ) {
-            move = move.getInverse();
-        }
         Position start = move.getStart();
         Position end = move.getEnd();
         Space startSpace = getSpace( start );
@@ -243,10 +240,6 @@ public class Board implements Iterable<Row> {
      * @param move the move to be applied
      */
     public void applyMove( Move move ) {
-        if ( activeColor == WHITE ) {
-            move = move.getInverse();
-        }
-//        System.out.println( "applying " + move + " for " + activeColor );
         Position start = move.getStart();
         Position end = move.getEnd();
 

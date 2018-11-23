@@ -78,13 +78,13 @@ public class GameTest {
         assertEquals(whitePlayer, playerAfterSwap);
         assertEquals(Color.WHITE, colorAfterSwap);
 
-        CuT.tryMove( new Move( new Position( 2, 1 ), new Position( 3, 0 ) ).getInverse() );
+        CuT.tryMove( new Move( new Position( 2, 1 ), new Position( 3, 0 ) ) );
 
         CuT.applyTurn();
 
         //Check swapping for white to red
-        assertEquals(redPlayer, CuT.getActivePlayer());
         assertEquals(Color.RED, CuT.getActiveColor());
+        assertEquals(redPlayer, CuT.getActivePlayer());
 
     }
 
@@ -152,8 +152,8 @@ public class GameTest {
 
         CuT.applyTurn();
 
-        Position whiteStart = new Position( 2, 1 ).getInverse();
-        Position whiteEnd = new Position( 3, 0 ).getInverse();
+        Position whiteStart = new Position( 2, 1 );
+        Position whiteEnd = new Position( 3, 0 );
         CuT.tryMove( new Move( whiteStart, whiteEnd ) );
         CuT.applyTurn();
 
@@ -246,8 +246,8 @@ public class GameTest {
         active = CuT.getActiveColor();
         assertEquals(active, Color.WHITE);
 
-        Move firstMoveWhite = new Move(startingPos, validEndingPosLeft);
-        Move secondMoveWhite = new Move(startingPos, validEndingPosRight);
+        Move firstMoveWhite = new Move(startingPos, validEndingPosLeft).getInverse();
+        Move secondMoveWhite = new Move(startingPos, validEndingPosRight).getInverse();
         Message message = CuT.tryMove(firstMoveWhite);
         CuT.backupMove();
         Message message1 = CuT.tryMove(secondMoveWhite);
@@ -288,14 +288,14 @@ public class GameTest {
         Position redEnd3 = new Position( 4, 7 );
         Move red3 = new Move( redStart3, redEnd3 );
 
-        Position whiteStart1 = new Position( 2, 1 ).getInverse();
-        Position whiteEnd1 = new Position( 3, 2 ).getInverse();
+        Position whiteStart1 = new Position( 2, 1 );
+        Position whiteEnd1 = new Position( 3, 2 );
         Move white1 = new Move( whiteStart1, whiteEnd1 );
-        Position whiteStart2 = new Position( 1, 0 ).getInverse();
+        Position whiteStart2 = new Position( 1, 0 );
         Position whiteEnd2 = whiteStart1;
         Move white2 = new Move( whiteStart2, whiteEnd2 );
         Position whiteStart3 = whiteEnd1;
-        Position whiteEnd3 = new Position( 4, 3 ).getInverse();
+        Position whiteEnd3 = new Position( 4, 3 );
         Move white3 = new Move( whiteStart3, whiteEnd3 );
 
         CuT.tryMove( red1 );

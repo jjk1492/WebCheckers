@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static com.webcheckers.model.Color.RED;
-import static com.webcheckers.model.Color.WHITE;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -37,36 +36,12 @@ public class BoardTest {
         assertNull(CuT.getSpace(new Position(9,9)));
     }
 
-//    /**
-//     * test to fill red board
-//     */
-//    @Test
-//    public void fillRedBoardTest(){
-//
-////        CuT.fillBoard(RED);
-//        for(int r =0; r<8; r++)
-//            for(int c = 0; c<8;c++)
-//                if(r > 4 || r < 3) {
-//                    assertFalse(CuT.spaceIsValid(r,c));
-//                    if((r + c) % 2 == 1){
-//                        if (r > 4){
-//                            assertSame(CuT.getPiece(new Position(r, c)).getColor(), RED);
-//                        }else assertSame(CuT.getPiece(new Position(r, c)).getColor(), Color.WHITE);
-//                    }
-//                    else {
-//                        assertNull(CuT.getPiece(new Position(r, c)));
-//                    }
-//
-//                }else if((r + c) % 2 == 0) assertFalse(CuT.spaceIsValid(r,c));
-//    }
 
     /**
      * test to fill white board
      */
     @Test
     public void fillWhiteBoardTest(){
-
-//        CuT.fillBoard(Color.WHITE);
         CuT = CuT.flipped();
         for(int r =0; r<8; r++)
             for(int c = 0; c<8;c++)
@@ -89,7 +64,6 @@ public class BoardTest {
      */
     @Test
     public void copyConstructorTest(){
-//        CuT.fillBoard(RED);
         Board copyCuT = new Board(CuT);
 
         for(int r =0; r<8; r++)
@@ -134,7 +108,6 @@ public class BoardTest {
      */
     @Test
     public void validateMoveTest(){
-//        CuT.fillBoard(Color.RED);
         Position start = new Position(5,0);
         Position end = new Position(4,1);
         Move move = new Move(start,end);
@@ -168,11 +141,9 @@ public class BoardTest {
 
     @Test
     public void applyMoveTest(){
-//        CuT.fillBoard(RED);
         Position start = new Position(5,0);
         Position end = new Position(4,1);
         Move move= new Move(start,end);
-//        Piece piece = CuT.getPiece(start);
         CuT.applyMove(move);
         assertTrue(CuT.getPiece(end).getColor() == RED);
         Piece p = CuT.getPiece(start);
@@ -180,11 +151,6 @@ public class BoardTest {
 
     }
 
-//    @Test
-//    public void hasPiecesTest(){
-//        assertTrue(CuT.hasPieces(RED));
-//        assertTrue(CuT.hasPieces(WHITE));
-//    }
 
     @Test
     public void applyJumpTest(){
@@ -257,6 +223,10 @@ public class BoardTest {
         assertNotNull(CuT.iterator());
     }
 
+
+    /**
+     * tests to make sure pieces are crowned at the correct time
+     */
     @Test
     public void crowningTest() {
         /*
@@ -273,26 +243,26 @@ public class BoardTest {
         Position redStart1 = new Position(5, 0);
         Position redEnd1 = new Position(4, 1);
         Move red1 = new Move(redStart1, redEnd1);
-        Position whiteStart1 = new Position(2, 5).getInverse();
-        Position whiteEnd1 = new Position(3, 4).getInverse();
+        Position whiteStart1 = new Position(2, 5);
+        Position whiteEnd1 = new Position(3, 4);
         Move white1 = new Move(whiteStart1, whiteEnd1);
         Position redStart2 = new Position(4, 1);
         Position redEnd2 = new Position(3, 0);
         Move red2 = new Move(redStart2, redEnd2);
-        Position whiteStart2 = new Position(1, 6).getInverse();
+        Position whiteStart2 = new Position(1, 6);
         Position whiteEnd2 = whiteStart1;
         Move white2 = new Move(whiteStart2, whiteEnd2);
         Position redStart3 = new Position(6, 1);
         Position redEnd3 = redStart1;
         Move red3 = new Move(redStart3, redEnd3);
-        Position whiteStart3 = new Position(0, 7).getInverse();
+        Position whiteStart3 = new Position(0, 7);
         Position whiteEnd3 = whiteStart2;
         Move white3 = new Move(whiteStart3, whiteEnd3);
         Position redStart4 = new Position(5, 4);
         Position redEnd4 = new Position(4, 3);
         Move red4 = new Move(redStart4, redEnd4);
         Position whiteStart4 = whiteStart1;
-        Position whiteEnd4 = new Position( 3, 6 ).getInverse();
+        Position whiteEnd4 = new Position( 3, 6 );
         Move white4 = new Move( whiteStart4, whiteEnd4 );
         Position redStart5 = redEnd4;
         Position redMid5 = new Position( 2, 5 );
@@ -302,20 +272,36 @@ public class BoardTest {
 
         CuT.applyMove( red1 );
         CuT.endTurn();
+        assertEquals( Piece.Type.SINGLE, CuT.getPiece( redEnd1 ).getType() );
+        assertEquals( Color.RED, CuT.getPiece( redEnd1 ).getColor() );
         CuT.applyMove( white1 );
         CuT.endTurn();
+        assertEquals( Piece.Type.SINGLE, CuT.getPiece( whiteEnd1 ).getType() );
+        assertEquals( Color.WHITE, CuT.getPiece( whiteEnd1 ).getColor() );
         CuT.applyMove( red2 );
         CuT.endTurn();
+        assertEquals( Piece.Type.SINGLE, CuT.getPiece( redEnd2 ).getType() );
+        assertEquals( Color.RED, CuT.getPiece( redEnd2 ).getColor() );
         CuT.applyMove( white2 );
         CuT.endTurn();
+        assertEquals( Piece.Type.SINGLE, CuT.getPiece( whiteEnd2 ).getType() );
+        assertEquals( Color.WHITE, CuT.getPiece( whiteEnd2 ).getColor() );
         CuT.applyMove( red3 );
         CuT.endTurn();
+        assertEquals( Piece.Type.SINGLE, CuT.getPiece( redEnd3 ).getType() );
+        assertEquals( Color.RED, CuT.getPiece( redEnd3 ).getColor() );
         CuT.applyMove( white3 );
         CuT.endTurn();
+        assertEquals( Piece.Type.SINGLE, CuT.getPiece( whiteEnd3 ).getType() );
+        assertEquals( Color.WHITE, CuT.getPiece( whiteEnd3 ).getColor() );
         CuT.applyMove( red4 ) ;
         CuT.endTurn();
+        assertEquals( Piece.Type.SINGLE, CuT.getPiece( redEnd4 ).getType() );
+        assertEquals( Color.RED, CuT.getPiece( redEnd4 ).getColor() );
         CuT.applyMove( white4 );
         CuT.endTurn();
+        assertEquals( Piece.Type.SINGLE, CuT.getPiece( whiteEnd4 ).getType() );
+        assertEquals( Color.WHITE, CuT.getPiece( whiteEnd4 ).getColor() );
         CuT.applyMove( red51 );
         CuT.applyMove( red52 );
         CuT.endTurn();

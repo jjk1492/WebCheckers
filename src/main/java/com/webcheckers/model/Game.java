@@ -53,7 +53,7 @@ public class Game {
      * @return Board
      */
     public Board getRedBoard() {
-        return board;
+        return new Board( board );
     }
 
     /**
