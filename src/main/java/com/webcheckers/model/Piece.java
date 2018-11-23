@@ -96,6 +96,8 @@ public class Piece {
         this.currentState = state;
     }
 
+    public void kingPiece(){ this.type = Type.KING; }
+
 
     @Override
     public boolean equals(Object other) {

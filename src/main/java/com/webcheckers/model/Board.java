@@ -259,6 +259,7 @@ public class Board implements Iterable<Row> {
         }
         canStep = false;
 
+        checkKing(subject, end);
         updatePieceStates();
     }
 
@@ -426,6 +427,17 @@ public class Board implements Iterable<Row> {
                     }
                     piece.setState( state );
                 }
+            }
+        }
+    }
+
+    private void checkKing( Piece piece, Position endPos ){
+        if( piece != null && endPos != null){
+            if( piece.getColor() == RED && endPos.getRow() == 0){
+                piece.kingPiece();
+            }
+            else if( piece.getColor() == WHITE && endPos.getRow() == ROWS-1){
+                piece.kingPiece();
             }
         }
     }
