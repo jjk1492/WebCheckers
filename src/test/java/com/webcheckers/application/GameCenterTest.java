@@ -99,6 +99,7 @@ public class GameCenterTest {
         assertNull(gameCenter.getOpponent(redName));
     }
 
+
     @Test
     void gameWinner(){
         playerLobby.addPlayer(redName);
@@ -110,5 +111,4 @@ public class GameCenterTest {
         assertEquals(whiteName, gameCenter.gameWinner(redName));
         assertEquals(whiteName, gameCenter.gameWinner(whiteName));
     }
-
 }
