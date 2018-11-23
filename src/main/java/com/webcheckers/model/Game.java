@@ -131,9 +131,9 @@ public class Game {
             copyBoard.applyMove( pendingMove );
         }
         Move move = pendingMoves.peekLast();
-        if ( activeColor == Color.WHITE ) {
-            move = move.getInverse();
-        }
+//        if ( activeColor == Color.WHITE ) {
+//            move = move.getInverse();
+//        }
         if( move != null && move.isJump() ) {
             return copyBoard.canJump( move.getEnd() );
         }
