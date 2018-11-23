@@ -69,8 +69,8 @@ public class Move {
     }
 
 
-    @Override
-    public String toString() {
-        return start.toString() + " " + end.toString();
-    }
+//    @Override
+//    public String toString() {
+//        return start.toString() + " " + end.toString();
+//    }
 }
