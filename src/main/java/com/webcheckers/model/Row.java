@@ -7,8 +7,8 @@ import java.util.*;
 * */
 public class Row implements Iterable<Space> {
 
-    private List<Space> spaces;
-    private int index;
+    private final List<Space> spaces;
+    private final int index;
 
     /**
       * constructs a new Row

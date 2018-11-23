@@ -257,4 +257,69 @@ public class BoardTest {
         assertNotNull(CuT.iterator());
     }
 
+    @Test
+    public void crowningTest() {
+        /*
+        5,0 -> 4,1
+        2,5 -> 3,4
+        4,1 -> 3,0
+        1,6 -> 2,5
+        6,1 -> 5,0
+        0,7 -> 1,6
+        5,4 -> 4,3
+        2,5 -> 3,6
+        4,3 -> 2,5 -> 0,7
+        */
+        Position redStart1 = new Position(5, 0);
+        Position redEnd1 = new Position(4, 1);
+        Move red1 = new Move(redStart1, redEnd1);
+        Position whiteStart1 = new Position(2, 5).getInverse();
+        Position whiteEnd1 = new Position(3, 4).getInverse();
+        Move white1 = new Move(whiteStart1, whiteEnd1);
+        Position redStart2 = new Position(4, 1);
+        Position redEnd2 = new Position(3, 0);
+        Move red2 = new Move(redStart2, redEnd2);
+        Position whiteStart2 = new Position(1, 6).getInverse();
+        Position whiteEnd2 = whiteStart1;
+        Move white2 = new Move(whiteStart2, whiteEnd2);
+        Position redStart3 = new Position(6, 1);
+        Position redEnd3 = redStart1;
+        Move red3 = new Move(redStart3, redEnd3);
+        Position whiteStart3 = new Position(0, 7).getInverse();
+        Position whiteEnd3 = whiteStart2;
+        Move white3 = new Move(whiteStart3, whiteEnd3);
+        Position redStart4 = new Position(5, 4);
+        Position redEnd4 = new Position(4, 3);
+        Move red4 = new Move(redStart4, redEnd4);
+        Position whiteStart4 = whiteStart1;
+        Position whiteEnd4 = new Position( 3, 6 ).getInverse();
+        Move white4 = new Move( whiteStart4, whiteEnd4 );
+        Position redStart5 = redEnd4;
+        Position redMid5 = new Position( 2, 5 );
+        Position redEnd5 = new Position( 0,7 );
+        Move red51 = new Move( redStart5, redMid5 );
+        Move red52 = new Move( redMid5, redEnd5 );
+
+        CuT.applyMove( red1 );
+        CuT.endTurn();
+        CuT.applyMove( white1 );
+        CuT.endTurn();
+        CuT.applyMove( red2 );
+        CuT.endTurn();
+        CuT.applyMove( white2 );
+        CuT.endTurn();
+        CuT.applyMove( red3 );
+        CuT.endTurn();
+        CuT.applyMove( white3 );
+        CuT.endTurn();
+        CuT.applyMove( red4 ) ;
+        CuT.endTurn();
+        CuT.applyMove( white4 );
+        CuT.endTurn();
+        CuT.applyMove( red51 );
+        CuT.applyMove( red52 );
+        CuT.endTurn();
+        assertEquals( Piece.Type.KING, CuT.getPiece( redEnd5 ).getType() );
+        assertEquals( Color.RED, CuT.getPiece( redEnd5 ).getColor() );
+    }
 }

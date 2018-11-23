@@ -5,8 +5,8 @@ package com.webcheckers.model;
  */
 public class Move {
 
-    private Position start;
-    private Position end;
+    private final Position start;
+    private final Position end;
 
     /**
      * constructs Move object
