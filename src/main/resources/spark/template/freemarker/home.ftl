@@ -13,7 +13,7 @@
             <div class="navigation">
                 <a href="/">my home</a>
                 <#if signedIn && name??>
-                    You're currently signed in as ${name}
+                    <a href="/signout">sign out [${currentPlayer.name}]</a>
                 <#else >
                     <a href="/signin">sign in</a>
                 </#if>
