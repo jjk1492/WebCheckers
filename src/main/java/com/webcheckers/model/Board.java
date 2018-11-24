@@ -79,11 +79,20 @@ public class Board implements Iterable<Row> {
         }
     }
 
+    /**
+     * Used to flip the board to be displayed
+     * @return the flipped board
+     */
     public Board flipped() {
         return new Board( this, true );
     }
 
 
+    /**
+     * boolean to make sure a position is a valid position on the board
+     * @param position - the position in question
+     * @return true iff the position is located on the board
+     */
     public boolean positionInBounds(Position position ) {
         return ( position.getRow() >= 0 && position.getRow() < ROWS &&
                 position.getCell() >= 0 && position.getCell() < COLS );
