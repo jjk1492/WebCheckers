@@ -76,7 +76,7 @@ define(function(require){
     this.addButton(PlayModeConstants.RESIGN_BUTTON_ID, 'Resign', true,
             PlayModeConstants.RESIGN_BUTTON_TOOLTIP, this.resignGame);
       this.addButton(PlayModeConstants.HINT_BUTTON_ID,'Hint', true,
-          PlayModeConstants.HINT_BUTTON_TOOLTIP, this.getHint);
+          PlayModeConstants.HINT_BUTTON_TOOLTIP, this.requestHint);
 
     // Public (internal) methods
 
@@ -128,8 +128,8 @@ define(function(require){
     this._delegateStateMessage('backupMove', arguments);
   };
 
-  PlayController.prototype.getHint = function getHint() {
-    this._delegateStateMessage('hint', arguments);
+  PlayController.prototype.requestHint = function requestHint() {
+    this._delegateStateMessage('requestHint', arguments);
   };
 
   /**

@@ -68,6 +68,10 @@ define(function(require){
     this._controller.setState(PlayModeConstants.REQUESTING_BACKUP_MOVE);
   };
 
+  StableTurnState.prototype.requestHint = function requestHint() {
+    this._controller.setState(PlayModeConstants.REQUEST_HINT);
+  };
+
   /**
    * Submit the Turn to the server.
    * 

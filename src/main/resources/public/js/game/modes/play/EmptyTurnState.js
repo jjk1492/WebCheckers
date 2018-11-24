@@ -67,6 +67,10 @@ define(function(require){
     this._controller.setState(PlayModeConstants.VALIDATING_MOVE);
   };
 
+  EmptyTurnState.prototype.requestHint = function requestHint() {
+    this._controller.setState(PlayModeConstants.REQUEST_HINT);
+  };
+
   /**
    * Beep to alert the player that it's their turn
    */
