@@ -226,11 +226,7 @@ public class BoardTest {
     }
 
 
-    /**
-     * tests to make sure pieces are crowned at the correct time
-     */
-    @Test
-    public void crowningTest() {
+    private void kingSetup() {
         /*
         5,0 -> 4,1
         2,5 -> 3,4
@@ -307,7 +303,39 @@ public class BoardTest {
         CuT.applyMove( red51 );
         CuT.applyMove( red52 );
         CuT.endTurn();
-        assertEquals( Piece.Type.KING, CuT.getPiece( redEnd5 ).getType() );
-        assertEquals( Color.RED, CuT.getPiece( redEnd5 ).getColor() );
+    }
+
+    /**
+     * tests to make sure pieces are crowned at the correct time
+     */
+    @Test
+    public void crowningTest() {
+        Position endPosition = new Position( 0, 7 );
+        assertEquals( Piece.Type.SINGLE, CuT.getPiece( endPosition ).getType() );
+        assertEquals( Color.WHITE, CuT.getPiece( endPosition ).getColor() );
+        kingSetup();
+        assertEquals( Piece.Type.KING, CuT.getPiece( endPosition ).getType() );
+        assertEquals( Color.RED, CuT.getPiece( endPosition ).getColor() );
+    }
+
+
+    /**
+     * tests to make sure pieces are crowned at the correct time
+     */
+    @Test
+    public void backwardsMoveTest() {
+        kingSetup();
+        Position endPosition = new Position( 0, 7 );
+        assertEquals( Piece.Type.KING, CuT.getPiece( endPosition ).getType() );
+        assertEquals( Color.RED, CuT.getPiece( endPosition ).getColor() );
+        Position newEnd = new Position( 1, 6 );
+        Move backwardsGood = new Move( endPosition, newEnd );
+        assertTrue( CuT.getPiece( endPosition ).isValidStep( backwardsGood ) );
+        Move whiteMove = new Move( new Position( 3, 6 ), new Position( 4, 7 ) );
+        CuT.applyMove( whiteMove );
+        CuT.endTurn();
+        CuT.applyMove( backwardsGood );
+        assertEquals( Piece.Type.KING, CuT.getPiece( newEnd ).getType() );
+        assertEquals( Color.RED, CuT.getPiece( newEnd ).getColor() );
     }
 }
