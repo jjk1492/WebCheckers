@@ -21,6 +21,7 @@ define(function(){
       ,REQUESTING_BACKUP_MOVE: 'Requesting Backup Move on the Server'
       ,WAIT_FOR_MY_TURN: 'Waiting for My Turn'
       ,CHECK_MY_TURN: 'Checking for My Turn on the Server'
+      ,REQUEST_HINT: 'Finding possible moves to provide a hint'
 
       //
       // Buttons

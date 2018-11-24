@@ -23,6 +23,7 @@ define(function(require){
   const RequestingBackupMove = require('./RequestingBackupMove');
   const WaitForTurnState = require('./WaitForTurnState');
   const CheckMyTurnState = require('./CheckMyTurnState');
+  const RequestHintState = require('./RequestHintState')
   
   //
   // Constructor
@@ -62,6 +63,8 @@ define(function(require){
             new WaitForTurnState(this));
     this.addStateDefinition(PlayModeConstants.CHECK_MY_TURN,
             new CheckMyTurnState(this));
+    this.addStateDefinition(PlayModeConstants.REQUEST_HINT,
+        new RequestHintState(this));
     
     // Add the Controls toolbar mixin
     ControlsToolbarMixin.call(this);
