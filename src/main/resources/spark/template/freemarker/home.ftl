@@ -30,6 +30,15 @@
                 </#if>
 
                 <#if players??>
+                    <#if signedIn>
+                        <form id="AI_PLAYER" action="./" method="POST">
+                            <input type="hidden" name="opponent" value='AI_PLAYER'>
+                            <a href="javascript:{}"
+                                onclick="document.getElementById
+                                ('AI_PLAYER').submit();
+                                return false;">Click here to play against computer.</a>
+                        </form>
+                    </#if>
                     <#if !signedIn>
                         Currently signed in players: ${players?size}
                     <#elseif players?size gt 1>
