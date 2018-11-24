@@ -37,18 +37,6 @@ public abstract class Piece {
         this.type = type;
     }
 
-
-    /**
-     * Copy constructor
-     * @param piece the piece to copy
-     */
-    public Piece(Piece piece) {
-        this.color = piece.getColor();
-        this.type = piece.getType();
-        this.currentState = piece.getState();
-    }
-
-
     /**
      * make a copy of the piece
      * @return copied Piece

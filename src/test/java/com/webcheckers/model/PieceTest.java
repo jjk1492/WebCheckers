@@ -69,5 +69,4 @@ class PieceTest {
         assertFalse(diffObjects);
 
     }
-
 }
