@@ -17,6 +17,7 @@ public class PlayerLobby {
     // fields
 
     private final Map<String,Player> players;
+    private Player ai_player;
 
 
     // constructors
@@ -26,6 +27,7 @@ public class PlayerLobby {
      */
     public PlayerLobby() {
         players = new HashMap<>();
+        ai_player = new Player("ai_player");
     }
 
 
@@ -94,7 +96,11 @@ public class PlayerLobby {
      * @param name username of player to find
      * @return player object or null
      */
-    public Player getPlayer( String name ) { return players.get( name );}
+    public Player getPlayer( String name ) {
+        if(name.equals("ai_player"))
+            return ai_player;
+        return players.get( name );
+    }
 
 }
 

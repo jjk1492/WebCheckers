@@ -48,8 +48,10 @@ public class GameCenter {
         }
 
         Game game = new Game(red, white);
-        playersInGame.put(redPlayer, game);
-        playersInGame.put(whitePlayer, game);
+        if(!redPlayer.equals("ai_player"))
+            playersInGame.put(redPlayer, game);
+        if(!whitePlayer.equals("ai_player"))
+            playersInGame.put(whitePlayer, game);
 
         LOG.finer( String.format( "Made a game for %s and %s", redPlayer,
                 whitePlayer ) );

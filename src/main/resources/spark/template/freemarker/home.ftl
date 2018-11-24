@@ -31,11 +31,11 @@
 
                 <#if players??>
                     <#if signedIn>
-                        <form id="AI_PLAYER" action="./" method="POST">
-                            <input type="hidden" name="opponent" value='AI_PLAYER'>
+                        <form id="ai_player" action="./" method="POST">
+                            <input type="hidden" name="opponent" value='ai_player'>
                             <a href="javascript:{}"
                                 onclick="document.getElementById
-                                ('AI_PLAYER').submit();
+                                ('ai_player').submit();
                                 return false;">Click here to play against computer.</a>
                         </form>
                     </#if>
