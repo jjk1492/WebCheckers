@@ -64,7 +64,7 @@ define(function(require){
     this.addStateDefinition(PlayModeConstants.CHECK_MY_TURN,
             new CheckMyTurnState(this));
     this.addStateDefinition(PlayModeConstants.REQUEST_HINT,
-        new RequestHintState(this));
+            new RequestHintState(this));
     
     // Add the Controls toolbar mixin
     ControlsToolbarMixin.call(this);
@@ -75,8 +75,8 @@ define(function(require){
             PlayModeConstants.SUBMIT_BUTTON_TOOLTIP, this.submitTurn);
     this.addButton(PlayModeConstants.RESIGN_BUTTON_ID, 'Resign', true,
             PlayModeConstants.RESIGN_BUTTON_TOOLTIP, this.resignGame);
-      this.addButton(PlayModeConstants.HINT_BUTTON_ID,'Hint', true,
-          PlayModeConstants.HINT_BUTTON_TOOLTIP, this.requestHint);
+    this.addButton(PlayModeConstants.HINT_BUTTON_ID,'Hint', true,
+            PlayModeConstants.HINT_BUTTON_TOOLTIP, this.requestHint);
 
     // Public (internal) methods
 

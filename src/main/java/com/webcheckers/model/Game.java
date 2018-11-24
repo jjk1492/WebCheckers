@@ -119,7 +119,7 @@ public class Game {
 
     /**
      * checks if there is still a jump to be made at the end of the turn
-     * @return true if there is a jump that needs tp be made
+     * @return true if there is a jump that needs to be made
      */
     public boolean forceJump(){
         Board copyBoard;
