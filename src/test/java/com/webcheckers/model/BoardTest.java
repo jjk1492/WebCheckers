@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static com.webcheckers.model.Color.RED;
+import static com.webcheckers.model.Piece.Type.KING;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -314,7 +315,7 @@ public class BoardTest {
         assertEquals( Piece.Type.SINGLE, CuT.getPiece( endPosition ).getType() );
         assertEquals( Color.WHITE, CuT.getPiece( endPosition ).getColor() );
         kingSetup();
-        assertEquals( Piece.Type.KING, CuT.getPiece( endPosition ).getType() );
+        assertEquals( KING, CuT.getPiece( endPosition ).getType() );
         assertEquals( Color.RED, CuT.getPiece( endPosition ).getColor() );
     }
 
@@ -326,7 +327,7 @@ public class BoardTest {
     public void backwardsMoveTest() {
         kingSetup();
         Position endPosition = new Position( 0, 7 );
-        assertEquals( Piece.Type.KING, CuT.getPiece( endPosition ).getType() );
+        assertEquals( KING, CuT.getPiece( endPosition ).getType() );
         assertEquals( Color.RED, CuT.getPiece( endPosition ).getColor() );
         Position newEnd = new Position( 1, 6 );
         Move backwardsGood = new Move( endPosition, newEnd );
@@ -335,7 +336,67 @@ public class BoardTest {
         CuT.applyMove( whiteMove );
         CuT.endTurn();
         CuT.applyMove( backwardsGood );
-        assertEquals( Piece.Type.KING, CuT.getPiece( newEnd ).getType() );
+        assertEquals( KING, CuT.getPiece( newEnd ).getType() );
         assertEquals( Color.RED, CuT.getPiece( newEnd ).getColor() );
+    }
+
+
+    @Test
+    public void mixedJumpTest() {
+        kingSetup();
+        /*
+        0,5 -> 1,6
+        0,7 -> 2,5 -> 4,7
+        2,3 -> 3,4
+        7,0 -> 6,1
+        2,7 -> 3,6
+        4,7 -> 2,5 -> 4,3
+        */
+        Position whiteStart1 = new Position( 0, 5 );
+        Position whiteEnd1 = new Position( 1, 6 );
+        Position redStart1 = new Position( 0, 7 );
+        Position redMid1 = new Position( 2, 5 );
+        Position redEnd1 = new Position( 4, 7 );
+        Position whiteStart2 = new Position( 2, 3 );
+        Position whiteEnd2 = new Position( 3, 4 );
+        Position redStart2 = new Position( 7, 0 );
+        Position redEnd2 = new Position( 6, 1 );
+        Position whiteStart3 = new Position( 2, 7 );
+        Position whiteEnd3 = new Position( 3, 6 );
+        Position redStart3 = new Position( 4, 7 );
+        Position redMid3 = new Position( 2, 5 );
+        Position redEnd3 = new Position( 4, 3 );
+        Move white1 = new Move( whiteStart1, whiteEnd1 );
+        Move red1_1 = new Move( redStart1, redMid1 );
+        Move red1_2 = new Move( redMid1, redEnd1 );
+        Move white2 = new Move( whiteStart2, whiteEnd2 );
+        Move red2 = new Move( redStart2, redEnd2 );
+        Move white3 = new Move( whiteStart3, whiteEnd3 );
+        Move red3_1 = new Move( redStart3, redMid3 );
+        Move red3_2 = new Move( redMid3, redEnd3 );
+        CuT.applyMove( white1 );
+        CuT.endTurn();
+        CuT.applyMove( red1_1 );
+        assertTrue( CuT.canJump( redMid1 ) );
+        assertEquals( KING, CuT.getPiece( redMid1 ).getType() );
+        assertEquals( RED, CuT.getPiece( redMid1 ).getColor() );
+        CuT.applyMove( red1_2 );
+        CuT.endTurn();
+        assertEquals( KING, CuT.getPiece( redEnd1 ).getType() );
+        assertEquals( RED, CuT.getPiece( redEnd1 ).getColor() );
+        CuT.applyMove( white2 );
+        CuT.endTurn();
+        CuT.applyMove( red2 );
+        CuT.endTurn();
+        CuT.applyMove( white3 );
+        CuT.endTurn();
+        CuT.applyMove( red3_1 );
+        assertTrue( CuT.canJump( redMid3 ) );
+        assertEquals( KING, CuT.getPiece( redMid3 ).getType() );
+        assertEquals( RED, CuT.getPiece( redMid3 ).getColor() );
+        CuT.applyMove( red3_2 );
+        CuT.endTurn();
+        assertEquals( KING, CuT.getPiece( redEnd3 ).getType() );
+        assertEquals( RED, CuT.getPiece( redEnd3 ).getColor() );
     }
 }
