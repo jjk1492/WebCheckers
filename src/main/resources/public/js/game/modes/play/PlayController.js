@@ -72,7 +72,7 @@ define(function(require){
             PlayModeConstants.SUBMIT_BUTTON_TOOLTIP, this.submitTurn);
     this.addButton(PlayModeConstants.RESIGN_BUTTON_ID, 'Resign', true,
             PlayModeConstants.RESIGN_BUTTON_TOOLTIP, this.resignGame);
-      this.addButton(PlayModeConstants.HINT_BUTTON_ID,'Hint', false,
+      this.addButton(PlayModeConstants.HINT_BUTTON_ID,'Hint', true,
           PlayModeConstants.HINT_BUTTON_TOOLTIP, this.getHint);
 
     // Public (internal) methods
@@ -126,7 +126,7 @@ define(function(require){
   };
 
   PlayController.prototype.getHint = function getHint() {
-    this._delegateStateMessage('getHint', arguments);
+    this._delegateStateMessage('hint', arguments);
   };
 
   /**

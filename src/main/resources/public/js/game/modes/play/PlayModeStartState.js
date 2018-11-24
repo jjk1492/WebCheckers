@@ -90,6 +90,7 @@ define(function(require){
     if (this._gameState.isPlayerWhite()) {
       this._view.setWhitePlayersName('You');
     }
+
   };
   
   // export class constructor

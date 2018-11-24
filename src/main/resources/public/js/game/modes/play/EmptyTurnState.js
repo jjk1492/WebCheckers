@@ -52,6 +52,7 @@ define(function(require){
     this._controller.disableButton(PlayModeConstants.BACKUP_BUTTON_ID);
     this._controller.disableButton(PlayModeConstants.SUBMIT_BUTTON_ID);
     this._controller.enableButton(PlayModeConstants.RESIGN_BUTTON_ID);
+    this._controller.enableButton(PlayModeConstants.HINT_BUTTON_ID);
     // re-enable all of my Pieces
     this._controller.enableAllMyPieces();
   }
