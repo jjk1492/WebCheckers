@@ -72,8 +72,6 @@ define(function(require){
             PlayModeConstants.SUBMIT_BUTTON_TOOLTIP, this.submitTurn);
     this.addButton(PlayModeConstants.RESIGN_BUTTON_ID, 'Resign', true,
             PlayModeConstants.RESIGN_BUTTON_TOOLTIP, this.resignGame);
-    this.addButton(PlayModeConstants.HINT_BUTTON_ID,'Hint', false,
-        PlayModeConstants.HINT_BUTTON_TOOLTIP, this.getHint);
 
     // Public (internal) methods
 
@@ -125,9 +123,6 @@ define(function(require){
     this._delegateStateMessage('backupMove', arguments);
   };
 
-  PlayController.prototype.getHint = function getHint() {
-    this._delegateStateMessage('getHint', arguments);
-  };
   /**
    * This user action submits a turn to the server.
    */
