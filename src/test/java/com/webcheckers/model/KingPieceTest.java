@@ -1,5 +1,6 @@
 package com.webcheckers.model;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import static com.webcheckers.model.Color.RED;
@@ -12,8 +13,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * Tests for the KingPiece
+ */
+@Tag("Model-Tier")
 public class KingPieceTest {
 
+    /**
+     * Tests the normal, complete constructor
+     */
     @Test
     public void completeConstructorTest() {
         Piece kingPiece = new KingPiece( RED, JUMP );
@@ -23,6 +31,9 @@ public class KingPieceTest {
     }
 
 
+    /**
+     * Tests the constructor with default state
+     */
     @Test
     public void halfConstructorTest() {
         Piece kingPiece = new KingPiece( RED );
@@ -32,6 +43,9 @@ public class KingPieceTest {
     }
 
 
+    /**
+     * Tests the copy constructor with both a single and king to copy from
+     */
     @Test
     public void copyConstructorTest() {
         Piece kingPiece = new KingPiece( WHITE, JUMP );
@@ -47,6 +61,9 @@ public class KingPieceTest {
     }
 
 
+    /**
+     * Tests the copy method on a KingPiece
+     */
     @Test
     public void copyTest() {
         Piece kingPiece = new KingPiece( RED, JUMP );
@@ -57,6 +74,9 @@ public class KingPieceTest {
     }
 
 
+    /**
+     * Tests some valid steps in the isValidStep method
+     */
     @Test
     public void validStepsTest() {
         Position start = new Position( 4, 3 );
@@ -84,6 +104,9 @@ public class KingPieceTest {
     }
 
 
+    /**
+     * Tests some invalid steps in the isValidStep method
+     */
     @Test
     public void invalidStepsTest() {
         Position start = new Position( 4, 3 );
@@ -108,6 +131,9 @@ public class KingPieceTest {
     }
 
 
+    /**
+     * Tests some valid jumps in the isValidJump method
+     */
     @Test
     public void validJumpsTest() {
         Position start = new Position( 4, 3 );
@@ -135,6 +161,9 @@ public class KingPieceTest {
     }
 
 
+    /**
+     * tests some invalid jumps in the isValidJump method
+     */
     @Test
     public void invalidJumpsTest() {
         Position start = new Position( 4, 3 );
