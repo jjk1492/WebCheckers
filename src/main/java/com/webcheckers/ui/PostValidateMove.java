@@ -9,6 +9,7 @@ import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import static com.webcheckers.model.Color.WHITE;
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
 
 public class PostValidateMove implements Route {
@@ -26,6 +27,9 @@ public class PostValidateMove implements Route {
 
         String playerName = request.session().attribute( PLAYER_NAME_ATTR );
         Game currentGame = gameCenter.getGame(playerName);
+        if ( currentGame.getActiveColor() == WHITE ) {
+            move = move.getInverse();
+        }
         Message moveMessage = currentGame.tryMove(move);
 
         String json;

@@ -34,8 +34,8 @@ public abstract class Message {
     }
 
 
-    @Override
-    public String toString() {
-        return type + " " + text;
-    }
+//    @Override
+//    public String toString() {
+//        return type + " " + text;
+//    }
 }

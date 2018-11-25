@@ -29,9 +29,17 @@ public class SpaceTest {
     }
 
     @Test
-    public void testPiece() {
+    public void testSinglePiece() {
         space = new Space(0);
-        Piece piece = new Piece( Color.RED, Piece.State.OPEN);
+        Piece piece = new SinglePiece( Color.RED, Piece.State.OPEN);
+        space.setPiece(piece);
+        assertEquals(piece, space.getPiece());
+    }
+
+    @Test
+    public void testKingPiece() {
+        space = new Space(0);
+        Piece piece = new KingPiece( Color.RED, Piece.State.OPEN);
         space.setPiece(piece);
         assertEquals(piece, space.getPiece());
     }

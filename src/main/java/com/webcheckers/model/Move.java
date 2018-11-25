@@ -5,8 +5,8 @@ package com.webcheckers.model;
  */
 public class Move {
 
-    private Position start;
-    private Position end;
+    private final Position start;
+    private final Position end;
 
     /**
      * constructs Move object
@@ -69,8 +69,8 @@ public class Move {
     }
 
 
-    @Override
-    public String toString() {
-        return start.toString() + " " + end.toString();
-    }
+//    @Override
+//    public String toString() {
+//        return start.toString() + " " + end.toString();
+//    }
 }
