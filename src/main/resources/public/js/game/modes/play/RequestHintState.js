@@ -53,14 +53,8 @@ define(function(require){
 
     function handleResponse(message) {
         this._controller.displayMessage(message);
-        if (message.type === 'info') {
-            var isTurnActive = this._controller.isTurnActive();
-            this._controller.setState(isTurnActive ? PlayModeConstants.STABLE_TURN : PlayModeConstants.EMPTY_TURN);
-        }
-        // handle error message
-        else {
-            this._controller.setState(isTurnActive ? PlayModeConstants.STABLE_TURN : PlayModeConstants.EMPTY_TURN);
-        }
+        var isTurnActive = this._controller.isTurnActive();
+        this._controller.setState(isTurnActive ? PlayModeConstants.STABLE_TURN : PlayModeConstants.EMPTY_TURN);
     }
 
     return RequestHintState;
