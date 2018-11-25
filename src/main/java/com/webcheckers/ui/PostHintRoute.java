@@ -3,25 +3,22 @@ package com.webcheckers.ui;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.webcheckers.application.GameCenter;
-import com.webcheckers.model.ErrorMessage;
-import com.webcheckers.model.Game;
-import com.webcheckers.model.InfoMessage;
-import com.webcheckers.model.Message;
+import com.webcheckers.model.*;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
+import static com.webcheckers.model.Color.WHITE;
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
 
 /**
  * PostHint route
  */
 public class PostHintRoute implements Route {
-    private static final String HINT_INFO ="Hints have been displayed.";
-    private static final String HINT_ERROR = "You can't display any hints right now.";
+
+    private static final String NO_VALID_MOVES = "Couldn't find a valid move!";
 
     private GameCenter gameCenter;
-    private Message message;
 
     /**
      * constructor for PostHintRoute
@@ -41,18 +38,22 @@ public class PostHintRoute implements Route {
 
         String playerName = request.session().attribute( PLAYER_NAME_ATTR );
         Game currentGame = gameCenter.getGame(playerName);
-        Boolean jumpPossible = currentGame.forceJump();
+        Move move = currentGame.getValidMove();
 
-        if(jumpPossible){ //hints displayed
-            message = new InfoMessage(HINT_INFO);
+        Message message;
+        if ( move == null ) {
+            message = new ErrorMessage( NO_VALID_MOVES );
         }
-        else{
-            message = new ErrorMessage(HINT_ERROR);
+        else {
+            if ( currentGame.getActiveColor() == WHITE ) {
+                move = move.getInverse();
+            }
+            message = new InfoMessage( move.toString() );
         }
 
         String json;
         Gson gson = new GsonBuilder().create();
-        json = gson.toJson( message );
+        json = gson.toJson(message);
 
         return json;
     }

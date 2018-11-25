@@ -2,9 +2,7 @@ package com.webcheckers.model;
 
 import com.webcheckers.model.Message.Type;
 
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * class representing the game, containing players and a board for each player
@@ -90,6 +88,26 @@ public class Game {
     public String getGameWinner() {
         return gameWinner;
     }
+
+
+    public Move getValidMove() {
+        List<Move> moves = getValidMoves();
+        if ( moves == null || moves.size() == 0 ) {
+            return null;
+        }
+        return moves.get(0);
+    }
+
+
+    public List<Move> getValidMoves() {
+        Board copy = new Board( board );
+        for ( Move pendingMove : pendingMoves ) {
+            copy.applyMove( pendingMove );
+        }
+        return copy.getValidMoves();
+    }
+
+
 
     /**
      * end of turn operations
