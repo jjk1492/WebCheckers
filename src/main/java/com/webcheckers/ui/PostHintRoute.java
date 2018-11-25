@@ -48,7 +48,7 @@ public class PostHintRoute implements Route {
             if ( currentGame.getActiveColor() == WHITE ) {
                 move = move.getInverse();
             }
-            message = new InfoMessage( move.toString() );
+            message = new InfoMessage( "You can move from " + move.toString() );
         }
 
         String json;

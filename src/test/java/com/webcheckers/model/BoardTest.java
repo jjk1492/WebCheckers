@@ -254,6 +254,8 @@ public class BoardTest {
 
     }
 
+
+
     @Test
     public void iteratorTest(){
         assertNotNull(CuT.iterator());
