@@ -8,9 +8,12 @@ import spark.Request;
 import spark.Response;
 import spark.Session;
 
+import java.util.Map;
+
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
 import static com.webcheckers.ui.WebServer.HOME_URL;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -74,5 +77,21 @@ public class PostSignInRouteTest {
         catch ( Exception e ) {
             fail();
         }
+    }
+
+    @Test
+    public void notValidName(){
+        String playerName = "***";
+        when( request.queryParams( PLAYER_NAME_ATTR ) ).thenReturn( playerName );
+        when( session.attribute( PLAYER_NAME_ATTR ) ).thenReturn( playerName );
+        when( playerLobby.isValid(playerName) ).thenReturn(false);
+
+        try {
+            postSignInRoute.handle(request, response);
+        }
+        catch ( Exception e ) {
+            fail();
+        }
+
     }
 }

@@ -16,7 +16,7 @@ import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
  */
 public class PostHintRoute implements Route {
 
-    private static final String NO_VALID_MOVES = "Couldn't find a valid move!";
+    private static final String NO_VALID_MOVES = "Could not find a valid move";
 
     private GameCenter gameCenter;
 
