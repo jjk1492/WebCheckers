@@ -14,9 +14,9 @@ import java.util.Map;
  */
 public class SignInRenderer implements Renderer {
 
-    // private constants
+    // public constants
 
-    private static final String VIEW_NAME = "signin.ftl";
+    public static final String SIGNIN_VIEW_NAME = "signin.ftl";
 
 
     // package private constants
@@ -65,7 +65,7 @@ public class SignInRenderer implements Renderer {
             model = new HashMap<>();
         }
 
-        ModelAndView modelAndView = new ModelAndView( model, VIEW_NAME );
+        ModelAndView modelAndView = new ModelAndView( model, SIGNIN_VIEW_NAME);
         return templateEngine.render( modelAndView );
     }
 }
