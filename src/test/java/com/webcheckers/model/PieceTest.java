@@ -18,38 +18,55 @@ class PieceTest {
      * Tests to make sure a the color can be set and returned properly, with both constructors.
      */
     @Test
-    void getColor(){
-        // TODO implement kinging before testing it
-//        Color expectedDefault = RED;
-//        Color expectedKing = WHITE;
+    void getColor() {
+        Color expectedDefault = RED;
+        Color expectedKing = WHITE;
 
-//        Piece defaultPiece = new Piece(expectedDefault, SINGLE);
-//        Piece kingPiece = new Piece(expectedKing, KING);
+        Piece defaultPiece = new SinglePiece(expectedDefault, State.OPEN);
+        Piece kingPiece = new KingPiece(expectedKing, State.OPEN);
 
-//        Color actualDefault = defaultPiece.getColor();
-//        Color actualKing = kingPiece.getColor();
+        Color actualDefault = defaultPiece.getColor();
+        Color actualKing = kingPiece.getColor();
 
-//        assertEquals(expectedDefault, actualDefault, "Default Piece Color should be : " + expectedDefault);
-//        assertEquals(expectedKing, actualKing, "King Piece Color should be : " + expectedKing);
+        assertEquals(expectedDefault, actualDefault, "Default Piece Color should be : " + expectedDefault);
+        assertEquals(expectedKing, actualKing, "King Piece Color should be : " + expectedKing);
     }
 
     /**
      * Tests to make sure a the color can be set and returned properly, with both constructors.
      */
     @Test
-    void getType(){
-        // TODO implement kinging before testing it
-//        Type expectSingle = SINGLE;
-//        Type expectKing = KING;
+    void getType() {
+        Piece defaultPiece = new SinglePiece(RED, State.OPEN);
+        Piece kingPiece = new KingPiece(WHITE, State.OPEN);
 
-//        Piece defaultPiece = new Piece(RED, expectSingle);
-//        Piece kingPiece = new Piece(WHITE, expectKing);
+        Type actualDefault = defaultPiece.getType();
+        Type actualKing = kingPiece.getType();
 
-//        Type actualDefault = defaultPiece.getType();
-//        Type actualKing = kingPiece.getType();
-
-//        assertEquals(expectSingle, actualDefault, "Default Piece Type should be : " + expectSingle);
-//        assertEquals(expectKing, actualKing, "King Piece Type should be : " + expectKing);
+        assertEquals(SINGLE, actualDefault, "Default Piece Type should be : " + SINGLE);
+        assertEquals(KING, actualKing, "King Piece Type should be : " + KING);
     }
 
+    /**
+     * test to check if pieces are equal or not and checks hashcode
+     */
+    @Test
+    void equalsTest() {
+        Piece singlePiece = new SinglePiece(RED, State.OPEN);
+        boolean equal = singlePiece.equals(singlePiece);
+        assertTrue(equal);
+
+        Piece kingPiece = new KingPiece(WHITE, State.BLOCKED);
+        boolean notEqual = kingPiece.equals(singlePiece);
+        assertFalse(notEqual);
+
+        Piece singlePieceCopy = singlePiece.copy();
+        assertTrue(singlePiece.hashCode() == singlePieceCopy.hashCode());
+        assertEquals(singlePiece, singlePieceCopy);
+
+        String s = null;
+        boolean diffObjects = singlePiece.equals(s);
+        assertFalse(diffObjects);
+
+    }
 }

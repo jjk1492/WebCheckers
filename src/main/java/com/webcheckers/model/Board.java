@@ -4,6 +4,7 @@ import java.util.*;
 
 import static com.webcheckers.model.Color.RED;
 import static com.webcheckers.model.Color.WHITE;
+import static com.webcheckers.model.Piece.Type.SINGLE;
 
 /**
  * Board class in the model tier
@@ -13,6 +14,7 @@ public class Board implements Iterable<Row> {
 
     public static final int ROWS = 8;
     public static final int COLS = 8;
+    public static final String UNOCCUPIED_START_SPACE = "Your move must begin with an occupied space!";
 
     private Space[][] spaces;
     private Color activeColor;
@@ -35,9 +37,9 @@ public class Board implements Iterable<Row> {
                 space.setValid( false );
                 if (row % 2 + col % 2 == 1) {
                     if (row > 4) {
-                        piece = new Piece( RED, Piece.State.OPEN );
+                        piece = new SinglePiece( RED, Piece.State.OPEN );
                     } else if (row < 3) {
-                        piece = new Piece( Color.WHITE, Piece.State.OPEN );
+                        piece = new SinglePiece( WHITE, Piece.State.OPEN );
                     } else {
                         piece = null;
                         space.setValid( true );
@@ -74,7 +76,13 @@ public class Board implements Iterable<Row> {
                 if ( flip ) {
                     position = position.getInverse();
                 }
-                spaces[row][col] = board.spaces[position.getRow()][position.getCell()].getInverse();
+                Space toCopy = board.spaces[position.getRow()][position.getCell()];
+                if ( flip ) {
+                    spaces[row][col] = toCopy.getInverse();
+                }
+                else {
+                    spaces[row][col] = new Space( toCopy );
+                }
             }
         }
     }
@@ -161,14 +169,12 @@ public class Board implements Iterable<Row> {
      * @return a message based on whether or not the move was valid or invalid and why
      */
     public Message validateMove( Move move ) {
-        if ( activeColor == Color.WHITE ) {
-            move = move.getInverse();
-        }
         Position start = move.getStart();
         Position end = move.getEnd();
         Space startSpace = getSpace( start );
         Space endSpace = getSpace( end );
 
+        // TODO magic strings
         if ( startSpace == null || endSpace == null ) {
             return new ErrorMessage( "Your move was not on valid spaces!" );
         }
@@ -177,7 +183,7 @@ public class Board implements Iterable<Row> {
         Piece endPiece = endSpace.getPiece();
 
         if ( startPiece == null ) {
-            return new ErrorMessage( "Your move must begin with an occupied space!" );
+            return new ErrorMessage( UNOCCUPIED_START_SPACE );
         }
         if ( endPiece != null ) {
             return new ErrorMessage( "You cannot move to an occupied space!" );
@@ -234,20 +240,26 @@ public class Board implements Iterable<Row> {
      * @param move the move to be applied
      */
     public void applyMove( Move move ) {
-        if ( activeColor == WHITE ) {
-            move = move.getInverse();
-        }
-//        System.out.println( "applying " + move + " for " + activeColor );
         Position start = move.getStart();
         Position end = move.getEnd();
 
         Space startSpace = getSpace( start );
         Space destination = getSpace( end );
         Piece subject = startSpace.getPiece();
+
+        if ( subject == null ) {
+            return;
+        }
+
         startSpace.setPiece( null );
         startSpace.setValid( true );
-        destination.setPiece(subject);
         destination.setValid( false );
+        if ( subject.getType() == SINGLE && end.getRow() % ( ROWS - 1 ) == 0 ) {
+            destination.setPiece( new KingPiece( subject ) );
+        }
+        else {
+            destination.setPiece(subject);
+        }
 
         if ( move.isJump() ) {
             Space halfway = getHalfway( start, end );
@@ -361,15 +373,22 @@ public class Board implements Iterable<Row> {
         int startRow = position.getRow();
         int startCol = position.getCell();
         int destRow = startRow + piece.getColor().getIncrement();
+        int backRow = startRow - piece.getColor().getIncrement();
         int rightDestCol = startCol + 1;
         int leftDestCol = startCol - 1;
-        Position rightJump = new Position( destRow, rightDestCol );
-        Position leftJump = new Position( destRow, leftDestCol );
+        Position rightStep = new Position( destRow, rightDestCol );
+        Position leftStep = new Position( destRow, leftDestCol );
+        Position backRightStep = new Position( backRow, rightDestCol );
+        Position backLeftStep = new Position( backRow, leftDestCol );
 
-        return positionInBounds( rightJump ) &&
-                isValidStep( new Move( position, rightJump ) )
-                || positionInBounds( leftJump ) &&
-                isValidStep( new Move( position, leftJump ) );
+        return positionInBounds( rightStep ) &&
+                isValidStep( new Move( position, rightStep ) )
+                || positionInBounds( leftStep ) &&
+                isValidStep( new Move( position, leftStep ) )
+                || positionInBounds( backRightStep ) &&
+                isValidJump( new Move( position, backRightStep ) )
+                || positionInBounds( backLeftStep ) &&
+                isValidJump( new Move( position, backLeftStep ) );
     }
 
 
@@ -389,15 +408,22 @@ public class Board implements Iterable<Row> {
         int startRow = position.getRow();
         int startCol = position.getCell();
         int destRow = startRow + piece.getColor().getIncrement() * 2;
+        int backRow = startRow - piece.getColor().getIncrement() * 2;
         int rightDestCol = startCol + 2;
         int leftDestCol = startCol - 2;
         Position rightJump = new Position( destRow, rightDestCol );
         Position leftJump = new Position( destRow, leftDestCol );
+        Position backRightJump = new Position( backRow, rightDestCol );
+        Position backLeftJump = new Position( backRow, leftDestCol );
 
         return positionInBounds( rightJump ) &&
                 isValidJump( new Move( position, rightJump ) )
                 || positionInBounds( leftJump ) &&
-                isValidJump( new Move( position, leftJump ) );
+                isValidJump( new Move( position, leftJump ) )
+                || positionInBounds( backRightJump ) &&
+                isValidJump( new Move( position, backRightJump ) )
+                || positionInBounds( backLeftJump ) &&
+                isValidJump( new Move( position, backLeftJump ) );
     }
 
 
