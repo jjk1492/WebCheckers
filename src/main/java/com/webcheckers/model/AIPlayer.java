@@ -7,16 +7,17 @@ public class AIPlayer extends Player {
     }
 
     public void takeTurn(Game game){
-        Move move;
-        if (game.forceJump()) {
-            while (game.forceJump()) {
-                move = Move.aiMove(game); //will need to prevent endless loop with double jump
-                game.tryMove(move);
-            }
-        }else{
-            move = Move.aiMove(game);
-            game.tryMove(move);
-        }
+
+        /* need game.getValidMove() method from hint branch
+        Move move = game.getValidMove();
+        game.tryMove(move);
+        */
+
+        game.tryMove(new Move(     //hard coded move for testing ai move
+                new Position(2,3),
+                new Position(3,4)
+        ));
+
         game.applyTurn();
     }
 }
