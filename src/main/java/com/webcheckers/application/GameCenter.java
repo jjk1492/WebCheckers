@@ -139,7 +139,14 @@ public class GameCenter {
         }
         String winner = getGame(name).getGameWinner();
         if (winner != null){
-            finishedGame(getOpponent(winner));
+            if(winner.equals("ai_player")){
+                gameWinners.put(name, "ai_player");
+                gameWinners.put("ai_player","ai_player");
+                if(isPlayerInGame(name)){
+                    playersInGame.remove(name);
+                }
+            }else
+                finishedGame(getOpponent(winner));
         }
         return winner;
     }
