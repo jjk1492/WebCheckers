@@ -9,8 +9,8 @@ import static com.webcheckers.model.Board.ROWS;
  */
 public class Position {
 
-    private int row;
-    private int cell;
+    private final int row;
+    private final int cell;
 
 
     /**
@@ -47,8 +47,8 @@ public class Position {
     }
 
 
-    @Override
-    public String toString() {
-        return "(" + row + "," + cell + ")";
-    }
+//    @Override
+//    public String toString() {
+//        return "(" + row + "," + cell + ")";
+//    }
 }
