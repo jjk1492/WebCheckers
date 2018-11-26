@@ -50,6 +50,7 @@ public class PostSubmitTurnRoute implements Route {
                 message = new InfoMessage(SUBMIT_TURN_INFO);
                 if (gameCenter.getOpponent(name).equals("ai_player")){
                     gameCenter.makeAIMoves(name);
+
                 }
             }
         }

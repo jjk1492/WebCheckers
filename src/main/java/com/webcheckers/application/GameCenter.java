@@ -110,6 +110,9 @@ public class GameCenter {
     public void makeAIMoves(String name){
         if (getOpponent(name).equals("ai_player")){
             playerLobby.getAIPlayer().takeTurn(getGame(name));
+            if ( getGame(name).getGameWinner() != null ) {
+                gameWinners.put( name, "ai_player" );
+            }
         }
     }
 

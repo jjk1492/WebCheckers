@@ -22,8 +22,9 @@ import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
 public class PostCheckTurnRoute implements Route {
 
     private static final String OPPONENT_RESIGNED_ERROR = "Your opponent resigned, please redirect to home!";
-    private static final String GAME_WON_ERROR = "You win! Please redirect to home!";
-    private static final String GAME_LOST_ERROR = "You lose! Please redirect to home!";
+    public static final String GAME_WON_ERROR = "You win! Please redirect to home!";
+    public static final String GAME_LOST_ERROR = "You lose! Please redirect to home!";
+
     private GameCenter gameCenter;
 
     /**

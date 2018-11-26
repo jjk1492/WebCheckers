@@ -1,6 +1,7 @@
 package com.webcheckers.ui;
 
 import com.webcheckers.application.GameCenter;
+import com.webcheckers.model.ErrorMessage;
 import com.webcheckers.model.Game;
 import com.webcheckers.model.Player;
 import spark.ModelAndView;
@@ -10,7 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.webcheckers.ui.PostCheckTurnRoute.GAME_LOST_ERROR;
+import static com.webcheckers.ui.PostCheckTurnRoute.GAME_WON_ERROR;
 import static com.webcheckers.ui.PostSignInRoute.PLAYER_NAME_ATTR;
+import static com.webcheckers.ui.SignInRenderer.MESSAGE_ATTR;
 
 public class GameRenderer implements Renderer {
 
@@ -76,6 +80,16 @@ public class GameRenderer implements Renderer {
         else {
             model.put(BOARD_ATTR, currentGame.getWhiteBoard() );
             model.put(CURRENT_PLAYER_ATTR, whitePlayer );
+        }
+
+        String winner = currentGame.getGameWinner();
+        if ( winner != null ) {
+            if ( winner.equals( name ) ) {
+                model.put( MESSAGE_ATTR, new ErrorMessage( GAME_WON_ERROR ) );
+            }
+            else {
+                model.put( MESSAGE_ATTR, new ErrorMessage( GAME_LOST_ERROR ) );
+            }
         }
 
         model.put(ACTIVE_COLOR_ATTR, currentGame.getActiveColor() );
