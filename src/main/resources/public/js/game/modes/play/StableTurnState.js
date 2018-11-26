@@ -46,6 +46,7 @@ define(function(require){
     // enable all UI controls
     this._controller.enableButton(PlayModeConstants.BACKUP_BUTTON_ID);
     this._controller.enableButton(PlayModeConstants.SUBMIT_BUTTON_ID);
+    this._controller.enableButton(PlayModeConstants.HINT_BUTTON_ID);
     // re-enable active Piece
     this._controller.enableActivePiece();
   };
@@ -65,6 +66,10 @@ define(function(require){
    */
   StableTurnState.prototype.backupMove = function backupMove() {
     this._controller.setState(PlayModeConstants.REQUESTING_BACKUP_MOVE);
+  };
+
+  StableTurnState.prototype.requestHint = function requestHint() {
+    this._controller.setState(PlayModeConstants.REQUEST_HINT);
   };
 
   /**

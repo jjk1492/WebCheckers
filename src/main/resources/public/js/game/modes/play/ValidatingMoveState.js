@@ -45,6 +45,7 @@ define(function(require){
     this._controller.disableButton(PlayModeConstants.BACKUP_BUTTON_ID);
     this._controller.disableButton(PlayModeConstants.SUBMIT_BUTTON_ID);
     this._controller.disableButton(PlayModeConstants.RESIGN_BUTTON_ID);
+    this._controller.disableButton(PlayModeConstants.HINT_BUTTON_ID);
     
     // 2) disable all Pieces
     this._controller.disableAllMyPieces();
