@@ -22,7 +22,7 @@ geometry: margin=1in
 This WebCheckers application implements the Java Spark framework to provide the user with a game of checkers againsted other signed in users. To play, a user must sign in with a unique username and select or get selected by another user who is not currently in a game. The application also provides an A.I. player for the user to play against.
 
 ### Purpose
-> Connect players from across the globe and allow them to play a game of checkers.  WebCheckers is meant to provide an easy to use interface by which players can easily play checkers against anyone else that is signed in at the time.
+> Connect players from across the globe and allow them to play a game of checkers.  WebCheckers is meant to provide an easy to use interface by which players can easily play checkers against anyone else that is signed in at the time, or an AI opponent. With our hint feature, individuals can receive help in their checkers game.
 
 ### Glossary and Acronyms
 > _Provide a table of terms and acronyms._
@@ -58,7 +58,7 @@ This section describes the application domain.
 
 ![The WebCheckers Domain Model](domain-model.png)
 
-> The domain itself for a game of checkers is fairly simple.  Each game being played is played on a single board by two players.  Each player controls 12 pieces of a given color (at the start), which are placed in a pattern on the 64 Squares on the Board.
+> The domain itself for a game of checkers is fairly simple.  Each game being played is played on a single board by two players (or a Player and an AIplayer).  Each player controls 12 pieces of a given color (at the start), which are placed in a pattern on the 64 Squares on the Board.
 
 
 ## Architecture and Design
@@ -97,7 +97,7 @@ with the WebCheckers application.
 Once upon a time our UI tier handled HTTP requests from server. It allowed users
 to think that webcheckers was the work of blak magic (which it is, but that is a story for 
 another time). Users could willingly sign into and sign out of Web Checkers if it did not destroy their 
-soul in the process. It handled refreshing the page constanly to update to see if it was a user's turn in 
+soul in the process. They can chose to play with another Player, or against an AI opponent. It handled refreshing the page constanly to update to see if it was a user's turn in
 the game, which is where the Javascript reared it's ugly head. It also allowed users to undo their moves and submit 
 their moves by sending unconventionally gross enums. It also handles removing users from a game if a player resigns or if a player wins. If they win they get a cookie. A poisoned cookie. 
 
@@ -111,7 +111,7 @@ PlayerLobby will hold all of the players currently signed into Web Checkers. Pla
 
 ### Model Tier
 
-Model Tier handles all of the actual game logic. It has a game class that maintains the state of 2 boards, one for each player, in order to keep state protected but also will allow moves to be undone. Each board has some state of it's own to keep track of the current turn, list of rows that make up the actual board. Each row has a list of spaces that make up the row itself. Each space can be marked invalid or valid and if it contains a piece. A piece have a type (single, king) and color (red, white) and a state(open, blocked, jump). Open means no jumps available, but there is a single step to be made. A blocked piece means it currently can not make a move. Jump is used when there is jump is available to make. These states are used to help make determining legal moves for the game more convenient. Position and Move are both data holders which are used for checking when a move is a step or jump. 
+Model Tier handles all of the actual game logic. It has a game class that maintains the state of a Board an two Players(one could be an AIPlayer), in order to keep state protected but also will allow moves to be undone. The board has a state of it's own to keep track of the current turn, and a list of rows that make up the actual board. Each row has a list of spaces that make up the row itself. Each space can be marked invalid or valid and if it contains a piece. A piece have a type (single, king) and color (red, white) and a state(open, blocked, jump). Open means no jumps available, but there is a single step to be made. A blocked piece means it currently can not make a move. Jump is used when there is jump is available to make. These states are used to help make determining legal moves for the game more convenient. Position and Move are both data holders which are used for checking when a move is a step or jump.
 
 ![Model UML](Model-UML.png)
 
@@ -123,8 +123,8 @@ and start from scratch.
 ## Testing
 ### Acceptance Testing
 
-We have currently 10 stories fully passing their acceptance criteria tests. 
-We don't have any conerns about the tests that we have checked. We are all concerned for our mental well being though. 
+Currently, all stories fully pass their acceptance criteria tests.
+We don't have any concerns about the tests that we have checked. We are all concerned for our mental well being though.
 
 
 ### Unit Testing and Code Coverage
