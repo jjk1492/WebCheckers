@@ -1,5 +1,6 @@
 package com.webcheckers.ui;
 
+import static com.webcheckers.ui.WebServer.HOME_URL;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -46,16 +47,19 @@ public class GetSignInRouteTest {
      * tests to make sure there are no errors with a valid home page
      */
     @Test
-    public void validHome() {
+    public void alreadySignedIn() throws Exception {
         String playerName = "player";
         when( request.session().attribute(PostSignInRoute.PLAYER_NAME_ATTR) )
                 .thenReturn( playerName );
 
-        try {
-            getSignInRoute.handle(request, response);
-        } catch (Exception e) {
-            fail();
-        }
+        getSignInRoute.handle( request, response );
+        verify(response).redirect( HOME_URL );
+    }
+
+    @Test
+    public void notSignedInYet() throws Exception {
+        getSignInRoute.handle( request, response );
+        verify( response, never() ).redirect( any() );
     }
 
 
