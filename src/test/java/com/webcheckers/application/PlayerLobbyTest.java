@@ -160,4 +160,15 @@ class PlayerLobbyTest {
 
     }
 
+    /**
+     * test if the ai_player can be retrieved
+     */
+    @Test
+    void aiPlayer(){
+        PlayerLobby pl = new PlayerLobby();
+        assertNotNull(pl.getAIPlayer(), "ai_player should not be null");
+        assertEquals("ai_player", pl.getAIPlayer().getName(), "the name of the AIPlayer should be ai_player");
+
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.webcheckers.application;
 
+import com.webcheckers.model.Color;
 import com.webcheckers.model.Player;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -111,4 +112,13 @@ public class GameCenterTest {
         assertEquals(whiteName, gameCenter.gameWinner(redName));
         assertEquals(whiteName, gameCenter.gameWinner(whiteName));
     }
+
+    @Test
+    void aiMovesTest(){
+        playerLobby.addPlayer(redName);
+        gameCenter.addGame(redName, "ai_player");
+        gameCenter.makeAIMoves(redName);
+        assertFalse(gameCenter.isPlayerActive(redName));
+    }
+
 }

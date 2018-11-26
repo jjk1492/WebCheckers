@@ -48,8 +48,10 @@ public class GameCenter {
         }
 
         Game game = new Game(red, white);
-        playersInGame.put(redPlayer, game);
-        playersInGame.put(whitePlayer, game);
+        if(!redPlayer.equals("ai_player"))
+            playersInGame.put(redPlayer, game);
+        if(!whitePlayer.equals("ai_player"))
+            playersInGame.put(whitePlayer, game);
 
         LOG.finer( String.format( "Made a game for %s and %s", redPlayer,
                 whitePlayer ) );
@@ -103,6 +105,12 @@ public class GameCenter {
             applied = game.applyTurn();
         }
         return applied;
+    }
+
+    public void makeAIMoves(String name){
+        if (getOpponent(name).equals("ai_player")){
+            playerLobby.getAIPlayer().takeTurn(getGame(name));
+        }
     }
 
     /**

@@ -60,7 +60,7 @@ public class PostHomeRoute
             map.put( MESSAGE_ATTR, new ErrorMessage( ALREADY_IN_GAME_ERROR ) );
             return renderer.render( request.session(), map );
         }
-        else if ( gameCenter.isPlayerInGame( opponentName ) ) {
+        else if ( !opponentName.equals("ai_player") && gameCenter.isPlayerInGame( opponentName ) ) {
             map.put( MESSAGE_ATTR, new ErrorMessage( OPPONENT_IN_GAME_ERROR ) );
             return renderer.render( request.session(), map );
         }
