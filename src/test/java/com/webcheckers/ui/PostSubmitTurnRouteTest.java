@@ -47,9 +47,30 @@ public class PostSubmitTurnRouteTest {
         when(gameCenter.isPlayerInGame(redName)).thenReturn(true);
         when(gameCenter.finishTurn( redName )).thenReturn(true);
         when(gameCenter.isPlayerActive(redName)).thenReturn(false);
+        when(gameCenter.getOpponent(redName)).thenReturn(whiteName);
 
         try {
             Object ret = postSubmitTurnRoute.handle(request, response);
+            assertEquals("{\"type\":\"info\",\"text\":\"Turn submitted!\"}", ret);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * tests to make sure there are no errors when submitting a turn with an ai_opponent
+     */
+    @Test
+    public void submitTurnAI() {
+        when(request.session().attribute(PostSignInRoute.PLAYER_NAME_ATTR)).thenReturn(redName);
+        when(gameCenter.isPlayerInGame(redName)).thenReturn(true);
+        when(gameCenter.finishTurn( redName )).thenReturn(true);
+        when(gameCenter.isPlayerActive(redName)).thenReturn(false);
+        when(gameCenter.getOpponent(redName)).thenReturn("ai_player");
+
+        try {
+            Object ret = postSubmitTurnRoute.handle(request, response);
+            verify(gameCenter).makeAIMoves(redName);
             assertEquals("{\"type\":\"info\",\"text\":\"Turn submitted!\"}", ret);
         } catch (Exception e) {
             e.printStackTrace();
