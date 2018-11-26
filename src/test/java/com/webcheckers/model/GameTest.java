@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import static org.mockito.Mockito.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -360,5 +360,14 @@ public class GameTest {
         assertNotNull(whiteBoard, "The white board should not be null! ");
     }
 
+    /**
+     * test to get a valid move
+     */
+    @Test
+    public void getValidMovesTest(){
+        Move expected = new Move (new Position(5,0), new Position(4,1));
+        Move actual = CuT.getValidMove();
+        assertEquals(actual, expected);
 
+    }
 }
