@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-import static org.mockito.Mockito.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -176,18 +176,29 @@ public class GameTest {
         final Player whitePlayer2 = new Player("white2");
 
         final Game CuT2 = new Game(redPlayer2, whitePlayer2);
-
+        Game CuT3 = new Game(redPlayer, whitePlayer2);
+        Game CuT4 = new Game(redPlayer2, whitePlayer);
         final String s = "not a board";
 
         boolean sameGame = CuT.equals(CuT);
         boolean nullGame = CuT.equals(null);
         boolean differentGame = CuT.equals(CuT2);
+        boolean sameRedPlayerGame = CuT.equals(CuT3);
+        boolean sameWhitePlayerGame = CuT.equals(CuT4);
         boolean diffObjects = CuT.equals(s);
 
         assertTrue(sameGame);
         assertFalse(nullGame);
         assertFalse(differentGame);
         assertFalse(diffObjects);
+        assertFalse(sameRedPlayerGame);
+        assertFalse(sameWhitePlayerGame);
+
+        int hash1 = CuT.hashCode();
+        int hash2 = CuT2.hashCode();
+
+        assertNotEquals(hash1, hash2);
+
     }
 
 
@@ -222,11 +233,15 @@ public class GameTest {
         assertNull(CuT.getGameWinner());
     }
 
+
     /**
      * checks if moves get applied for white and red player
      */
     @Test
     public void applyTurn() {
+
+        boolean empty = CuT.applyTurn();
+        assertFalse(empty);
 
         Position startingPos = new Position(5, 2);
         Position validEndingPosRight = new Position(4, 3);
@@ -256,6 +271,7 @@ public class GameTest {
         CuT.applyTurn();
 
     }
+
 
     /**
      * tests for no forced jump
@@ -319,8 +335,10 @@ public class GameTest {
         Move jump2 = new Move(jumpMiddle, jumpEnd);
         Message message1 = CuT.tryMove(jump);
         boolean force = CuT.forceJump();
+        boolean forceApply = CuT.applyTurn();
         assertEquals(message1.getText(), validJumpMessage);
         assertTrue(force);
+        assertFalse(forceApply);
 
         Message message2 = CuT.tryMove(jump2);
         boolean noForce = CuT.forceJump();
@@ -332,15 +350,24 @@ public class GameTest {
 
 
     /**
-     * misc tests to get code coverage up
+     * board getter tests
      */
     @Test
-    public void miscTests(){
-
+    public void boardGetterTests(){
         Board redBoard = CuT.getRedBoard();
         assertNotNull(redBoard, "The red board should not be null! ");
         Board whiteBoard = CuT.getWhiteBoard();
         assertNotNull(whiteBoard, "The white board should not be null! ");
     }
 
+    /**
+     * test to get a valid move
+     */
+    @Test
+    public void getValidMovesTest(){
+        Move expected = new Move (new Position(5,0), new Position(4,1));
+        Move actual = CuT.getValidMove();
+        assertEquals(actual, expected);
+
+    }
 }

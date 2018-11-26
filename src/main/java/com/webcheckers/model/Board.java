@@ -87,11 +87,20 @@ public class Board implements Iterable<Row> {
         }
     }
 
+    /**
+     * Used to flip the board to be displayed
+     * @return the flipped board
+     */
     public Board flipped() {
         return new Board( this, true );
     }
 
 
+    /**
+     * boolean to make sure a position is a valid position on the board
+     * @param position - the position in question
+     * @return true iff the position is located on the board
+     */
     public boolean positionInBounds(Position position ) {
         return ( position.getRow() >= 0 && position.getRow() < ROWS &&
                 position.getCell() >= 0 && position.getCell() < COLS );
@@ -296,6 +305,98 @@ public class Board implements Iterable<Row> {
         return spaces[rowIndex][spaceIndex].isValid();
     }
 
+
+    public List<Move> getValidMoves() {
+        List<Move> moves = getAllValidJumps();
+        if ( moves != null && moves.size() > 0 ) {
+            return moves;
+        }
+        return getAllValidSteps();
+    }
+
+
+    private List<Move> getAllValidJumps() {
+        if ( !canJump ) {
+            return null;
+        }
+        List<Move> moves = new LinkedList<>();
+        List<Move> temp;
+        for ( int row = 0 ; row < ROWS ; row++ ) {
+            for ( int col = 0 ; col < COLS ; col++ ) {
+                temp = getValidJumps( new Position( row, col ) );
+                if ( temp != null ) {
+                    moves.addAll( temp );
+                }
+            }
+        }
+        return moves;
+    }
+
+    private List<Move> getValidJumps( Position position ) {
+        if ( !canJump ) {
+            return null;
+        }
+        Piece piece = getPiece( position );
+        if ( piece == null || piece.getColor() != activeColor ) {
+            return null;
+        }
+        int row = position.getRow();
+        int col = position.getCell();
+        List<Move> moves = new LinkedList<>();
+        Move move;
+        for ( int x = -1 ; x < 2 ; x += 2 ) {
+            for ( int y = -1 ; y < 2 ; y += 2 ) {
+                move = new Move( position, new Position( row + ( 2 * y ), col + ( 2 * x ) ) );
+                if ( isValidJump( move ) ) {
+                    moves.add( move );
+                }
+            }
+        }
+        return moves;
+    }
+
+
+    private List<Move> getAllValidSteps() {
+        if ( !canStep ) {
+            return null;
+        }
+        List<Move> moves = new LinkedList<>();
+        List<Move> temp;
+        for ( int row = 0 ; row < ROWS ; row++ ) {
+            for ( int col = 0 ; col < COLS ; col++ ) {
+                temp = getValidSteps( new Position( row, col ) );
+                if ( temp != null ) {
+                    moves.addAll( temp );
+                }
+            }
+        }
+        return moves;
+    }
+
+    private List<Move> getValidSteps( Position position ) {
+        if ( !canStep ) {
+            return null;
+        }
+        Piece piece = getPiece( position );
+        if ( piece == null || piece.getColor() != activeColor ) {
+            return null;
+        }
+        int row = position.getRow();
+        int col = position.getCell();
+        List<Move> moves = new LinkedList<>();
+        Move move;
+        for ( int x = -1 ; x < 2 ; x += 2 ) {
+            for ( int y = -1 ; y < 2 ; y += 2 ) {
+                move = new Move( position, new Position( row + y, col + x ) );
+                if ( isValidStep( move ) ) {
+                    moves.add( move );
+                }
+            }
+        }
+        return moves;
+    }
+
+
     /**
      * checks if there is a jump
      * @param color active player's color
@@ -320,15 +421,14 @@ public class Board implements Iterable<Row> {
      * @return true if valid
      */
     private boolean isValidStep( Move move ) {
-        if( move.getStart() != null && move.getEnd() != null && move.isStep() ) {
+        if( move.getStart() != null && positionInBounds( move.getStart() ) && move.getEnd() != null && positionInBounds( move.getEnd() ) && move.isStep() ) {
 
             Piece piece = getPiece(move.getStart());
             if ( piece == null ) {
                 return false;
             }
 
-            return getPiece( move.getEnd() ) == null &&
-                    piece.isValidStep( move );
+            return getPiece( move.getEnd() ) == null && piece.isValidStep( move );
         }
         return false;
     }
@@ -338,7 +438,7 @@ public class Board implements Iterable<Row> {
      * @return a boolean; true if the jump is valid and false otherwise
      */
     private boolean isValidJump( Move move ){
-        if( move.getStart() != null && move.getEnd() != null && move.isJump() ) {
+        if( move.getStart() != null && positionInBounds( move.getStart() ) && move.getEnd() != null && positionInBounds( move.getEnd() ) && move.isJump() ) {
             Space halfwaySpace = getHalfway(move.getStart(), move.getEnd());
             if ( halfwaySpace == null || halfwaySpace.getPiece() == null ) {
                 return false;
