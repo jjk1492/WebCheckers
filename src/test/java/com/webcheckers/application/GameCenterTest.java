@@ -118,7 +118,7 @@ public class GameCenterTest {
         playerLobby.addPlayer(redName);
         gameCenter.addGame(redName, "ai_player");
         gameCenter.makeAIMoves(redName);
-        assertTrue(gameCenter.isPlayerActive(redName));
+        assertFalse(gameCenter.isPlayerActive(redName));
     }
 
 }
