@@ -13,7 +13,7 @@
             <div class="navigation">
                 <a href="/">my home</a>
                 <#if signedIn && name??>
-                    You're currently signed in as ${name}
+                    <a href="/signout">sign out [${name}]</a>
                 <#else >
                     <a href="/signin">sign in</a>
                 </#if>
@@ -30,6 +30,15 @@
                 </#if>
 
                 <#if players??>
+                    <#if signedIn>
+                        <form id="ai_player" action="./" method="POST">
+                            <input type="hidden" name="opponent" value='ai_player'>
+                            <a href="javascript:{}"
+                                onclick="document.getElementById
+                                ('ai_player').submit();
+                                return false;">Click here to play against computer.</a>
+                        </form>
+                    </#if>
                     <#if !signedIn>
                         Currently signed in players: ${players?size}
                     <#elseif players?size gt 1>

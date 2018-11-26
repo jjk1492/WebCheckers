@@ -23,6 +23,7 @@ define(function(require){
   const RequestingBackupMove = require('./RequestingBackupMove');
   const WaitForTurnState = require('./WaitForTurnState');
   const CheckMyTurnState = require('./CheckMyTurnState');
+  const RequestHintState = require('./RequestHintState')
   
   //
   // Constructor
@@ -62,6 +63,8 @@ define(function(require){
             new WaitForTurnState(this));
     this.addStateDefinition(PlayModeConstants.CHECK_MY_TURN,
             new CheckMyTurnState(this));
+    this.addStateDefinition(PlayModeConstants.REQUEST_HINT,
+            new RequestHintState(this));
     
     // Add the Controls toolbar mixin
     ControlsToolbarMixin.call(this);
@@ -72,6 +75,8 @@ define(function(require){
             PlayModeConstants.SUBMIT_BUTTON_TOOLTIP, this.submitTurn);
     this.addButton(PlayModeConstants.RESIGN_BUTTON_ID, 'Resign', true,
             PlayModeConstants.RESIGN_BUTTON_TOOLTIP, this.resignGame);
+    this.addButton(PlayModeConstants.HINT_BUTTON_ID,'Hint', true,
+            PlayModeConstants.HINT_BUTTON_TOOLTIP, this.requestHint);
 
     // Public (internal) methods
 
@@ -121,6 +126,10 @@ define(function(require){
    */
   PlayController.prototype.backupMove = function backupMove() {
     this._delegateStateMessage('backupMove', arguments);
+  };
+
+  PlayController.prototype.requestHint = function requestHint() {
+    this._delegateStateMessage('requestHint', arguments);
   };
 
   /**

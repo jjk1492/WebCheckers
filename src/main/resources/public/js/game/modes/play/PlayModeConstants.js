@@ -21,6 +21,7 @@ define(function(){
       ,REQUESTING_BACKUP_MOVE: 'Requesting Backup Move on the Server'
       ,WAIT_FOR_MY_TURN: 'Waiting for My Turn'
       ,CHECK_MY_TURN: 'Checking for My Turn on the Server'
+      ,REQUEST_HINT: 'Finding possible moves to provide a hint'
 
       //
       // Buttons
@@ -32,6 +33,8 @@ define(function(){
       ,SUBMIT_BUTTON_TOOLTIP: 'Commit your current turn to the server.'
       ,RESIGN_BUTTON_ID: 'resignBtn'
       ,RESIGN_BUTTON_TOOLTIP: 'Resign from the game.'
+      ,HINT_BUTTON_ID: 'hintBtn'
+      ,HINT_BUTTON_TOOLTIP: 'Stuck? Get a hint.'
 
     };
 });

@@ -52,6 +52,7 @@ define(function(require){
     this._controller.disableButton(PlayModeConstants.BACKUP_BUTTON_ID);
     this._controller.disableButton(PlayModeConstants.SUBMIT_BUTTON_ID);
     this._controller.enableButton(PlayModeConstants.RESIGN_BUTTON_ID);
+    this._controller.enableButton(PlayModeConstants.HINT_BUTTON_ID);
     // re-enable all of my Pieces
     this._controller.enableAllMyPieces();
   }
@@ -64,6 +65,10 @@ define(function(require){
     this._controller.setPendingMove(pendingMove);
     // and change the data to Pending
     this._controller.setState(PlayModeConstants.VALIDATING_MOVE);
+  };
+
+  EmptyTurnState.prototype.requestHint = function requestHint() {
+    this._controller.setState(PlayModeConstants.REQUEST_HINT);
   };
 
   /**

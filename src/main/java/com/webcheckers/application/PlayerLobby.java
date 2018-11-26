@@ -1,5 +1,6 @@
 package com.webcheckers.application;
 
+import com.webcheckers.model.AIPlayer;
 import com.webcheckers.model.Player;
 
 import java.util.Collection;
@@ -17,6 +18,7 @@ public class PlayerLobby {
     // fields
 
     private final Map<String,Player> players;
+    private AIPlayer ai_player;
 
 
     // constructors
@@ -26,6 +28,7 @@ public class PlayerLobby {
      */
     public PlayerLobby() {
         players = new HashMap<>();
+        ai_player = new AIPlayer();
     }
 
 
@@ -94,7 +97,19 @@ public class PlayerLobby {
      * @param name username of player to find
      * @return player object or null
      */
-    public Player getPlayer( String name ) { return players.get( name );}
+    public Player getPlayer( String name ) {
+        if(name.equals("ai_player"))
+            return ai_player;
+        return players.get( name );
+    }
+
+    /**
+     * get he ai player
+     * @return ai_player object
+     */
+    public AIPlayer getAIPlayer() {
+        return ai_player;
+    }
 
 }
 
