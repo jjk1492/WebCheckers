@@ -68,6 +68,29 @@ public class Move {
         return Math.abs( startCol - endCol ) == 2;
     }
 
+    /**
+     * returns a valid move for the ai_player to make
+     * @return the move to make
+     */
+    public static Move aiMove(Game game){
+        Color activeColor = game.getActiveColor();
+        Board board;
+        if(activeColor.equals(Color.RED)){
+            board = game.getRedBoard();
+        }else {board = game.getWhiteBoard();}
+
+        if(game.forceJump()){
+            //TODO return a valid jump Move
+        }else{
+            //TODO return a valid Move
+        }
+        //hard coded valid first move
+        return new Move(
+                new Position(2,3),
+                new Position(3,4)
+        );
+    }
+
 
 //    @Override
 //    public String toString() {

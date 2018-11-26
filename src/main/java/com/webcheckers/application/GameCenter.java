@@ -107,6 +107,12 @@ public class GameCenter {
         return applied;
     }
 
+    public void makeAIMoves(String name){
+        if (getOpponent(name).equals("ai_player")){
+            playerLobby.getAIPlayer().takeTurn(getGame(name));
+        }
+    }
+
     /**
      * returns a game currently playing
      * @param name one of the players in the game
