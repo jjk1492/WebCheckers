@@ -168,7 +168,7 @@ public class GameCenter {
     public synchronized void removePlayer(String name){
         if (isPlayerInGame(name)){
             finishedGame(name);
-            playerLobby.removePlayer(name);
         }
+        playerLobby.removePlayer(name);
     }
 }
