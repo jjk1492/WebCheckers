@@ -11,9 +11,9 @@ import static com.webcheckers.model.Piece.Type.SINGLE;
  */
 public class SinglePiece extends Piece {
 
-    public SinglePiece( Color color ) {
-        this( color, OPEN );
-    }
+//    public SinglePiece( Color color ) {
+//        this( color, OPEN );
+//    }
 
 
     public SinglePiece( Color color, State state ) {

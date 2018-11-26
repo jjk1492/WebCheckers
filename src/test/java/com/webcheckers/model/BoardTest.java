@@ -217,7 +217,7 @@ public class BoardTest {
     }
 
     @Test
-    void jumpOverOwnPieceTesr(){
+    void jumpOverOwnPieceTest(){
 
     }
 
