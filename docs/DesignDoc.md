@@ -149,4 +149,4 @@ Our unit testing strategy was to get as many lines covered as possible. We used 
 Currently our code is covered at 93%. Each of our individual package goals for code coverage and acceptance testing were
  met with ease.
 
-![Code Coverage](code-coverage.jpg)
+![Code Coverage](code-coverage.JPG)
