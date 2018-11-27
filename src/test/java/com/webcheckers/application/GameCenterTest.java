@@ -44,6 +44,7 @@ public class GameCenterTest {
 
         boolean whitePlayer = gameCenter.isPlayerInGame(whiteName);
         assertTrue( whitePlayer, whiteName + " should be in a game." );
+        gameCenter.finishTurn(redName);
 
         gameCenter.finishedGame(redName);
 
