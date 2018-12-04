@@ -155,22 +155,22 @@ Currently our code is covered at 93%. Each of our individual package goals for c
 ### Code Metrics
 
 Chidamber-Kemerer metrics: 
-![Chidamber-Kemerer](chidamber-kimerer metrics.JPG)
+![Chidamber-Kemerer](chidamber-kimerer-metrics.JPG)
 
 Complexity metrics:
-![Complexity1](complexity metrics 1.JPG)
-![Complexity2](complexity metrics 2.JPG)
-![Complexity3](complexity metrics 3.JPG)
-![Complexity4](complexity metrics 4.JPG)
-Most of the complex logic that’s involved in our implementation of WebCheckers is contained to two classes: Board, containing isValidJump() and validateMove(), and PostHomeRoute. Improving upon or redesigning the way these functions work would be the best way to decrease the complexity of our system. However, the overall complexity of our system seems to be reasonable as it is.
+![Complexity1](complexity-metrics-1.JPG)
+![Complexity2](complexity-metrics-2.JPG)
+![Complexity3](complexity-metrics-3.JPG)
+![Complexity4](complexity-metrics-4.JPG)
+Most of the complex logic thatï¿½s involved in our implementation of WebCheckers is contained to two classes: Board, containing isValidJump() and validateMove(), and PostHomeRoute. Improving upon or redesigning the way these functions work would be the best way to decrease the complexity of our system. However, the overall complexity of our system seems to be reasonable as it is.
 
 Javadoc coverage metrics:
-![Javadoc](javadoc coverage metrics.JPG)
+![Javadoc](javadoc-coverage-metrics.JPG)
 
 Lines of code metrics:
-![Lines](lines of code metrics.JPG)
+![Lines](lines-of-code-metrics.JPG)
 
 Martin packaging metrics:
-![Martin](martin packaging metrics.JPG)
+![Martin](martin-packaging-metrics.JPG)
 
 
